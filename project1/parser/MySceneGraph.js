@@ -1451,12 +1451,47 @@ MySceneGraph.generateRandomString = function(length) {
     return String.fromCharCode.apply(null, numbers);
 }
 
+MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
+    var material = matInit;
+    var texture = textInit;
+
+	if(nodeName != 'null'){
+	    var node = this.nodes[nodeName];
+	}
+
+	if(node.materialID != 'null'){
+	   material = this.materials[node.materialID];
+	}
+
+	this.scene.multMatrix(node.transformMatrix);
+
+	for(var i=0; i < node.children.length; i++){
+	    this.scene.pushMatrix();
+            if(material != null)
+                material.apply();
+	       this.processGraph(node.children[i], node.children[i].materialID, node.children[i].textureID);
+	    this.scene.popMatrix();
+	}
+
+	if(material != null)
+        material.apply();
+
+    
+
+	for(var z=0; z < node.leaves.length; z++){
+	    node.leaves[z].type.display();
+	}
+
+
+
+}
+
 /**
  * Displays the scene, processing each node, starting in the root node.
  */
 MySceneGraph.prototype.displayScene = function() {
 	// entry point for graph rendering
 	// remove log below to avoid performance issues
-	this.log("Graph should be rendered here...");
 
+    this.processGraph('root', null, null);
 }
