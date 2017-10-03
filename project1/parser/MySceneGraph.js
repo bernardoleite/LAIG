@@ -1394,6 +1394,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             this.onXMLMinorError("unknown tag name <" + nodeName);
     }
 
+
     console.log("Parsed nodes");
     return null ;
 }

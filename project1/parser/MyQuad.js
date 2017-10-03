@@ -45,7 +45,6 @@ MyQuad.prototype.initBuffers = function () {
     ];
 
 		
-	this.primitiveType=this.scene.gl.TRIANGLES;
 
 
 	   this.normals = [
@@ -55,6 +54,7 @@ MyQuad.prototype.initBuffers = function () {
 		0, 0, 1
        ];
 
+	this.primitiveType=this.scene.gl.TRIANGLES;
 
 	this.initGLBuffers();
 };
