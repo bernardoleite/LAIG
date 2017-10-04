@@ -1462,7 +1462,11 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 	if(node.materialID != 'null'){
 	   material = this.materials[node.materialID];
 	}
-
+/*
+	if(node.textureID != 'null'){
+	   texture = this.textures[node.textureID];
+	}
+*/
 	this.scene.multMatrix(node.transformMatrix);
 
 	for(var i=0; i < node.children.length; i++){
@@ -1476,9 +1480,15 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 	if(material != null)
         material.apply();
 
-    
-
 	for(var z=0; z < node.leaves.length; z++){
+
+        if(node.textureID != 'null' && node.textureID != 'clear' )
+            {
+               texture = this.textures[node.textureID];
+               node.leaves[z].type.scaleTexCoords(texture.amplifyFactorS, texture.amplifyFactorT);
+               node.leaves[z].type.updateTexCoordsGLBuffers();
+            }
+
 	    node.leaves[z].type.display();
 	}
 
@@ -1495,3 +1505,4 @@ MySceneGraph.prototype.displayScene = function() {
 
     this.processGraph('root', null, null);
 }
+

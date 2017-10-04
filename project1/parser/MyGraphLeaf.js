@@ -8,6 +8,7 @@ function MyGraphLeaf(graph, nodeID, name, args) {
     this.id = nodeID;
     this.args = args;
 
+    
     if(name == 'rectangle'){
         this.type = new MyQuad(this.graph.scene, args[0], args[1], args[2], args[3]);
     }
