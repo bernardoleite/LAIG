@@ -19,6 +19,8 @@ function MySceneGraph(filename, scene) {
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
+
+    this.currTexture;
     
     this.nodes = [];
     
@@ -1454,48 +1456,59 @@ MySceneGraph.generateRandomString = function(length) {
 }
 
 MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
+
     var material = matInit;
     var texture2 = textInit;
 
-	if(nodeName != 'null'){
-	    var node = this.nodes[nodeName];
-	}
+    if(nodeName != 'null'){
+        var node = this.nodes[nodeName];
+    }
 
-	if(node.materialID != 'null'){
-	   material = this.materials[node.materialID];
-	}
+    this.scene.pushMatrix();
 
-	 if(node.textureID != 'null' && node.textureID != 'clear'){
-	   texture2 = this.textures[node.textureID];
-	 }
-	   
+        if (node.textureID != null) {
+            if (node.textureID == 'clear')
+                textura2 = null;
+            else
+                this.scene.currTexture = this.textures[node.textureID];
+        }
 
 
-	this.scene.multMatrix(node.transformMatrix);
+        if(node.materialID != 'null'){
+           material = this.materials[node.materialID];
+        }
 
-	for(var i=0; i < node.children.length; i++){
-	    this.scene.pushMatrix();
+
+       if(node.textureID != 'null' && node.textureID != 'clear'){
+            texture2 = this.textures[node.textureID];
+       }
+       else if (node.textureID == "clear")
+            textura2 = null;
+
+        this.scene.multMatrix(node.transformMatrix);
+
+        for(var i=0; i < node.children.length; i++){
+            this.processGraph(node.children[i], material, texture2);
+        }
+
+
+
+
+        for(var z=0; z < node.leaves.length; z++){
+
             if(material != null){
                 material.apply();}
-             if(texture2 != null)
+            if(texture2 != null)
                 texture2[0].bind();
-	       this.processGraph(node.children[i], node.children[i].materialID, node.children[i].textureID);
-	    this.scene.popMatrix();
-	}
 
-
-	if(material != null)
-        material.apply();
-
-
-	for(var z=0; z < node.leaves.length; z++){
-	        if(node.textureID != 'null' && node.textureID != 'clear' )
-        {
-           node.leaves[z].type.scaleTexCoords(texture2.amplifFactorS, texture2.amplifFactorT);
+            /*    if(node.textureID != 'null' && node.textureID != 'clear' )
+            {
+               node.leaves[z].type.scaleTexCoords(texture2.amplifFactorS, texture2.amplifFactorT);
+            }*/
+            node.leaves[z].type.display();
         }
-	    node.leaves[z].type.display();
-	}
 
+	this.scene.popMatrix();
 
 
 }
