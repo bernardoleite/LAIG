@@ -1492,19 +1492,14 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         }
 
 
-
-
         for(var z=0; z < node.leaves.length; z++){
 
             if(material != null){
                 material.apply();}
-            if(texture2 != null)
+            if(texture2 != null){
                 texture2[0].bind();
-
-            /*    if(node.textureID != 'null' && node.textureID != 'clear' )
-            {
-               node.leaves[z].type.scaleTexCoords(texture2.amplifFactorS, texture2.amplifFactorT);
-            }*/
+                node.leaves[z].type.scaleTexCoords(texture2[1], texture2[2]);    
+            }
             node.leaves[z].type.display();
         }
 
@@ -1539,26 +1534,7 @@ MySceneGraph.prototype.displayScene = function() {
 	// remove log below to avoid performance issues
 
     this.processGraph('root', null, null);
-/*
-    this.texture2 = new CGFappearance(this.scene);
-	this.texture2.setAmbient(0.7,0.7,0.7,1);
-	this.texture2.setDiffuse(255/255,204/255,229/255,1);
-	this.texture2.setSpecular(0.1,0.1,0.1,1);
-	this.texture2.loadTexture("scenes/images/rocks.jpg");
-	this.texture2.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
-	this.texture2.setShininess(120);
 
-	
-*/
-   // this.texture2 = this.textures["rocks"];
-
-this.material2 = this.materials["piramideMaterial"];
-//console.log(this.texture2);
-//this.material2.loadTexture("scenes/images/bank.jpg");
-//this.material2.setTexture(this.texture2);
-this.material2.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
-this.material2.apply();
-this.wall.display();
 
 }
 

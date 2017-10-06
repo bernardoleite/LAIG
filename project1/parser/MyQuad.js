@@ -1,72 +1,78 @@
 /**
- * MyObject
+ * MyQuad
  * @constructor
+ * @param scene
+ * @param coordinates [topLeftX, topLeftY, topLeftZ, bottomRigthX, bottomRightY, bottomRightZ]
  */
-function MyQuad(scene, minX, minY, maxX, maxY) {
+function MyQuad(scene, coordinates) {
 	CGFobject.call(this,scene);
 
-	this.minS = 0;
-	this.maxS = 1;
-	this.minT = 0;
-	this.maxT = 1;
+	this.minX = coordinates[0];
+	this.maxY = coordinates[1];
+	this.maxX = coordinates[2];
+	this.minY = coordinates[3];
 
-	this.minX = minX;
-	this.maxX = maxX;
-	this.minY = minY;
-	this.maxY = maxY;
-
-	this.amplifApplied = false;
+	this.amplifS = 1;
+	this.amplifT = 1;
 
 	this.initBuffers();
 };
 
 MyQuad.prototype = Object.create(CGFobject.prototype);
+
 MyQuad.prototype.constructor=MyQuad;
 
 MyQuad.prototype.initBuffers = function () {
-
 	this.vertices = [
-			this.minX, this.maxY, 0,
-			this.maxX, this.maxY, 0,
-			this.minX, this.minY, 0,
-			this.maxX, this.minY, 0
+            this.minX, this.minY, 0,
+            this.maxX, this.minY, 0,
+            this.minX, this.maxY, 0,
+            this.maxX, this.maxY, 0
 			];
 
 	this.indices = [
-            0, 1, 2,
-			3, 2, 1
+           0, 1, 2, 
+		   3, 2, 1
         ];
-
-	this.primitiveType=this.scene.gl.TRIANGLES;
-
+		
 	this.normals = [
-             0,0,1,
-             0,0,1,
-             0,0,1,
-             0,0,1
-        ];
+    0,0,1,
+    0,0,1,
+    0,0,1,
+    0,0,1
+    ];
 
-	this.originalTexCoords = [
-			this.minS, this.maxT,
-			this.maxS, this.maxT,
-			this.minS, this.minT,
-			this.maxS, this.minT,
-		];
+    this.width = this.maxX - this.minX;
+    this.height= this.maxY - this.minY;
+	
+	
+	this.texCoords = [
+	0.0, 1.0 * this.height / this.amplifT,
+	 	1.0 * this.width / this.amplifS, 1.0 * this.height / this.amplifT,
+      	0.0, 0.0,
+      	1.0 * this.width / this.amplifS, 0.0
+	];
 
-	this.texCoords = this.originalTexCoords.slice();
-
+	this.primitiveType=this.scene.gl.TRIANGLES;	
 	this.initGLBuffers();
-
 };
 
 
+/*
+ * updateTextelCoordinates
+ * No need to update the textel's coordinates according to amplifS and amplifT.
+ *
+ * @param amplifS amplification factor s
+ * @param amplifT amplification factor t
+ */
+MyQuad.prototype.scaleTexCoords = function (amplifS, amplifT) {
 
-MyQuad.prototype.scaleTexCoords = function(ampS, ampT) {
-
-	for (var i = 0; i < this.texCoords.length; i += 2) {
-			this.texCoords[i] = this.originalTexCoords[i] / ampS;
-			this.texCoords[i + 1] = this.originalTexCoords[i+1] / ampT;
-	}
+	this.texCoords = [
+	0.0, 1.0 * this.height / amplifT,
+	 	1.0 * this.width / amplifS, 1.0 * this.height / amplifT,
+      	0.0, 0.0,
+      	1.0 * this.width / amplifS, 0.0
+	];
 
 	this.updateTexCoordsGLBuffers();
-}
+};
