@@ -47,6 +47,8 @@ function MySceneGraph(filename, scene) {
     
     this.reader.open('scenes/' + filename, this);
 
+    this.wall = new MyQuad(this.scene, 4, 3, 2, -2);
+
  
 }
 
@@ -1453,7 +1455,7 @@ MySceneGraph.generateRandomString = function(length) {
 
 MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
     var material = matInit;
-    var texture = textInit;
+    var texture2 = textInit;
 
 	if(nodeName != 'null'){
 	    var node = this.nodes[nodeName];
@@ -1462,33 +1464,35 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 	if(node.materialID != 'null'){
 	   material = this.materials[node.materialID];
 	}
-/*
-	if(node.textureID != 'null'){
-	   texture = this.textures[node.textureID];
-	}
-*/
+
+	 if(node.textureID != 'null' && node.textureID != 'clear'){
+	   texture2 = this.textures[node.textureID];
+	 }
+	   
+
+
 	this.scene.multMatrix(node.transformMatrix);
 
 	for(var i=0; i < node.children.length; i++){
 	    this.scene.pushMatrix();
-            if(material != null)
-                material.apply();
+            if(material != null){
+                material.apply();}
+             if(texture2 != null)
+                texture2[0].bind();
 	       this.processGraph(node.children[i], node.children[i].materialID, node.children[i].textureID);
 	    this.scene.popMatrix();
 	}
 
+
 	if(material != null)
         material.apply();
 
+
 	for(var z=0; z < node.leaves.length; z++){
-
-        if(node.textureID != 'null' && node.textureID != 'clear' )
-            {
-               texture = this.textures[node.textureID];
-               node.leaves[z].type.scaleTexCoords(texture.amplifyFactorS, texture.amplifyFactorT);
-               node.leaves[z].type.updateTexCoordsGLBuffers();
-            }
-
+	        if(node.textureID != 'null' && node.textureID != 'clear' )
+        {
+           node.leaves[z].type.scaleTexCoords(texture2.amplifFactorS, texture2.amplifFactorT);
+        }
 	    node.leaves[z].type.display();
 	}
 
@@ -1496,13 +1500,52 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
 }
 
-/**
- * Displays the scene, processing each node, starting in the root node.
- */
+
+MySceneGraph.prototype.clone = function( original )
+{
+    // First create an empty object with
+    // same prototype of our original source
+    var clone = Object.create( Object.getPrototypeOf( original ) ) ;
+
+    var i , keys = Object.getOwnPropertyNames( original ) ;
+
+    for ( i = 0 ; i < keys.length ; i ++ )
+    {
+        // copy each property into the clone
+        Object.defineProperty( clone , keys[ i ] ,
+            Object.getOwnPropertyDescriptor( original , keys[ i ] )
+        ) ;
+    }
+
+    return clone ;
+}
+
+
 MySceneGraph.prototype.displayScene = function() {
 	// entry point for graph rendering
 	// remove log below to avoid performance issues
 
     this.processGraph('root', null, null);
+/*
+    this.texture2 = new CGFappearance(this.scene);
+	this.texture2.setAmbient(0.7,0.7,0.7,1);
+	this.texture2.setDiffuse(255/255,204/255,229/255,1);
+	this.texture2.setSpecular(0.1,0.1,0.1,1);
+	this.texture2.loadTexture("scenes/images/rocks.jpg");
+	this.texture2.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+	this.texture2.setShininess(120);
+
+	
+*/
+   // this.texture2 = this.textures["rocks"];
+
+this.material2 = this.materials["piramideMaterial"];
+//console.log(this.texture2);
+//this.material2.loadTexture("scenes/images/bank.jpg");
+//this.material2.setTexture(this.texture2);
+this.material2.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+this.material2.apply();
+this.wall.display();
+
 }
 
