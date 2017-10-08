@@ -129,6 +129,26 @@
         <amplif_factor s="2" t="1.25" />                           
     </TEXTURE>
 
+     <TEXTURE id="doorText">
+        <file path="images/door.png" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
+    <TEXTURE id="windowText">
+        <file path="images/window.png" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
+      <TEXTURE id="futTexture">
+        <file path="images/ball.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
+     <TEXTURE id="mosaicText">
+        <file path="images/mosaic.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
     
 </TEXTURES>
 
@@ -218,7 +238,173 @@
        		<NODEREF id="roof2" />  
        		<NODEREF id="balcony" /> 
        		<NODEREF id="downbalcony" />      
-     
+            <NODEREF id="pilars" />
+            <NODEREF id="lamp" />
+            <NODEREF id="doors" />
+            <NODEREF id="windows" />
+            <NODEREF id="ball" />
+            <NODEREF id="mosaic" />
+        </DESCENDANTS>
+
+     </NODE>
+   
+
+    <NODE id="mosaic">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="mosaicText" />  
+
+        <DESCENDANTS>
+       		<NODEREF id="mosaicwall" />       
+        </DESCENDANTS>
+
+    </NODE>
+
+
+     <NODE id="mosaicwall">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />  
+             			
+        <TRANSLATION x="68.1" y="8" z="47" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="3" sy="3" sz="3" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+
+    </NODE>
+
+      <NODE id="ball">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="futTexture" />  
+        <DESCENDANTS>
+       		<NODEREF id="fut_ball" />          
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="fut_ball">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="55" y="1" z="55" />
+        <SCALE sx="0.06" sy="0.06" sz="0.06" />
+
+        <DESCENDANTS>
+			<LEAF type="sphere" args="100 100 20" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="windows">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="windowText" />  
+
+        <DESCENDANTS>
+       		<NODEREF id="window1" />
+       		<NODEREF id="window2" />  
+       		<NODEREF id="window3" />       
+        </DESCENDANTS>
+
+    </NODE>
+
+    <NODE id="window1">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+        <TRANSLATION x="33" y="23" z="70.1" />
+         <SCALE sx="1.5" sy="1.5" sz="1.5" />
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+  <NODE id="window2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+        <TRANSLATION x="50" y="23" z="50.1" />
+         <SCALE sx="1.5" sy="1.5" sz="1.5" />
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="window3">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+        <TRANSLATION x="67" y="23" z="43" />
+        <ROTATION axis="y" angle="90" />
+         <SCALE sx="1.5" sy="1.5" sz="1.5" />
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="doors">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />  
+
+        <DESCENDANTS>
+       		<NODEREF id="door1" />
+       		<NODEREF id="door2" />           
+        </DESCENDANTS>
+
+    </NODE>
+
+
+    <NODE id="door1">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="doorText" />       			
+        <TRANSLATION x="29" y="0" z="70.1" />
+         <SCALE sx="3" sy="3" sz="3" />
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="door2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="doorText" />       			
+        <TRANSLATION x="46.2" y="16.5" z="66" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="3" sy="3" sz="3" />
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="lamp">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />  
+
+
+        <DESCENDANTS>
+       		<NODEREF id="luz_esfera" />          
+        </DESCENDANTS>
+
+    </NODE>
+
+
+    <NODE id="luz_esfera">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="boxText" />       			
+
+        <TRANSLATION x="63" y="22.6" z="67.5" />
+        <SCALE sx="0.07" sy="0.07" sz="0.07" />
+        
+        <DESCENDANTS>
+			<LEAF type="sphere" args="100 100 20" />
+        </DESCENDANTS>
+    </NODE>
+
+
+
+    <NODE id="pilars">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />  
+
+
+        <DESCENDANTS>
+       		<NODEREF id="cylinders" />          
         </DESCENDANTS>
 
     </NODE>
@@ -228,7 +414,7 @@
         <TEXTURE id="null" /> 
          
    			<TRANSLATION x="38" y="0" z="65" />
- <SCALE sx="2" sy="2" sz="2" /> 
+             <SCALE sx="2" sy="2" sz="2" /> 
         <DESCENDANTS>
        		<NODEREF id="boxs" />  
         </DESCENDANTS>
@@ -279,7 +465,7 @@
         <NODE id="roof2">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
-        	<TRANSLATION x="-5" y="0" z="74" />
+      <TRANSLATION x="-5" y="0" z="74" />
    	<ROTATION axis="y" angle="90" />
      
 
@@ -566,7 +752,7 @@
     
     <!-- Generic bench -->
     <NODE id="gold">       
-        <MATERIAL id="goldMaterial" />     
+        <MATERIAL id="defaultMaterial" />     
         <TEXTURE id="goldText" />       			
 
         <ROTATION axis="y" angle="90" />
@@ -640,7 +826,7 @@
         <MATERIAL id="null" />     
         <TEXTURE id="null" />       			
 
-        <TRANSLATION x="28" y="-2" z="33" />
+        <TRANSLATION x="28" y="-2" z="15" />
 
         <DESCENDANTS>
             <NODEREF id="water" />      
@@ -666,6 +852,304 @@
         </DESCENDANTS>
 
     </NODE>
+
+     <NODE id="cylinder1">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="78" z="65" />
+         <SCALE sx="1" sy="5" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+         <NODE id="cylinder2">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="45" y="15" z="65" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+             <NODE id="cylinder3">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="40" y="15" z="65" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+
+        <NODE id="cylinder4">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="35" y="15" z="65" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+            <NODE id="cylinder5">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="15" z="60" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+            <NODE id="cylinder6">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="15" z="55" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+            <NODE id="cylinder7">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="15" z="50" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+
+
+      <NODE id="cylinder8">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="45" y="33" z="65" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+             <NODE id="cylinder9">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="40" y="33" z="65" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+
+        <NODE id="cylinder10">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="35" y="33" z="65" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+            <NODE id="cylinder11">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="33" z="60" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+            <NODE id="cylinder12">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="33" z="55" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+      <NODE id="cylinder13">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+         <TRANSLATION x="50" y="33" z="50" />
+         <SCALE sx="1" sy="1" sz="1" />
+         <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+
+     <NODE id="cylinder14">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+            
+
+         <TRANSLATION x="-13" y="20" z="80" />
+         <ROTATION axis="y" angle="90" />
+         <SCALE sx="1" sy="1" sz="5" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+
+         <NODE id="cylinder15">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+            
+
+         <TRANSLATION x="-13" y="1" z="80" />
+         <ROTATION axis="y" angle="90" />
+         <SCALE sx="1" sy="1" sz="5" />
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+         <NODE id="cylinder16">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+ 
+         <TRANSLATION x="61" y="35" z="-8" />
+         <ROTATION axis="z" angle="-90" />
+         <SCALE sx="1" sy="1" sz="5" />
+        
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+      <NODE id="cylinder17">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+ 
+         <TRANSLATION x="61" y="16" z="-8" />
+         <ROTATION axis="z" angle="-90" />
+         <SCALE sx="1" sy="1" sz="5" />
+        
+        <TRANSLATION x="10" y="-2" z="3.7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cylinderleaf" />      
+        </DESCENDANTS>
+
+    </NODE>
+
+
+       <NODE id="cylinders">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+        <DESCENDANTS>
+       		<NODEREF id="cylinder1" />
+       		<NODEREF id="cylinder2" /> 
+       		<NODEREF id="cylinder3" />
+       		<NODEREF id="cylinder4" />
+       		<NODEREF id="cylinder5" /> 
+       		<NODEREF id="cylinder6" />
+       		<NODEREF id="cylinder7" />  
+
+       		<NODEREF id="cylinder8" /> 
+       		<NODEREF id="cylinder9" />
+       		<NODEREF id="cylinder10" />
+       		<NODEREF id="cylinder11" /> 
+       		<NODEREF id="cylinder12" />
+       		<NODEREF id="cylinder13" />   
+
+       		<NODEREF id="cylinder14" />
+       		<NODEREF id="cylinder15" />
+       		<NODEREF id="cylinder16" />
+       		<NODEREF id="cylinder17" />
+          
+        </DESCENDANTS>
+
+    </NODE>
+
+
+
 
     <NODE id="boxs">       
         <MATERIAL id="null" />     
@@ -939,6 +1423,20 @@
     </NODE>
 
     <!-- A cube face -->
+
+      <NODE id="cylinderleaf">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="boxText" />       			
+
+        <TRANSLATION x="2.5" y="4" z="7.5" />
+
+        <DESCENDANTS>
+					<LEAF type="cylinder" args="4 1 1 20 20" />         
+        </DESCENDANTS>
+
+    </NODE>
+
+
     <NODE id="classicfaceCubo1">       
         <MATERIAL id="null" />     
         <TEXTURE id="grass_side" />       			
