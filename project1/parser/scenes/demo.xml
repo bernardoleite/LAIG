@@ -81,10 +81,19 @@
 
     <TEXTURE id="grass_top">
         <file path="images/grass_top.png" />                
-        <amplif_factor s="0.75" t="0.5" />                           
+        <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
-    <!-- Rocks -->
+    <TEXTURE id="floor_side">
+        <file path="images/grass_side.png" />                
+        <amplif_factor s="0.1" t="4" />                           
+    </TEXTURE>
+
+    <TEXTURE id="floor_top">
+        <file path="images/grass_top.png" />                
+        <amplif_factor s="0.1" t="0.1" />                           
+    </TEXTURE>
+
     <TEXTURE id="rockText">
         <file path="images/end_bricks.png" />                
         <amplif_factor s="1.75" t="1" />                           
@@ -197,9 +206,10 @@
 
     </NODE>
 
-        <NODE id="house">       
+    <NODE id="house">       
         <MATERIAL id="null" />     
-        <TEXTURE id="null" />    
+        <TEXTURE id="null" /> 
+        <SCALE sx="0.48" sy="0.48" sz="0.48" />    
         
   
         <DESCENDANTS>
@@ -207,7 +217,8 @@
        		<NODEREF id="roof1" />
        		<NODEREF id="roof2" />  
        		<NODEREF id="balcony" /> 
-       		<NODEREF id="downbalcony" />     
+       		<NODEREF id="downbalcony" />      
+     
         </DESCENDANTS>
 
     </NODE>
@@ -513,7 +524,7 @@
         <TRANSLATION x="-1.25" y="-4" z="3.75" />
 
         <DESCENDANTS>
-			<NODEREF  id="block"/>     
+			<NODEREF  id="floor_node"/>     
 		</DESCENDANTS>
 
     </NODE>
@@ -629,7 +640,7 @@
         <MATERIAL id="null" />     
         <TEXTURE id="null" />       			
 
-        <TRANSLATION x="15" y="-2" z="3.7" />
+        <TRANSLATION x="28" y="-2" z="33" />
 
         <DESCENDANTS>
             <NODEREF id="water" />      
@@ -1012,6 +1023,23 @@
 
     </NODE>
 
+     <NODE id="floor_node">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+
+        <DESCENDANTS>
+       		<NODEREF id="floorfaceCubo1" />
+            <NODEREF id="floorfaceCubo2" />
+            <NODEREF id="floorfaceCubo3" />
+            <NODEREF id="floorfaceCubo4" />
+            <NODEREF id="floorfaceCubo5" />
+            <NODEREF id="floorfaceCubo6" />         
+        </DESCENDANTS>
+
+    </NODE>
+
     <!-- A cube face -->
     <NODE id="faceCubo1">       
         <MATERIAL id="null" />     
@@ -1086,6 +1114,90 @@
     <NODE id="faceCubo6">       
         <MATERIAL id="null" />     
         <TEXTURE id="clear" />       			
+
+        <TRANSLATION x="2.5" y="4" z="2.5" />
+        <ROTATION axis="x" angle="90" />
+        <SCALE sx="1" sy="1.25" sz="1" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+     <NODE id="floorfaceCubo1">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="floor_top" />       			
+
+        <TRANSLATION x="2.5" y="4" z="7.5" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+     <NODE id="floorfaceCubo2">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="floor_side" />       			
+
+        <TRANSLATION x="2.5" y="4" z="2.5" />
+		<ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="floorfaceCubo3">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="floor_side" />       			
+
+        <TRANSLATION x="7.5" y="4" z="7.5" />
+		<ROTATION axis="y" angle="90" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="floorfaceCubo4">       
+        <MATERIAL id="null" />    
+        <TEXTURE id="floor_side" />       			
+
+        <TRANSLATION x="7.5" y="4" z="2.5" />
+        <ROTATION axis="y" angle="180" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="floorfaceCubo5">       
+        <MATERIAL id="grass_top_material" />    
+        <TEXTURE id="floor_top" />       			
+
+        <ROTATION axis="x" angle="-90" />
+        <TRANSLATION x="2.5" y="-7.5" z="8" />
+        <SCALE sx="1" sy="1.25" sz="1" />
+
+        <DESCENDANTS>
+ 					<LEAF  type="rectangle" args="0 4 5 0" />        
+       </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="floorfaceCubo6">       
+        <MATERIAL id="grass_top_material" />     
+        <TEXTURE id="floor_top" />       			
 
         <TRANSLATION x="2.5" y="4" z="2.5" />
         <ROTATION axis="x" angle="90" />
