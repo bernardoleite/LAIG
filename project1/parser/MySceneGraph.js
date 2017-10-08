@@ -1466,6 +1466,8 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     this.scene.pushMatrix();
 
+    console.log(node.textureID);
+
         if (node.textureID != null) {
             if (node.textureID == 'clear')
                 textura2 = null;
