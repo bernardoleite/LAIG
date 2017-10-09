@@ -4,7 +4,7 @@
  * @param scene
  * @param attributes [height, bottomRadius, topRadius, slices, stacks]
  */
- function Cylinder(scene, height, bottomRadius, topRadius, stacks, slices) {
+ function Cylinder(scene, height, bottomRadius, topRadius, stacks, slices, bool1, bool2) {
  	CGFobject.call(this,scene);
 
 	this.height = height;
