@@ -90,13 +90,7 @@ MyTriangle.prototype.initBuffers = function () {
 };
 
 
-/*
- * updateTextelCoordinates
- * Update the textel's coordinates according to amplifS and amplifT.
- *
- * @param amplifS amplification factor s
- * @param amplifT amplification factor t
- */
+
 MyTriangle.prototype.scaleTexCoords = function (amplifS, amplifT) {
 
 	this.texCoords = [	

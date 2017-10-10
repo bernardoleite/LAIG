@@ -58,13 +58,7 @@ MyQuad.prototype.initBuffers = function () {
 };
 
 
-/*
- * updateTextelCoordinates
- * No need to update the textel's coordinates according to amplifS and amplifT.
- *
- * @param amplifS amplification factor s
- * @param amplifT amplification factor t
- */
+
 MyQuad.prototype.scaleTexCoords = function (amplifS, amplifT) {
 
 	this.texCoords = [

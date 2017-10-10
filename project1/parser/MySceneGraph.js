@@ -1466,8 +1466,6 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     this.scene.pushMatrix();
 
-    console.log(node.textureID);
-
         if (node.textureID != null) {
             if (node.textureID == 'clear')
                 textura2 = null;
@@ -1484,8 +1482,8 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
        if(node.textureID != 'null' && node.textureID != 'clear'){
             texture2 = this.textures[node.textureID];
        }
-       else if (node.textureID == "clear")
-            textura2 = null;
+    //   else if (node.textureID == "clear")
+      //      textura2 = null;
 
         this.scene.multMatrix(node.transformMatrix);
 
@@ -1498,9 +1496,9 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
             if(material != null){
                 material.apply();}
-            if(texture2 != null){
+            if(texture2 != null && node.textureID != 'clear'){
                 texture2[0].bind();
-                node.leaves[z].type.scaleTexCoords(texture2[1], texture2[2]);    
+               node.leaves[z].type.scaleTexCoords(texture2[1], texture2[2]);    
             }
             node.leaves[z].type.display();
         }
@@ -1536,7 +1534,6 @@ MySceneGraph.prototype.displayScene = function() {
 	// remove log below to avoid performance issues
 
     this.processGraph('root', null, null);
-
 
 }
 

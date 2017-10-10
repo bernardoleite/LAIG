@@ -277,13 +277,15 @@
      <NODE id="mosaicwall">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />  
-             			
-        <TRANSLATION x="68.1" y="8" z="47" />
-        <ROTATION axis="y" angle="90" />
+              
+        
+        <TRANSLATION x="67" y="20" z="40" />
+        <ROTATION axis="x" angle="45" />
+        <ROTATION axis="z" angle="-90" />
         <SCALE sx="3" sy="3" sz="3" />
 
         <DESCENDANTS>
-			<LEAF  type="rectangle" args="0 4 5 0" /> 
+            <LEAF type="triangle" args="2 0 5 5 0 2 0 0 0" /> 
         </DESCENDANTS>
 
     </NODE>
@@ -304,7 +306,7 @@
         <SCALE sx="0.06" sy="0.06" sz="0.06" />
 
         <DESCENDANTS>
-			<LEAF type="sphere" args="100 100 20" />
+			<LEAF type="sphere" args="20 100 100" />
         </DESCENDANTS>
     </NODE>
 
@@ -406,7 +408,7 @@
         <SCALE sx="0.07" sy="0.07" sz="0.07" />
         
         <DESCENDANTS>
-			<LEAF type="sphere" args="100 100 20" />
+			<LEAF type="sphere" args="20 100 100" />
         </DESCENDANTS>
     </NODE>
 
@@ -1432,7 +1434,7 @@
     <!-- A cube face -->
     <NODE id="faceCubo1">       
         <MATERIAL id="null" />     
-        <TEXTURE id="clear" />       			
+        <TEXTURE id="null" />       			
 
         <TRANSLATION x="2.5" y="4" z="7.5" />
 
@@ -1445,7 +1447,7 @@
     <!-- Another cube face -->
      <NODE id="faceCubo2">      
         <MATERIAL id="null" />     
-        <TEXTURE id="clear" />       			
+        <TEXTURE id="null" />       			
 
         <TRANSLATION x="2.5" y="4" z="2.5" />
 		<ROTATION axis="y" angle="-90" />
@@ -1459,7 +1461,7 @@
     <!-- Another cube face -->
     <NODE id="faceCubo3">       
         <MATERIAL id="null" />     
-        <TEXTURE id="clear" />       			
+        <TEXTURE id="null" />       			
 
         <TRANSLATION x="7.5" y="4" z="7.5" />
 		<ROTATION axis="y" angle="90" />
@@ -1473,7 +1475,7 @@
     <!-- Another cube face -->
     <NODE id="faceCubo4">       
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />       			
+        <TEXTURE id="null" />       			
 
         <TRANSLATION x="7.5" y="4" z="2.5" />
         <ROTATION axis="y" angle="180" />
@@ -1487,7 +1489,7 @@
     <!-- Another cube face -->
     <NODE id="faceCubo5">       
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />       			
+        <TEXTURE id="null" />       			
 
         <ROTATION axis="x" angle="-90" />
         <TRANSLATION x="2.5" y="-7.5" z="8" />
@@ -1502,7 +1504,7 @@
     <!-- Another cube face -->
     <NODE id="faceCubo6">       
         <MATERIAL id="null" />     
-        <TEXTURE id="clear" />       			
+        <TEXTURE id="null" />       			
 
         <TRANSLATION x="2.5" y="4" z="2.5" />
         <ROTATION axis="x" angle="90" />

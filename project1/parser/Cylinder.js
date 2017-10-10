@@ -83,11 +83,5 @@
  	this.initGLBuffers();
  };
 
-/*
- * updateTextelCoordinates
- * No need to update the textel's coordinates according to amplifS and amplifT.
- *
- * @param amplifS amplification factor s
- * @param amplifT amplification factor t
- */
+
 Cylinder.prototype.scaleTexCoords = function (amplifS, amplifT) {};

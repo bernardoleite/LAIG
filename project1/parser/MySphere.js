@@ -7,9 +7,9 @@
  function MySphere(scene, arg1, arg2, arg3) {
  	CGFobject.call(this,scene);
 	
-	this.slices=arg1;
-	this.stacks=arg2;
-	this.radius=arg3;
+	this.slices=arg2;
+	this.stacks=arg3;
+	this.radius=arg1;
 
 	this.angle=2*Math.PI/this.slices;
 
@@ -63,11 +63,5 @@
  	this.initGLBuffers();
  };
 
-/*
- * updateTextelCoordinates
- * No need to update the textel's coordinates according to amplifS and amplifT.
- *
- * @param amplifS amplification factor s
- * @param amplifT amplification factor t
- */
+
 MySphere.prototype.scaleTexCoords = function (amplifS, amplifT){};
