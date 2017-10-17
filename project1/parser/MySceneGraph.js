@@ -1356,50 +1356,48 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'patch']);
    
                         if(type == 'patch')
-					{
-					   // console.warn(descendants[j].children[0]);
+                        {
+                           // console.warn(descendants[j].children[0]);
 
-					    //var order = 4;
-
-
-                        var controlLinesXML = descendants[j].children;
-                       
-
-                        var controlPointsArray = [];
-/*
-                        if(Math.pow((order + 1), 2) != controlPointsXML.length) {
-                            console.error('There\'s a patch primitive with a number of control points which differs from it\'s order');
-                            return -1;
-                        }
+                            //var order = 4;
 
 
-*/
+                            var controlLinesXML = descendants[j].children;
 
 
-                        for(var a = 0; a < controlLinesXML.length; a++) {
-                            for(var j = 0; j < controlLinesXML[a].children.length; j++) {
-                                var x = this.reader.getFloat(controlLinesXML[a].children[j], 'xx');
-                                var y = this.reader.getFloat(controlLinesXML[a].children[j], 'yy');
-                                var z = this.reader.getFloat(controlLinesXML[a].children[j], 'zz');
-                                var w = this.reader.getFloat(controlLinesXML[a].children[j], 'ww');
-
-
-                                
-						console.warn(x);
-
-                                controlPointsArray.push(vec4.fromValues(x, y, z, w));
+                            var controlPointsArray = [];
+    /*
+                            if(Math.pow((order + 1), 2) != controlPointsXML.length) {
+                                console.error('There\'s a patch primitive with a number of control points which differs from it\'s order');
+                                return -1;
                             }
+
+
+    */
+
+
+                            for(var a = 0; a < controlLinesXML.length; a++) {
+                                for(var j = 0; j < controlLinesXML[a].children.length; j++) {
+                                    var x = this.reader.getFloat(controlLinesXML[a].children[j], 'xx');
+                                    var y = this.reader.getFloat(controlLinesXML[a].children[j], 'yy');
+                                    var z = this.reader.getFloat(controlLinesXML[a].children[j], 'zz');
+                                    var w = this.reader.getFloat(controlLinesXML[a].children[j], 'ww');
+
+
+
+                            console.warn(x);
+
+                                    controlPointsArray.push(vec4.fromValues(x, y, z, w));
+                                }
+                            }
+
+
+
+
                         }
-
- 
-
-					    
-					}
-   /*             
+                        else{
                         
-                        
-
-*/
+                
 
 						var unsplit = this.reader.getString(descendants[j], 'args');
 
@@ -1420,7 +1418,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 				        }
 
 
-						this.log("   LeafArgs: "+ args);
+						this.log("   LeafArgs: "+ args);}
 						
 
 						if (type != null)
