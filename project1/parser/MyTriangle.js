@@ -2,23 +2,24 @@
  * MyTriangle
  * @constructor
  * @param scene
- * @param coordinates
+ * @param args
  */
-function MyTriangle(scene, coordinates) {
+function MyTriangle(scene, args) {
 	CGFobject.call(this,scene);
 
-	this.x2 = coordinates[0];
-	this.y2 = coordinates[1];
-	this.z2 = coordinates[2];
-	this.x3 = coordinates[3];
-	this.y3 = coordinates[4];
-	this.z3 = coordinates[5];
-	this.x1 = coordinates[6];
-	this.y1 = coordinates[7];
-	this.z1 = coordinates[8];
+	this.amplifS = 1, this.amplifT = 1;
 
-	this.amplifS = 1;
-	this.amplifT = 1;
+
+	this.x2 = args[0];
+	this.y2 = args[1];
+	this.z2 = args[2];
+	this.x3 = args[3];
+	this.y3 = args[4];
+	this.z3 = args[5];
+	this.x1 = args[6];
+	this.y1 = args[7];
+	this.z1 = args[8];
+
 
 	this.a = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + 
 			 		   (this.y1 - this.y3) * (this.y1 - this.y3) +

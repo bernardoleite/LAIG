@@ -2,15 +2,15 @@
  * MySphere
  * @constructor
  * @param scene
- * @param arguments [radius, stacks, slices]
+ * @param arguments [radius, slices, stacks]
  */
  function MySphere(scene, arg1, arg2, arg3) {
  	CGFobject.call(this,scene);
-	
+
+	this.radius=arg1;
 	this.slices=arg2;
 	this.stacks=arg3;
-	this.radius=arg1;
-
+	
 	this.angle=2*Math.PI/this.slices;
 
  	this.initBuffers();

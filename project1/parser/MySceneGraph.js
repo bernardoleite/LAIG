@@ -1353,7 +1353,54 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 else
 					if (descendants[j].nodeName == "LEAF")
 					{
-						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'patch']);
+   
+                        if(type == 'patch')
+					{
+					   // console.warn(descendants[j].children[0]);
+
+					    //var order = 4;
+
+
+                        var controlLinesXML = descendants[j].children;
+                       
+
+                        var controlPointsArray = [];
+/*
+                        if(Math.pow((order + 1), 2) != controlPointsXML.length) {
+                            console.error('There\'s a patch primitive with a number of control points which differs from it\'s order');
+                            return -1;
+                        }
+
+
+*/
+
+
+                        for(var a = 0; a < controlLinesXML.length; a++) {
+                            for(var j = 0; j < controlLinesXML[a].children.length; j++) {
+                                var x = this.reader.getFloat(controlLinesXML[a].children[j], 'xx');
+                                var y = this.reader.getFloat(controlLinesXML[a].children[j], 'yy');
+                                var z = this.reader.getFloat(controlLinesXML[a].children[j], 'zz');
+                                var w = this.reader.getFloat(controlLinesXML[a].children[j], 'ww');
+
+
+                                
+						console.warn(x);
+
+                                controlPointsArray.push(vec4.fromValues(x, y, z, w));
+                            }
+                        }
+
+ 
+
+					    
+					}
+   /*             
+                        
+                        
+
+*/
+
 						var unsplit = this.reader.getString(descendants[j], 'args');
 
 				        if (unsplit == null )
@@ -1381,7 +1428,10 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 						else
 							this.warn("Error in leaf");
 
-						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args));
+                        if(type=='patch') 
+						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args, controlPointsArray));
+						 else 
+						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args));
 						
 						//parse leaf
 						//this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]);

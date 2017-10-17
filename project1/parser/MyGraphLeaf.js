@@ -23,3 +23,9 @@ function MyGraphLeaf(graph, nodeID, name, args) {
     }
 }
 
+MyGraphLeaf.prototype.addPatch = function(graph, nodeID, name, args, cp) {
+    
+    var order = 3;
+    this.type = new Patch (this.graph.scene, order, args[0], args[1], cp);
+}
+
