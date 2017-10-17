@@ -1350,54 +1350,47 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                         sizeChildren++;
                     }
                 }                    
-                else
+                               else
 					if (descendants[j].nodeName == "LEAF")
 					{
 						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'patch']);
-   
-                        if(type == 'patch')
-                        {
-                           // console.warn(descendants[j].children[0]);
+						
 
-                            //var order = 4;
-
+                         if (type == 'patch'){
 
                             var controlLinesXML = descendants[j].children;
-
-
                             var controlPointsArray = [];
+
+                            var degree1 = descendants[j].children.length;
+                            var degree2 = 0;
+
+                            
     /*
                             if(Math.pow((order + 1), 2) != controlPointsXML.length) {
                                 console.error('There\'s a patch primitive with a number of control points which differs from it\'s order');
                                 return -1;
                             }
-
-
-    */
-
-
+  
+*/
                             for(var a = 0; a < controlLinesXML.length; a++) {
-                                for(var j = 0; j < controlLinesXML[a].children.length; j++) {
-                                    var x = this.reader.getFloat(controlLinesXML[a].children[j], 'xx');
-                                    var y = this.reader.getFloat(controlLinesXML[a].children[j], 'yy');
-                                    var z = this.reader.getFloat(controlLinesXML[a].children[j], 'zz');
-                                    var w = this.reader.getFloat(controlLinesXML[a].children[j], 'ww');
+                                for(var k = 0; k < controlLinesXML[a].children.length; k++) {
+                                    var x = this.reader.getFloat(controlLinesXML[a].children[k], 'xx');
+                                    var y = this.reader.getFloat(controlLinesXML[a].children[k], 'yy');
+                                    var z = this.reader.getFloat(controlLinesXML[a].children[k], 'zz');
+                                    var w = this.reader.getFloat(controlLinesXML[a].children[k], 'ww');
 
-
-
-                            console.warn(x);
+                                    if(a==0)
+                                        degree2++;
 
                                     controlPointsArray.push(vec4.fromValues(x, y, z, w));
                                 }
-                            }
+                         }
 
+                         degree1--;
+                         degree2--;
 
+                         }
 
-
-                        }
-                        else{
-                        
-                
 
 						var unsplit = this.reader.getString(descendants[j], 'args');
 
@@ -1418,18 +1411,21 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 				        }
 
 
-						this.log("   LeafArgs: "+ args);}
+						this.log("   LeafArgs: "+ args);
 						
 
 						if (type != null)
 							this.log("   Leaf: "+ type);
 						else
 							this.warn("Error in leaf");
+this.args2 = [];
+if (type == 'patch'){
+    this.args2.push(degree1);
+    this.args2.push(degree2);
+    this.args2.push(controlPointsArray);
+}
 
-                        if(type=='patch') 
-						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args, controlPointsArray));
-						 else 
-						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args));
+						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args,this.args2));
 						
 						//parse leaf
 						//this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]);
@@ -1546,7 +1542,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
                 material.apply();}
             if(texture2 != null && node.textureID != 'clear'){
                 texture2[0].bind();
-               node.leaves[z].type.scaleTexCoords(texture2[1], texture2[2]);    
+                node.leaves[z].type.scaleTexCoords(texture2[1], texture2[2]);    
             }
             node.leaves[z].type.display();
         }

@@ -1,90 +1,64 @@
-/**
- * Patch
- * @constructor
- * @param {Number} order
- * @param {Number} partsU
- * @param {Number} partsV
- * @param {Number} controlPoints
- */
- function Patch(scene, order, partsU, partsV, controlPoints) {
- 	CGFobject.call(this,scene);
+function Patch(scene, degree1, degree2, partsU, partsV, cp) {
 
- 	this.initBuffers(scene, order, partsU, partsV, controlPoints);
- };
+	this.scene = scene;
 
- Patch.prototype = Object.create(CGFobject.prototype);
- Patch.prototype.constructor = Patch;
+	this.knotsU = getKnotsVector(degree1);
+	this.knotsV = getKnotsVector(degree2)
 
-/**
- * Computes the knots from the order
- * @param {float} order
- * @returns {Array|Integer} The knots
- */
- Patch.prototype.getKnotsFromOrder = function(order) {
- 	switch(order) {
- 		case 1:
- 			return [0, 0, 1, 1];
- 		case 2:
- 			return [0, 0, 0, 1, 1, 1];
- 		default:
- 			return [0, 0, 0, 0, 1, 1, 1, 1];
- 	}
- };
-
-/**
- * Initialize the buffers of the primitive
- * @param {Number} order
- * @param {Number} partsU
- * @param {Number} partsV
- * @param {Number} controlPoints
- */
- Patch.prototype.initBuffers = function(scene, order, partsU, partsV, controlPoints) {
-
- 	var controlPointsArray = [];
-
- 	for (var i = 0; i < controlPoints.length; ) {
- 		var arrayU = [];
-
- 		for (var j = 0; j <= order; j++) {
- 			arrayU.push([controlPoints[i].x, controlPoints[i].y, [controlPoints[i].z], 1]);
- 			i++;
- 		}
-
- 		controlPointsArray.push(arrayU);
- 	}
-
-	this.makeSurface(scene,
-					 order, // degree on U: 3 control vertexes U
-					 order, // degree on V: 2 control vertexes on V
-					this.getKnotsFromOrder(order), // knots for U
-					this.getKnotsFromOrder(order), // knots for V
-					partsU,
-					partsV,					
-					controlPointsArray);
- };
-
-/**
- * Create the nurb surface
- * @param {Number} degree1
- * @param {Number} degree2
- * @param {Number} knots1
- * @param {Number} knots2
- * @param {Number} partsV
- * @param {Number} controlvertexes
- */
-Patch.prototype.makeSurface = function (scene, degree1, degree2, knots1, knots2, partsU, partsV, controlvertexes) {
+	this.Vert = getVert(degree1, degree2, cp);
 		
-	var nurbsSurface = new CGFnurbsSurface(degree1, degree2, knots1, knots2, controlvertexes);
-	getSurfacePoint = function(u, v) {
-		return nurbsSurface.getPoint(u, v);
-	};
+	this.nurbsSurface = new CGFnurbsSurface(degree1, degree2, this.knotsU, this.knotsV, this.Vert);
 
-	this.obj = new CGFnurbsObject(scene, getSurfacePoint, partsU, partsV);
+	CGFnurbsObject.call(this, this.scene, this.getSurfacePoint, partsU, partsV);
+}
+
+
+Patch.prototype = Object.create(CGFnurbsObject.prototype);
+Patch.prototype.constructor=Patch;
+
+
+Patch.prototype.getSurfacePoint = function (u, v) {
+	return this.nurbsSurface.getPoint(u, v);
 };
 
-/**
- * Display the primitive
- */
-Patch.prototype.display = function () {
-	this.obj.display();
-};
+getKnotsVector = function(degree) {
+
+	var v = new Array();
+	for (var i=0; i<=degree; i++) {
+		v.push(0);
+	}
+	for (var i=0; i<=degree; i++) {
+		v.push(1);
+	}
+	return v;
+
+}
+
+
+getVert = function(degree1, degree2, controlPoints) {
+
+	var orderU = degree1+1;
+	var orderV = degree2+1;
+	
+	var index = 0;
+	var Vert = [];
+	
+	for(var i = 0; i < orderU; i++) {
+		var group = [];
+		
+		for(var j = 0; j < orderV; j++) {
+			group.push(controlPoints[index]);
+			index++;
+		}
+		Vert.push(group);
+	}
+	return Vert;
+}
+
+Patch.prototype.scaleTexCoords = function(ampS,ampT){}
+
+Patch.prototype.display = function() {
+	this.scene.pushMatrix();
+		CGFnurbsObject.prototype.display.call(this);
+	this.scene.popMatrix();
+}

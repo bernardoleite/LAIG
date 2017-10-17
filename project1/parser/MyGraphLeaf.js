@@ -3,7 +3,7 @@
  * @constructor
 **/
 
-function MyGraphLeaf(graph, nodeID, name, args) {
+function MyGraphLeaf(graph, nodeID, name, args, args2) {
     this.graph = graph;
     this.id = nodeID;
     this.args = args;
@@ -21,11 +21,22 @@ function MyGraphLeaf(graph, nodeID, name, args) {
     else if(name == 'sphere'){
         this.type = new MySphere(this.graph.scene, args[0], args[1], args[2]);
     }
+    else if(name == 'patch'){
+        this.partsU = this.args[0];
+        this.partsV = this.args[1];
+        this.degree1 = args2[0];
+        this.degree2 = args2[1];
+        this.cp = args2[2];
+
+
+        this.type = new Patch(this.graph.scene, this.degree1, this.degree2, this.partsU, this.partsV, this.cp);
+
+    }
 }
 
-MyGraphLeaf.prototype.addPatch = function(graph, nodeID, name, args, cp) {
-    
-    var order = 3;
-    this.type = new Patch (this.graph.scene, order, args[0], args[1], cp);
-}
+
+
+
+
+
 
