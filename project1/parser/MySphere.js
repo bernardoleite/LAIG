@@ -1,17 +1,12 @@
-/*
- * MySphere
- * @constructor
- * @param scene
- * @param arguments [radius, slices, stacks]
- */
- function MySphere(scene, arg1, arg2, arg3) {
- 	CGFobject.call(this,scene);
 
-	this.radius=arg1;
-	this.slices=arg2;
-	this.stacks=arg3;
+  	function MySphere(scene, radius, stacks, slices) {
+ 	CGFobject.call(this,scene);
 	
-	this.angle=2*Math.PI/this.slices;
+	this.slices=slices;
+
+	this.stacks=stacks;
+	
+	this.rad=radius;
 
  	this.initBuffers();
  };
@@ -22,46 +17,103 @@
 
  MySphere.prototype.initBuffers = function() {
 
- 	this.texCoords = [];
-
- 	this.normals = [];
-
- 	this.texelXInterval = 1/(this.slices);
- 	this.texelYInterval = 1/(this.stacks);
-
-	this.texelY = 0;
-
- 	this.vertices = [];
+	this.CoordsTexOrig = [], this.indices = [], this.vertices = [], this.normals = [];
  	
- 	var alpha = -Math.PI/2;
- 	for (var n = 0; n <= this.stacks;n++, alpha+=(Math.PI/(this.stacks))) {
- 	    var tempAngle = 0;
- 	    this.texelX = 0;
-  	 	for (var i = 0; i <= this.slices; i++) {
-  			this.vertices.push(this.radius*Math.cos(alpha)*Math.cos(tempAngle), this.radius*Math.sin(alpha), this.radius*Math.cos(alpha)*Math.sin(tempAngle));
-  			this.normals.push(Math.cos(alpha)*Math.cos(tempAngle),  Math.sin(alpha), Math.cos(alpha)*Math.sin(tempAngle));
- 	       	this.texCoords.push(this.texelX, this.texelY);
-  	 		this.texelX += this.texelXInterval;
-  	 		tempAngle += this.angle;
- 	    };
-   	    this.texelY += this.texelYInterval;
- 	};
 
- 	this.indices = [];
+ 	var AngTheta = Math.PI / this.stacks;
+ 	var AngPhi = (Math.PI / this.slices) * 2;
 
-	for(i = 0; i < ((this.slices*this.stacks)+(this.stacks-1)); i+=1){
- 		if((i%(this.slices+1)) != (this.slices)){
- 			this.indices.push(i + this.slices + 2, i+1, i + this.slices + 1);
- 			this.indices.push(i+1, i, i + this.slices + 1);
- 		}else{
- 			this.indices.push(i+this.slices + 2, i, i+this.slices+1);
- 			this.indices.push(i+this.slices + 2, i+1, i);
- 		}
- 	};
+ 	var itestack = 0;
+ 	var iteslice = 0;
 
+	while(itestack <= this.stacks) {
+		iteslice = 0;
+		while(iteslice <= this.slices) {
+
+			this.calculateVertices(itestack, iteslice, AngTheta, AngPhi);
+			this.calculateNormals(itestack, iteslice, AngTheta, AngPhi);
+
+			var div1 = iteslice/this.slices;
+			var div2 = 1-itestack/this.stacks;
+
+			this.CoordsTexOrig.push(
+			div1, 
+			div2
+			);
+		++iteslice;
+		}
+	++itestack;
+	}
+
+	var itestack = 0;
+ 	var iteslice = 0;
+
+	while(itestack < this.stacks) {
+		iteslice = 0;
+		while(iteslice < this.slices) {
+			this.calculateIndices(itestack, iteslice);
+			++iteslice;
+		}
+
+		++itestack;
+	}
+
+	this.texCoords = this.CoordsTexOrig.slice();
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
  };
 
+ 
+MySphere.prototype.scaleTexCoords = function(ampS, ampT) {}
 
-MySphere.prototype.scaleTexCoords = function (amplifS, amplifT){};
+
+MySphere.prototype.calculateVertices = function (itestack, iteslice, AngTheta, AngPhi) {
+
+
+	this.vertices.push(
+
+	Math.sin(itestack * AngTheta) * Math.cos(iteslice * AngPhi) * this.rad, 
+
+	Math.sin(itestack * AngTheta) * Math.sin(iteslice * AngPhi) * this.rad, 
+
+	Math.cos(itestack * AngTheta) * this.rad);
+
+}
+
+
+MySphere.prototype.calculateNormals = function (itestack, iteslice, AngTheta, AngPhi) {
+
+	this.normals.push(
+
+	Math.cos(iteslice * AngPhi) * Math.sin(itestack * AngTheta), 
+
+	Math.sin(iteslice * AngPhi) * Math.sin(itestack * AngTheta), 
+
+	Math.cos(itestack * AngTheta));
+
+
+}
+
+MySphere.prototype.calculateIndices = function (itestack, iteslice) {
+
+	this.indices.push(
+
+	iteslice + itestack * (1+this.slices), 
+
+	iteslice + (itestack + 1) * (1+this.slices), 
+
+	iteslice + 1 + (itestack + 1) * (1+this.slices)
+
+	);
+	
+	this.indices.push(
+
+	iteslice + itestack * (1+this.slices), 
+
+	iteslice + 1 + (itestack + 1) * (1+this.slices), 
+
+	iteslice + 1 + itestack * (1+this.slices)
+	);
+
+
+}

@@ -1,71 +1,80 @@
-/**
- * MyQuad
- * @constructor
- * @param scene
- * @param coordinates [topLeftX, topLeftY, topLeftZ, bottomRigthX, bottomRightY, bottomRightZ]
- */
-function MyQuad(scene, coordinates) {
+
+function MyQuad(scene, args) {
 	CGFobject.call(this,scene);
 
-	this.minX = coordinates[0];
-	this.maxY = coordinates[1];
-	this.maxX = coordinates[2];
-	this.minY = coordinates[3];
+	this.ampS = 1, this.ampT = 1;
+	this.xmin = args[0], this.ymax = args[1], this.xmax = args[2], this.ymin = args[3];
 
-	this.amplifS = 1;
-	this.amplifT = 1;
 
 	this.initBuffers();
 };
 
 MyQuad.prototype = Object.create(CGFobject.prototype);
-
 MyQuad.prototype.constructor=MyQuad;
-
 MyQuad.prototype.initBuffers = function () {
-	this.vertices = [
-            this.minX, this.minY, 0,
-            this.maxX, this.minY, 0,
-            this.minX, this.maxY, 0,
-            this.maxX, this.maxY, 0
-			];
 
-	this.indices = [
-           0, 1, 2, 
-		   3, 2, 1
-        ];
-		
-	this.normals = [
-    0,0,1,
-    0,0,1,
-    0,0,1,
-    0,0,1
-    ];
-
-    this.width = this.maxX - this.minX;
-    this.height= this.maxY - this.minY;
+	this.calculateIndices();
+	this.calculateVertices();
+	this.calculateNormals();
+	this.h= this.ymax - this.ymin, this.width = this.xmax - this.xmin;
+	this.calculateTexCoords();
 	
-	
-	this.texCoords = [
-	0.0, 1.0 * this.height / this.amplifT,
-	 	1.0 * this.width / this.amplifS, 1.0 * this.height / this.amplifT,
-      	0.0, 0.0,
-      	1.0 * this.width / this.amplifS, 0.0
-	];
 
 	this.primitiveType=this.scene.gl.TRIANGLES;	
 	this.initGLBuffers();
 };
 
+MyQuad.prototype.calculateIndices = function () {
+	this.indices = [
+        0, 1, 2, 
+		3, 2, 1
+    ];
+}
 
+MyQuad.prototype.calculateVertices = function () {
+	   this.vertices = [
+       this.xmin, this.ymin, 0,
+       this.xmax, this.ymin, 0,
+       this.xmin, this.ymax, 0,
+       this.xmax, this.ymax, 0
+	];
+}
 
-MyQuad.prototype.scaleTexCoords = function (amplifS, amplifT) {
+MyQuad.prototype.calculateNormals = function () {
+		this.normals = [
+		0,0,1,
+		0,0,1,
+		0,0,1,
+		0,0,1
+		];
+
+}
+
+MyQuad.prototype.calculateTexCoords = function () {
+		this.texCoords = [
+		0, 
+		this.h / this.ampT * 1,
+	 	this.width / this.ampS * 1, 
+	 	this.h / this.ampT * 1,
+      	0, 
+      	0,
+      	1 * this.width / this.ampS, 
+      	0
+	];
+	
+}
+
+MyQuad.prototype.scaleTexCoords = function (ampS, ampT) {
 
 	this.texCoords = [
-	0.0, 1.0 * this.height / amplifT,
-	 	1.0 * this.width / amplifS, 1.0 * this.height / amplifT,
-      	0.0, 0.0,
-      	1.0 * this.width / amplifS, 0.0
+		0,
+		this.h / ampT, // * 1
+	 	this.width / ampS, // * 1
+	 	this.h / ampT, // * 1
+      	0, 
+      	0,
+      	this.width / ampS, // * 1
+      	0
 	];
 
 	this.updateTexCoordsGLBuffers();

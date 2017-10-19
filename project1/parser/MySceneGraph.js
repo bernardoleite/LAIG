@@ -49,7 +49,17 @@ function MySceneGraph(filename, scene) {
     
     this.reader.open('scenes/' + filename, this);
 
-    this.wall = new MyQuad(this.scene, 4, 3, 2, -2);
+    //this.wall = new MyQuad(this.scene, 4, 3, 2, -2);
+
+    
+
+    this.woodie = new CGFappearance(this.scene);
+	this.woodie.setAmbient(0.3,0.3,0.3,1);
+	this.woodie.setDiffuse(5,5,80,1);
+	//this.woodie.loadTexture("scenes/images/simpson.jpg");
+	this.woodie.setSpecular(0.1,0.1,0.1,1);
+
+	this.semi1 = new MySphere(this.scene, 2, 20, 20);
 
  
 }
@@ -1578,6 +1588,19 @@ MySceneGraph.prototype.displayScene = function() {
 	// remove log below to avoid performance issues
 
     this.processGraph('root', null, null);
+/*
+   
+    this.scene.pushMatrix();
+    this.woodie.apply();
+    this.semi1.display();
+    this.scene.popMatrix();
+
+
+    this.scene.pushMatrix();
+    this.woodie.apply();
+    this.sphere.display();
+    this.scene.popMatrix();*/
+
 
 }
 
