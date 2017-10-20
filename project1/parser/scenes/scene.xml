@@ -104,6 +104,11 @@
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
+    <TEXTURE id="earthText">
+        <file path="images/earth.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
     <TEXTURE id="rockText">
         <file path="images/end_bricks.png" />                
         <amplif_factor s="1.75" t="1" />                           
@@ -232,10 +237,140 @@
             <NODEREF id="mountain" />
 			<NODEREF id="tree" />
 			<NODEREF id="pumpkin1" />
+			<NODEREF id="waves" />
+			<NODEREF id="earth" />
         </DESCENDANTS>
 
     </NODE>
 
+    <NODE id="earth">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="earthText" />       			
+
+        <TRANSLATION x="-10" y="8" z="0" />
+        <SCALE sx="0.2" sy="0.2" sz="0.2" />
+
+        <DESCENDANTS>
+			<LEAF type="sphere" args="20 100 100" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="waves">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="waterText" /> 
+        
+        <DESCENDANTS>
+       		<NODEREF id="wave_water" />
+       		<NODEREF id="wave_water2" />
+       		<NODEREF id="wave_water3" />
+       		<NODEREF id="wave_water4" />
+        </DESCENDANTS>
+
+     </NODE>
+
+    <NODE id="wave_water">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+
+      <SCALE sx="0.50" sy="0.50" sz="0.50" />
+      <TRANSLATION x="47" y="2.5" z="-0.2" />
+
+
+      <DESCENDANTS>
+        <LEAF id="wave" type="patch" args="30 30" >
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="0" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="0" ww="0.3"/>
+          </CPLINE>
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="20" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="20" ww="0.3"/>
+          </CPLINE>
+        </LEAF>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="wave_water2">
+      <MATERIAL id="null" />
+      <TEXTURE id="waterText" />
+
+      <SCALE sx="0.50" sy="0.50" sz="0.50" />
+      <TRANSLATION x="52" y="2.5" z="-0.2" />
+
+
+      <DESCENDANTS>
+        <LEAF id="wave" type="patch" args="30 30" >
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="0" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="0" ww="0.3"/>
+          </CPLINE>
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="20" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="20" ww="0.3"/>
+          </CPLINE>
+        </LEAF>
+      </DESCENDANTS>
+    </NODE>
+
+     <NODE id="wave_water3">
+      <MATERIAL id="null" />
+      <TEXTURE id="waterText" />
+
+      <SCALE sx="0.50" sy="0.50" sz="0.50" />
+      <TRANSLATION x="57" y="2.5" z="-0.2" />
+
+
+      <DESCENDANTS>
+        <LEAF id="wave" type="patch" args="30 30" >
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="0" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="0" ww="0.3"/>
+          </CPLINE>
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="20" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="20" ww="0.3"/>
+          </CPLINE>
+        </LEAF>
+      </DESCENDANTS>
+    </NODE>
+
+     <NODE id="wave_water4">
+      <MATERIAL id="null" />
+      <TEXTURE id="waterText" />
+
+      <SCALE sx="0.50" sy="0.50" sz="0.50" />
+      <TRANSLATION x="62" y="2.5" z="-0.2" />
+
+
+      <DESCENDANTS>
+        <LEAF id="wave" type="patch" args="30 30" >
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="0" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="0" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="0" ww="0.3"/>
+          </CPLINE>
+          <CPLINE>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="1"/>
+            <CPOINT xx="1.6" yy="0.8" zz="20" ww="1"/>
+            <CPOINT xx="-4" yy="-2" zz="20" ww="0.5"/>
+            <CPOINT xx="1.6" yy="-2.5" zz="20" ww="0.3"/>
+          </CPLINE>
+        </LEAF>
+      </DESCENDANTS>
+    </NODE>
    
 
 <NODE id="house">       
@@ -1161,9 +1296,7 @@
 
         <DESCENDANTS>
        		<NODEREF id="oak1" /> 
-       		<NODEREF id="oak2" /> 
-       		<NODEREF id="oak3" />
-       		<NODEREF id="oak4" />        
+       
         </DESCENDANTS>
 
     </NODE>
@@ -1171,21 +1304,11 @@
     <!-- Another bench -->
      <NODE id="oak1">      
         <MATERIAL id="null" />     
-        <TEXTURE id="null" />       			
+        <TEXTURE id="null" />   
 
-        <TRANSLATION x="12.5" y="-2" z="3.7" />
-
-        <DESCENDANTS>
-            <NODEREF id="oak" />      
-        </DESCENDANTS>
-
-    </NODE>
-
-    <NODE id="oak2">      
-        <MATERIAL id="null" />     
-        <TEXTURE id="null" />       			
-
-        <TRANSLATION x="12.5" y="0" z="3.7" />
+            			
+        <SCALE sx="3" sy="6" sz="3" />
+        <TRANSLATION x="5" y="1.5" z="0.5" />
 
         <DESCENDANTS>
             <NODEREF id="oak" />      
@@ -1193,45 +1316,17 @@
 
     </NODE>
 
-    <NODE id="oak3">      
-        <MATERIAL id="null" />     
-        <TEXTURE id="null" />       			
-
-        <TRANSLATION x="12.5" y="2" z="3.7" />
-
-        <DESCENDANTS>
-            <NODEREF id="oak" />      
-        </DESCENDANTS>
-
-    </NODE>
-
-    <NODE id="oak4">      
-        <MATERIAL id="null" />     
-        <TEXTURE id="null" />       			
-
-        <TRANSLATION x="12.5" y="4" z="3.7" />
-
-        <DESCENDANTS>
-            <NODEREF id="oak" />      
-        </DESCENDANTS>
-
-    </NODE>
+  
     
     <!-- Generic bench -->
     <NODE id="oak">       
         <MATERIAL id="null" />     
         <TEXTURE id="oakText" />       			
 
-        <ROTATION axis="y" angle="90" />
-        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+        <ROTATION axis="x" angle="90" />
         
         <DESCENDANTS>
-       		<NODEREF id="faceCubo1" />
-            <NODEREF id="faceCubo2" />
-            <NODEREF id="faceCubo3" />
-            <NODEREF id="faceCubo4" />
-            <NODEREF id="faceCubo5" />
-            <NODEREF id="faceCubo6" />      
+       		<LEAF id="oakTree" type="cylinder" args="1.5 0.3 0.3 20 40 0 0" />
         </DESCENDANTS>
 
     </NODE>
