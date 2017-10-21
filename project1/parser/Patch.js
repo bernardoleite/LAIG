@@ -5,7 +5,7 @@ function Patch(scene, degree1, degree2, partsU, partsV, cp) {
 	this.knotsU = getKnotsVector(degree1);
 	this.knotsV = getKnotsVector(degree2)
 
-	this.Vert = getVert(degree1, degree2, cp);
+	this.Vert = getConjVert(degree1, degree2, cp);
 		
 	this.nurbsSurface = new CGFnurbsSurface(degree1, degree2, this.knotsU, this.knotsV, this.Vert);
 
@@ -35,7 +35,7 @@ getKnotsVector = function(degree) {
 }
 
 
-getVert = function(degree1, degree2, controlPoints) {
+getConjVert = function(degree1, degree2, controlPoints) {
 
 	var orderU = degree1+1;
 	var orderV = degree2+1;
@@ -44,13 +44,13 @@ getVert = function(degree1, degree2, controlPoints) {
 	var Vert = [];
 	
 	for(var i = 0; i < orderU; i++) {
-		var group = [];
+		var junction = [];
 		
 		for(var j = 0; j < orderV; j++) {
-			group.push(controlPoints[index]);
+			junction.push(controlPoints[index]);
 			index++;
 		}
-		Vert.push(group);
+		Vert.push(junction);
 	}
 	return Vert;
 }
