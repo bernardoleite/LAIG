@@ -27,13 +27,13 @@ MyCylinderWithTamps.prototype.display = function (){
 	this.cylinderBody.display();
   this.scene.popMatrix();
 
-if(this.bottom==1){
+if(this.top==1){
   this.scene.pushMatrix();
 	this.tampTOP.display();
   this.scene.popMatrix();
 }
 
-if(this.top==1){
+if(this.bottom==1){
    this.scene.pushMatrix();
    	this.scene.rotate(Math.PI, 1,0,0);
  	this.tampBOTTOM.display();

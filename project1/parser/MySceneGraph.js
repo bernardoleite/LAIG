@@ -1547,6 +1547,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
             node.leaves[z].type.display();
         }
 
+
 	this.scene.popMatrix();
 
 
@@ -1578,13 +1579,6 @@ MySceneGraph.prototype.displayScene = function() {
 	// remove log below to avoid performance issues
 
     this.processGraph('root', null, null);
-
-   
-
-
-
-
-
 
 }
 
