@@ -2,7 +2,6 @@
  * MyGraphLeaf class, representing a leaf in the scene graph.
  * @constructor
 **/
-
 function MyGraphLeaf(graph, nodeID, name, args, args2) {
     this.graph = graph;
     this.id = nodeID;

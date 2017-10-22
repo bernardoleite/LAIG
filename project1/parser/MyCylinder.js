@@ -1,4 +1,7 @@
-
+/**
+ * MyCylinder
+ * @constructor
+ */
 function MyCylinder(scene, height, RadiusB, RadiusT, stacks, slices) {
  	CGFobject.call(this,scene);
 
@@ -25,6 +28,10 @@ function MyCylinder(scene, height, RadiusB, RadiusT, stacks, slices) {
 
  MyCylinder.prototype = Object.create(CGFobject.prototype);
  MyCylinder.prototype.constructor = MyCylinder;
+
+ /**
+ * Creates a Cylinder using Vertices, Normals, TexCoords and Indices.
+ */
  MyCylinder.prototype.initBuffers = function() {
  
  	this.zvar = 0;
@@ -61,6 +68,11 @@ function MyCylinder(scene, height, RadiusB, RadiusT, stacks, slices) {
 
  };
 
+
+/**
+ * Calculates Indices
+ * @param {Number} ite - Current Iterator
+ */
 MyCylinder.prototype.calculateIndices = function (ite){
 	
 	var comp = (ite%(1+this.slices)) ;
@@ -91,6 +103,10 @@ MyCylinder.prototype.calculateIndices = function (ite){
 
 }
 
+/**
+ * Calculates Normals
+ */
+
 MyCylinder.prototype.calculateNormals = function (){
 
  	    var tempAngle = 0;
@@ -107,6 +123,10 @@ MyCylinder.prototype.calculateNormals = function (){
   	    };
 
 }
+
+/**
+ * Calculates Vertices and TexCoords
+ */
 
 MyCylinder.prototype.calculateVertAndTexCoords = function (tempAngle, Radcurrent){
 

@@ -1,4 +1,8 @@
-
+/**
+ * MyQuad
+ * @param {scene} scene 
+ * @param {atributes} args [xmin, ymax, xmax, ymin]
+ */
 function MyQuad(scene, args) {
 	CGFobject.call(this,scene);
 
@@ -11,6 +15,10 @@ function MyQuad(scene, args) {
 
 MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor=MyQuad;
+
+/**
+ * Creates new Rectangle
+ */
 MyQuad.prototype.initBuffers = function () {
 
 	this.calculateIndices();
@@ -24,6 +32,9 @@ MyQuad.prototype.initBuffers = function () {
 	this.initGLBuffers();
 };
 
+/**
+ * Calculates Indices
+ */
 MyQuad.prototype.calculateIndices = function () {
 	this.indices = [
         0, 1, 2, 
@@ -31,6 +42,9 @@ MyQuad.prototype.calculateIndices = function () {
     ];
 }
 
+/**
+ * Calculates Vertices
+ */
 MyQuad.prototype.calculateVertices = function () {
 	   this.vertices = [
        this.xmin, this.ymin, 0,
@@ -40,6 +54,9 @@ MyQuad.prototype.calculateVertices = function () {
 	];
 }
 
+/**
+ * Calculates Normals
+ */
 MyQuad.prototype.calculateNormals = function () {
 		this.normals = [
 		0,0,1,
@@ -50,6 +67,9 @@ MyQuad.prototype.calculateNormals = function () {
 
 }
 
+/**
+ * Calculates TexCoords
+ */
 MyQuad.prototype.calculateTexCoords = function () {
 		this.texCoords = [
 		0, 
@@ -64,6 +84,11 @@ MyQuad.prototype.calculateTexCoords = function () {
 	
 }
 
+/**
+ * ScaleTexCoords With Amplifiers
+ * @param {Number} ampS
+ * @param {Number} ampT
+ */
 MyQuad.prototype.scaleTexCoords = function (ampS, ampT) {
 
 	this.texCoords = [

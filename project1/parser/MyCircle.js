@@ -15,6 +15,11 @@
  MyCircle.prototype = Object.create(CGFobject.prototype);
  MyCircle.prototype.constructor = MyCircle;
 
+
+/**
+ * Creates a New Circle using Vertices, Normals and Indices.
+ */
+
  MyCircle.prototype.initBuffers = function() {
 
     

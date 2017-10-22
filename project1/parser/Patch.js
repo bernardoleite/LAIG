@@ -1,3 +1,8 @@
+/**
+ * Patch
+ * @param {scene} scene
+ * @param {attribues} - [degree1, degree2, partsU, partsV, cp]
+ */
 function Patch(scene, degree1, degree2, partsU, partsV, cp) {
 
 	this.scene = scene;
@@ -16,11 +21,19 @@ function Patch(scene, degree1, degree2, partsU, partsV, cp) {
 Patch.prototype = Object.create(CGFnurbsObject.prototype);
 Patch.prototype.constructor=Patch;
 
-
+/**
+ * Auxiliary Function to retrieve Surface
+ * @param {number} u - U Axis
+ * @param {number} v - V Axis
+ */
 Patch.prototype.getSurfacePoint = function (u, v) {
 	return this.nurbsSurface.getPoint(u, v);
 };
 
+/**
+ * Auxiliary Function to retreive Knots Vector
+ * @param {number} degree
+ */
 getKnotsVector = function(degree) {
 
 	var v = new Array();
@@ -34,7 +47,12 @@ getKnotsVector = function(degree) {
 
 }
 
-
+/**
+ * Auxiliary Function to Treat All Control Poins and put them in a Array
+ * @param {number} degree1 
+ * @param {number} degree2 
+ * @param {number} controlPoints 
+ */
 getConjVert = function(degree1, degree2, controlPoints) {
 
 	var orderU = degree1+1;
@@ -55,8 +73,14 @@ getConjVert = function(degree1, degree2, controlPoints) {
 	return Vert;
 }
 
+/**
+ * Scale TexCoords using Amplifier S and Amplifier T (Not necessay on this project)
+ */
 Patch.prototype.scaleTexCoords = function(ampS,ampT){}
 
+/**
+ * Displays new Patch
+ */
 Patch.prototype.display = function() {
 	this.scene.pushMatrix();
 		CGFnurbsObject.prototype.display.call(this);

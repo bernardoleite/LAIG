@@ -1,5 +1,9 @@
-
-  	function MySphere(scene, radius, stacks, slices) {
+/**
+ * MySphere
+ * @param {scene} scene
+ * @param {attributes} [radius, stacks, slices]
+ */
+function MySphere(scene, radius, stacks, slices) {
  	CGFobject.call(this,scene);
 	
 	this.slices=slices;
@@ -15,6 +19,9 @@
 
  MySphere.prototype.constructor = MySphere;
 
+/**
+ * Creates New Sphere using Vertices, Normals, TexCoords and Indices
+ */
  MySphere.prototype.initBuffers = function() {
 
 	this.CoordsTexOrig = [], this.indices = [], this.vertices = [], this.normals = [];
@@ -63,10 +70,21 @@
  	this.initGLBuffers();
  };
 
- 
+/**
+ * Scale the TexCoords using AmplifierS and AmplifierT
+ * @param {Number} ampS 
+ * @param {Number} ampT
+ */
 MySphere.prototype.scaleTexCoords = function(ampS, ampT) {}
 
 
+/**
+ * Calculates Vertices
+ * @param {Number} itestack - Stack Iterator
+ * @param {Number} iteslice - Slices Iterator
+ * @param {Number} AngTheta - The Theta Angle
+ * @param {Number} AngPhi - The Phi Angles
+ */
 MySphere.prototype.calculateVertices = function (itestack, iteslice, AngTheta, AngPhi) {
 
 
@@ -80,7 +98,13 @@ MySphere.prototype.calculateVertices = function (itestack, iteslice, AngTheta, A
 
 }
 
-
+/**
+ * Calculates Normals
+ * @param {Number} itestack - Stack Iterator
+ * @param {Number} iteslice - Slices Iterator
+ * @param {Number} AngTheta - The Theta Angle
+ * @param {Number} AngPhi - The Phi Angles
+ */
 MySphere.prototype.calculateNormals = function (itestack, iteslice, AngTheta, AngPhi) {
 
 	this.normals.push(
@@ -94,6 +118,11 @@ MySphere.prototype.calculateNormals = function (itestack, iteslice, AngTheta, An
 
 }
 
+/**
+ * Calculates Indices
+ * @param {Number} itestack - Stack Iterator
+ * @param {Number} iteslice - Slices Iterator
+ */
 MySphere.prototype.calculateIndices = function (itestack, iteslice) {
 
 	this.indices.push(

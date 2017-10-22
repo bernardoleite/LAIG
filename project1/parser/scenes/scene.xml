@@ -236,9 +236,11 @@
             <NODEREF id="house" />
             <NODEREF id="mountain" />
 			<NODEREF id="tree" />
+			<NODEREF id="tree2" />
 			<NODEREF id="pumpkin1" />
 			<NODEREF id="waves" />
 			<NODEREF id="earth" />
+			<NODEREF id="treetrunk" />
         </DESCENDANTS>
 
     </NODE>
@@ -2312,6 +2314,33 @@
         <DESCENDANTS>
        		<NODEREF id="oaks" /> 
        		<NODEREF id="leaves" />          
+        </DESCENDANTS>
+
+    </NODE>
+
+    <NODE id="tree2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />    
+        <TRANSLATION x="15" y="0" z="22" />
+        <TRANSLATION x="0.2" y="0" z="20.3" />
+   			
+
+        <DESCENDANTS>
+       		<NODEREF id="oaks" /> 
+       		<NODEREF id="leaves" />          
+        </DESCENDANTS>
+
+    </NODE>
+
+      <NODE id="treetrunk">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="oakText" />
+        <TRANSLATION x="33" y="5" z="35" />    
+        <ROTATION axis="x" angle="90" />
+        <SCALE sx="3" sy="3" sz="2" />
+
+        <DESCENDANTS>
+       		<LEAF id="treTrunk" type="cylinder" args="1.5 0.3 0.3 20 40 1 0" />
         </DESCENDANTS>
 
     </NODE>

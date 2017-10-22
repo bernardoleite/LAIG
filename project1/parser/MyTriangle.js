@@ -1,3 +1,7 @@
+/**
+ * MyTriangle
+ * @param {attribues} [x1,y1,z1,x2,y2,z2,x3,y3,z3]
+ */
 function MyTriangle(scene, args) {
 	CGFobject.call(this,scene);
 
@@ -20,6 +24,10 @@ function MyTriangle(scene, args) {
 MyTriangle.prototype = Object.create(CGFobject.prototype);
 MyTriangle.prototype.constructor=MyTriangle;
 
+
+/**
+ * Creates New Triangle
+ */
 MyTriangle.prototype.initBuffers = function () {
 
 
@@ -55,7 +63,11 @@ MyTriangle.prototype.initBuffers = function () {
 };
 
 
-
+/**
+ * Scale TexCoords using Amplifier S and Amplifier T
+ * @param {Number} amplifS 
+ * @param {Number} amplifT 
+ */
 MyTriangle.prototype.scaleTexCoords = function (amplifS, amplifT) {
 
 	this.texCoords = [	
@@ -69,7 +81,9 @@ MyTriangle.prototype.scaleTexCoords = function (amplifS, amplifT) {
 	this.updateTexCoordsGLBuffers();
 };
 
-
+/**
+ * Calculates the Vectors
+ */
 MyTriangle.prototype.calculateVectors = function () {
 
 	//Calculation of the args to put in the Squares
@@ -95,7 +109,9 @@ MyTriangle.prototype.calculateVectors = function () {
 
 };
 
-
+/**
+ * Calculates Necessay Angles
+ */
 MyTriangle.prototype.calculateAngs = function () {
 
 	this.cbeta =  ( this.dc * this.dc + this.da*this.da - this.db*this.db);
@@ -113,7 +129,9 @@ MyTriangle.prototype.calculateAngs = function () {
 	
 }
 
-
+/**
+ * Calculates Normals
+ */
 MyTriangle.prototype.calculateNormalVectors = function(){
 
 	var vetx1 = this.x2 - this.x1, vety1 = this.y2 - this.y1, vetz1 = this.z2 - this.z1;

@@ -33,10 +33,6 @@ function MySceneGraph(filename, scene) {
     this.axisCoords['y'] = [0, 1, 0];
     this.axisCoords['z'] = [0, 0, 1];
 
-
-
-	
-
     
     // File reading 
     this.reader = new CGFXMLreader();
@@ -48,20 +44,6 @@ function MySceneGraph(filename, scene) {
 	 */
     
     this.reader.open('scenes/' + filename, this);
-
-    //this.wall = new MyQuad(this.scene, 4, 3, 2, -2);
-
-    
-
-    this.woodie = new CGFappearance(this.scene);
-	this.woodie.setAmbient(0.3,0.3,0.3,1);
-	this.woodie.setDiffuse(5,5,80,1);
-	//this.woodie.loadTexture("scenes/images/simpson.jpg");
-	this.woodie.setSpecular(0.1,0.1,0.1,1);
-
-	this.semi1 = new MySphere(this.scene, 2, 20, 20);
-
- 
 }
 
 /*
@@ -1360,7 +1342,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                         sizeChildren++;
                     }
                 }                    
-                               else
+                    else
 					if (descendants[j].nodeName == "LEAF")
 					{
 						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'patch']);
@@ -1509,10 +1491,18 @@ MySceneGraph.generateRandomString = function(length) {
     return String.fromCharCode.apply(null, numbers);
 }
 
+
+/**
+ * Recursive Function Responsible to Process Graph treating all aspects of 
+ * Textures, Materials and Matrix Calculations
+ * @param {Number} noneName - Recieves the name of the Node in Case
+ * @param {Number} matInit - Initial Material of the Node
+ * @return {Number} textInit - Initial Texture of the Node
+ */
 MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     var material = matInit;
-    var texture2 = textInit;
+    var text = textInit;
 
     if(nodeName != 'null'){
         var node = this.nodes[nodeName];
@@ -1534,7 +1524,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
 
        if(node.textureID != 'null' && node.textureID != 'clear'){
-            texture2 = this.textures[node.textureID];
+            text = this.textures[node.textureID];
        }
     //   else if (node.textureID == "clear")
       //      textura2 = null;
@@ -1542,7 +1532,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         this.scene.multMatrix(node.transformMatrix);
 
         for(var i=0; i < node.children.length; i++){
-            this.processGraph(node.children[i], material, texture2);
+            this.processGraph(node.children[i], material, text);
         }
 
 
@@ -1550,9 +1540,9 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
             if(material != null){
                 material.apply();}
-            if(texture2 != null && node.textureID != 'clear'){
-                texture2[0].bind();
-                node.leaves[z].type.scaleTexCoords(texture2[1], texture2[2]);    
+            if(text != null && node.textureID != 'clear'){
+                text[0].bind();
+                node.leaves[z].type.scaleTexCoords(text[1], text[2]);    
             }
             node.leaves[z].type.display();
         }
@@ -1588,18 +1578,12 @@ MySceneGraph.prototype.displayScene = function() {
 	// remove log below to avoid performance issues
 
     this.processGraph('root', null, null);
-/*
+
    
-    this.scene.pushMatrix();
-    this.woodie.apply();
-    this.semi1.display();
-    this.scene.popMatrix();
 
 
-    this.scene.pushMatrix();
-    this.woodie.apply();
-    this.sphere.display();
-    this.scene.popMatrix();*/
+
+
 
 
 }
