@@ -915,7 +915,7 @@ MySceneGraph.prototype.parseTextures = function(texturesNode) {
             else if (amplifFactorT == null )
                 return "t amplification factor undefined for texture with ID = " + textureID;
             
-            var texture = new CGFtexture(this.scene,"./scenes/" + filepath);
+            var texture = new CGFtexture(this.scene,"../" + filepath);
             
             this.textures[textureID] = [texture, amplifFactorS, amplifFactorT];
             oneTextureDefined = true;
