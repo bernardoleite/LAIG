@@ -1325,10 +1325,10 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             var descendants = nodeSpecs[descendantsIndex].children;
             
             var sizeChildren = 0;
+            
             for (var j = 0; j < descendants.length; j++) {
                 if (descendants[j].nodeName == "NODEREF")
 				{
-                    
 					var curId = this.reader.getString(descendants[j], 'id');
 
 					this.log("   Descendant: "+curId);
@@ -1356,14 +1356,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                             var degree1 = descendants[j].children.length;
                             var degree2 = 0;
 
-                            
-    /*
-                            if(Math.pow((order + 1), 2) != controlPointsXML.length) {
-                                console.error('There\'s a patch primitive with a number of control points which differs from it\'s order');
-                                return -1;
-                            }
-  
-*/
+                          
                             for(var a = 0; a < controlLinesXML.length; a++) {
                                 for(var k = 0; k < controlLinesXML[a].children.length; k++) {
                                     var x = this.reader.getFloat(controlLinesXML[a].children[k], 'xx');
@@ -1394,12 +1387,12 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 				            args.splice(-1, 1);
 				        
 				        // Checks if all arguments are numeric.
-				        for (var j = 0; j < args.length; j++) {
+				        for (let k = 0; k < args.length; k++) {
 				            var numeric;
-				            if (isNaN((numeric = parseFloat(args[j]))))
+				            if (isNaN((numeric = parseFloat(args[k]))))
 				                return "non-numeric argument for ID = " + nodeID;
 				            else
-				                args[j] = numeric;
+				                args[k] = numeric;
 				        }
 
 
@@ -1410,17 +1403,17 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 							this.log("   Leaf: "+ type);
 						else
 							this.warn("Error in leaf");
-this.args2 = [];
-if (type == 'patch'){
-    this.args2.push(degree1);
-    this.args2.push(degree2);
-    this.args2.push(controlPointsArray);
-}
 
+
+                        this.args2 = [];
+
+                        if (type == 'patch'){
+                            this.args2.push(degree1);
+                            this.args2.push(degree2);
+                            this.args2.push(controlPointsArray);
+                        }
 						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args,this.args2));
 						
-						//parse leaf
-						//this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]);
                         sizeChildren++;
 					}
 					else
@@ -1510,6 +1503,9 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     this.scene.pushMatrix();
 
+            this.scene.multMatrix(node.transformMatrix);
+
+
         if (node.textureID != null) {
             if (node.textureID == 'clear')
                 textura2 = null;
@@ -1529,13 +1525,11 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
     //   else if (node.textureID == "clear")
       //      textura2 = null;
 
-        this.scene.multMatrix(node.transformMatrix);
 
         for(var i=0; i < node.children.length; i++){
             this.processGraph(node.children[i], material, text);
         }
-
-
+        
         for(var z=0; z < node.leaves.length; z++){
 
             if(material != null){
@@ -1578,7 +1572,6 @@ MySceneGraph.prototype.displayScene = function() {
 	// entry point for graph rendering
 	// remove log below to avoid performance issues
 
-    this.processGraph('root', null, null);
+    this.processGraph(this.idRoot, null, null);
 
 }
-
