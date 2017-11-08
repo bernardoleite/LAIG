@@ -7,7 +7,9 @@ var LIGHTS_INDEX = 2;
 var TEXTURES_INDEX = 3;
 var MATERIALS_INDEX = 4;
 var LEAVES_INDEX = 5;
-var NODES_INDEX = 6;
+var ANIMATION_INDEX = 6;
+var NODES_INDEX = 7;
+
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -36,6 +38,8 @@ function MySceneGraph(filename, scene) {
     
     // File reading 
     this.reader = new CGFXMLreader();
+
+    this.animationArray = [];
     
     /*
 	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
@@ -152,6 +156,17 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
             this.onXMLMinorError("tag <NODES> out of order");
         
         if ((error = this.parseNodes(nodes[index])) != null )
+            return error;
+    }
+
+    //ANIMATION
+    if ((index = nodeNames.indexOf("ANIMATIONS")) == -1)
+        return "tag <ANIMATIONS> missing";
+    else {
+        if (index != ANIMATION_INDEX)
+            this.onXMLMinorError("tag <ANIMATIONS> out of order");
+        
+        if ((error = this.parseAnimation(nodes[index])) != null )
             return error;
     }
 
@@ -1429,6 +1444,155 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 
 
     console.log("Parsed nodes");
+    return null ;
+}
+
+
+MySceneGraph.prototype.parseAnimation = function(nodesNode){
+    
+    // Traverses nodes.
+    var children = nodesNode.children;
+    
+    
+    for (var i = 0; i < children.length; i++){
+        animationName = children[i].nodeName;
+
+        if (animationName == "ANIMATION"){
+            var animationSpeed;
+            // Retrieves node ID.
+            var animationID = this.reader.getString(children[i], 'id');
+            if (animationID == null )
+                return "failed to retrieve node ID";
+            // Checks if ID is valid.
+            if (this.nodes[animationID] != null )
+                return "node ID must be unique (conflict: ID = " + animationID + ")";
+
+            this.log("Processing animation ID "+animationID);
+
+            animationType = this.reader.getString(children[i], 'type');
+            //checks if type animation exists
+            if (animationType == null )
+                return "failed to retrieve animation Type!";
+            
+            this.log("Processing animation type "+animationType);
+
+            if(animationType != "combo"){
+                animationSpeed = this.reader.getString(children[i], 'speed');
+                if (animationSpeed == null )
+                    return "failed to retrieve node ID";
+                // Checks if speed is valid.
+                if (parseFloat(this.nodes[animationSpeed]) == NaN)
+                    return "animation speed must be a number (conflict: ID = " + animationID + ")";
+                
+                this.log("Processing speed "+animationSpeed);
+            }
+            else{
+                var animationSpeed = null;
+            }
+
+
+            var animationSpecs = children[i].children;
+            var animationNames = [];
+            var possibleValues = ["controlpoint", "SPANREF"];
+            for (var j = 0; j < animationSpecs.length; j++) {
+                var name = animationSpecs[j].nodeName;
+                animationNames.push(animationSpecs[j].nodeName);
+                
+                // Warns against possible invalid tag names.
+                if (possibleValues.indexOf(name) == -1)
+                    this.onXMLMinorError("unknown tag <" + name + ">");
+            }
+
+            //id="circular1" speed="1" type="circular" centerx="0" centery="0" centerz="0" radius="5" startang="0" rotang="20"/
+            if(animationType == "circular"){
+                var centerx = parseFloat(this.reader.getString(children[i], 'centerx'));
+                var centery = parseFloat(this.reader.getString(children[i], 'centery'));
+                var centerz = parseFloat(this.reader.getString(children[i], 'centerz'));
+                var radius = parseFloat(this.reader.getString(children[i], 'radius'));
+                var startang = parseFloat(this.reader.getString(children[i], 'startang'));
+                var rotang = parseFloat(this.reader.getString(children[i], 'rotang'));
+
+                if (centerx == NaN || centery == NaN || centerz == NaN || radius == NaN || startang == NaN || rotang == NaN) 
+                    this.onXMLMinorError("error parsing x on control points anymation");
+
+                //graph, animationID, animationType, speed, centerx, centery, centerz, radius, startang, rotang
+                this.animationArray.push(new circularAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), centerx, centery, centerz, radius, startang, rotang));
+
+            }
+            else if(animationType == "bezier"){
+                var animationControlPoints = [];
+
+                for (var j = 0; j < animationSpecs.length; j++) {
+                switch (animationSpecs[j].nodeName) {
+                    case "controlpoint":
+                        var coords = [];
+                        // Retrieves translation parameters.
+                        var x = this.reader.getFloat(animationSpecs[j], 'xx');
+                        if (x == null ) 
+                            this.onXMLMinorError("error parsing x on control points anymation");
+                        var y = this.reader.getFloat(animationSpecs[j], 'yy');
+                        if (y == null ) 
+                            this.onXMLMinorError("error parsing y on control points anymation");
+                        var z = this.reader.getFloat(animationSpecs[j], 'zz');
+                        if (z == null ) 
+                            this.onXMLMinorError("error parsing z on control points anymation");
+                        coords.push(x);
+                        coords.push(y);
+                        coords.push(z);
+                        animationControlPoints.push(coords);
+                        break;
+                    }
+                }
+                if(animationControlPoints.length != 4)
+                    this.onXMLMinorError("bezier must have 4 control points!");
+
+                this.animationArray.push(new bezierAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints));
+            }
+            else if(animationType == "linear"){
+                var animationControlPoints = [];
+
+                for (var j = 0; j < animationSpecs.length; j++) {
+                switch (animationSpecs[j].nodeName) {
+                    case "controlpoint":
+                        var coords = [];
+                        // Retrieves translation parameters.
+                        var x = this.reader.getFloat(animationSpecs[j], 'xx');
+                        if (x == null ) 
+                            this.onXMLMinorError("error parsing x on control points anymation");
+                        var y = this.reader.getFloat(animationSpecs[j], 'yy');
+                        if (y == null ) 
+                            this.onXMLMinorError("error parsing y on control points anymation");
+                        var z = this.reader.getFloat(animationSpecs[j], 'zz');
+                        if (z == null ) 
+                            this.onXMLMinorError("error parsing z on control points anymation");
+                        coords.push(x);
+                        coords.push(y);
+                        coords.push(z);
+                        animationControlPoints.push(coords);
+                        break;
+                    }
+                }
+                this.animationArray.push(new linearAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints));
+            }
+            else if(animationType == "combo"){
+                var combos = [];
+                for (var j = 0; j < animationSpecs.length; j++) {
+                    switch (animationSpecs[j].nodeName) {
+                        case "SPANREF":
+                            // Retrieves translation parameters.
+                            var id = this.reader.getString(animationSpecs[j], 'id');
+                            if (id == null ) 
+                                this.onXMLMinorError("error parsing id on combo animation");
+                            combos.push(id);
+                            break;
+                    }
+                }
+                this.animationArray.push(new comboAnimation(this.scene, animationID, animationType, combos));
+            }
+        }
+    }
+
+     console.log("Parsed animations");
     return null ;
 }
 
