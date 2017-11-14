@@ -8,4 +8,6 @@ class bezierAnimation extends animation{
 
 	    console.warn(this);
 	}
+
+	update(dt){}
 }

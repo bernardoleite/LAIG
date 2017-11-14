@@ -20,6 +20,8 @@ function MyGraphNode(graph, nodeID) {
     // The texture ID.
     this.textureID = null ;
 
+    this.animations = [];
+
     //transformMatrix
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);
@@ -37,6 +39,10 @@ MyGraphNode.prototype.addChild = function(nodeID) {
  */
 MyGraphNode.prototype.addLeaf = function(leaf) {
     this.leaves.push(leaf);
+}
+
+MyGraphNode.prototype.addAnimation = function(animation) {
+    this.animations.push(animation);
 }
 
 

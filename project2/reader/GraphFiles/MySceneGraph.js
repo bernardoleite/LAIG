@@ -17,6 +17,8 @@ var NODES_INDEX = 7;
  */
 function MySceneGraph(filename, scene) {
     this.loadedOk = null ;
+
+
     
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
@@ -36,7 +38,9 @@ function MySceneGraph(filename, scene) {
     this.axisCoords['z'] = [0, 0, 1];
 
     
-    // File reading 
+    // File reading
+
+    this.scene.setUpdatePeriod(100);
     this.reader = new CGFXMLreader();
 
     this.animationArray = [];
@@ -1331,6 +1335,22 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                     break;
                 }
             }
+
+            var animationIndex = specsNames.indexOf("ANIMATIONREFS");
+
+            if(animationIndex != -1){
+                var animations = nodeSpecs[animationIndex].children;
+                
+                for (var j = 0; j < animations.length; j++) {
+                    if (animations[j].nodeName == "ANIMATIONREF")
+                    {
+                        var animationId = this.reader.getString(animations[j], 'id');
+                    }
+                    this.nodes[nodeID].addAnimation(animationId);
+                }
+            }
+                
+
             
             // Retrieves information about children.
             var descendantsIndex = specsNames.indexOf("DESCENDANTS");
