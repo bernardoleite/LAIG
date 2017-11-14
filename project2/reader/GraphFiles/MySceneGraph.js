@@ -6,9 +6,8 @@ var ILLUMINATION_INDEX = 1;
 var LIGHTS_INDEX = 2;
 var TEXTURES_INDEX = 3;
 var MATERIALS_INDEX = 4;
-var LEAVES_INDEX = 5;
-var ANIMATION_INDEX = 6;
-var NODES_INDEX = 7;
+var ANIMATION_INDEX = 5;
+var NODES_INDEX = 6;
 
 
 /**
@@ -17,7 +16,6 @@ var NODES_INDEX = 7;
  */
 function MySceneGraph(filename, scene) {
     this.loadedOk = null ;
-
 
     
     // Establish bidirectional references between scene and graph.
@@ -30,6 +28,8 @@ function MySceneGraph(filename, scene) {
     
     this.idRoot = null;                    // The id of the root element.
 
+    this.animationIt = 0;
+
 
 
     this.axisCoords = [];
@@ -39,11 +39,10 @@ function MySceneGraph(filename, scene) {
 
     
     // File reading
-
-    this.scene.setUpdatePeriod(100);
     this.reader = new CGFXMLreader();
 
     this.animationArray = [];
+    this.animationWorkArray = []; 
     
     /*
 	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
@@ -151,6 +150,19 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
         if ((error = this.parseMaterials(nodes[index])) != null )
             return error;
     }
+
+
+        //ANIMATION
+    if ((index = nodeNames.indexOf("ANIMATIONS")) == -1)
+        return "tag <ANIMATIONS> missing";
+    else {
+        if (index != ANIMATION_INDEX)
+            this.onXMLMinorError("tag <ANIMATIONS> out of order");
+        
+        if ((error = this.parseAnimation(nodes[index])) != null )
+            return error;
+    }
+
     
     // <NODES>
     if ((index = nodeNames.indexOf("NODES")) == -1)
@@ -163,16 +175,7 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
             return error;
     }
 
-    //ANIMATION
-    if ((index = nodeNames.indexOf("ANIMATIONS")) == -1)
-        return "tag <ANIMATIONS> missing";
-    else {
-        if (index != ANIMATION_INDEX)
-            this.onXMLMinorError("tag <ANIMATIONS> out of order");
-        
-        if ((error = this.parseAnimation(nodes[index])) != null )
-            return error;
-    }
+
 
 }
 
@@ -1221,7 +1224,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             // Gathers child nodes.
             var nodeSpecs = children[i].children;
             var specsNames = [];
-            var possibleValues = ["MATERIAL", "TEXTURE", "TRANSLATION", "ROTATION", "SCALE", "DESCENDANTS"];
+            var possibleValues = ["MATERIAL", "TEXTURE", "TRANSLATION", "ROTATION", "SCALE", "ANIMATIONREFS", "DESCENDANTS"];
             for (var j = 0; j < nodeSpecs.length; j++) {
                 var name = nodeSpecs[j].nodeName;
                 specsNames.push(nodeSpecs[j].nodeName);
@@ -1342,11 +1345,60 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 var animations = nodeSpecs[animationIndex].children;
                 
                 for (var j = 0; j < animations.length; j++) {
+
                     if (animations[j].nodeName == "ANIMATIONREF")
                     {
                         var animationId = this.reader.getString(animations[j], 'id');
                     }
-                    this.nodes[nodeID].addAnimation(animationId);
+
+                    this.animationIt++;
+
+                    var anime = this.animationArray[animationId];
+
+                    if(anime.type == "bezier"){
+                        var newAnime = new bezierAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "bezier", anime.speed, anime.ControlPoints);
+                        this.nodes[nodeID].addAnimation(newAnime);
+                        this.animationWorkArray.push(newAnime);
+                    }
+                    else if(anime.type == "linear"){
+                        var newAnime = new linearAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "linear", anime.speed, anime.ControlPoints);
+                        this.nodes[nodeID].addAnimation(newAnime);
+                        this.animationWorkArray.push(newAnime);
+                    }
+                    else if(anime.type == "circular"){ //graph, animationID, animationType, speed, centerx, centery, centerz, radius, startang, rotang
+                        var newAnime = new circularAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "circular", anime.speed, anime.centerx, anime.centery, anime.centerz, anime.radius, anime.startang, anime.rotang);
+                        this.nodes[nodeID].addAnimation(newAnime);
+                        this.animationWorkArray.push(newAnime);
+                    }
+                    else if(anime.type == "combo"){
+
+                        var animationCombo = [];
+
+                        for(var z = 0; z < anime.animations.length; z++){
+
+                            var anime2 = this.animationArray[anime.animations[z]];
+
+                            if(anime2.type == "bezier"){
+                                var newAnime = new bezierAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "bezier", anime.speed, anime.ControlPoints);
+                                this.nodes[nodeID].addAnimation(newAnime);
+                                this.animationCombo.push(newAnime);
+                            }
+                            else if(anime2.type == "linear"){
+                                var newAnime = new linearAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "linear", anime.speed, anime.ControlPoints);
+                                this.nodes[nodeID].addAnimation(newAnime);
+                                this.animationCombo.push(newAnime);
+                            }
+                            else if(anime2.type == "circular"){ //centery, centerz, radius, startang, rotang
+                                var newAnime = new circularAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "circular", anime.speed, anime.centerx, anime.centery, anime.centerz, anime.rotang);
+                                this.nodes[nodeID].addAnimation(newAnime);
+                                this.animationCombo.push(newAnime);
+                            }
+                        }
+
+                        var newAnime = new comboAnimation(this.scene, (anime.animationID + toString(this.animationIt.toString())), "circular", animationCombo);
+                        this.nodes[nodeID].addAnimation(newAnime);
+                        this.animationWorkArray.push(newAnime);
+                    }
                 }
             }
                 
@@ -1536,7 +1588,7 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
                     this.onXMLMinorError("error parsing x on control points anymation");
 
                 //graph, animationID, animationType, speed, centerx, centery, centerz, radius, startang, rotang
-                this.animationArray.push(new circularAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), centerx, centery, centerz, radius, startang, rotang));
+                this.animationArray[animationID] = new circularAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), centerx, centery, centerz, radius, startang, rotang);
 
             }
             else if(animationType == "bezier"){
@@ -1566,7 +1618,7 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
                 if(animationControlPoints.length != 4)
                     this.onXMLMinorError("bezier must have 4 control points!");
 
-                this.animationArray.push(new bezierAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints));
+                this.animationArray[animationID] = new bezierAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints);
             }
             else if(animationType == "linear"){
                 var animationControlPoints = [];
@@ -1592,7 +1644,7 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
                         break;
                     }
                 }
-                this.animationArray.push(new linearAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints));
+                this.animationArray[animationID] =new linearAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints);
             }
             else if(animationType == "combo"){
                 var combos = [];
@@ -1607,7 +1659,7 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
                             break;
                     }
                 }
-                this.animationArray.push(new comboAnimation(this.scene, animationID, animationType, combos));
+                this.animationArray[animationID] = new comboAnimation(this.scene, animationID, animationType, combos);
             }
         }
     }
@@ -1669,6 +1721,14 @@ MySceneGraph.generateRandomString = function(length) {
 }
 
 
+
+MySceneGraph.prototype.applyAnimation = function(node){
+    for(var i = 0; i < node.animations.length; i++){
+        this.scene.multMatrix(node.animations[i].transformMatrix);
+    }
+}
+
+
 /**
  * Recursive Function Responsible to Process Graph treating all aspects of 
  * Textures, Materials and Matrix Calculations
@@ -1685,9 +1745,12 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         var node = this.nodes[nodeName];
     }
 
+    //console.warn(this.animationWorkArray);
+
     this.scene.pushMatrix();
 
             this.scene.multMatrix(node.transformMatrix);
+            this.applyAnimation(node);
 
 
         if (node.textureID != null) {

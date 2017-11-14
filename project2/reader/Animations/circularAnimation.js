@@ -21,17 +21,22 @@ class circularAnimation extends animation{
 	}
 
 	update(dt) {
+
 		if(this.currentAnimationAngle < this.rotang){
 
-			var alpha = (this.w * dt);
-
-			this.currentAnimationAngle += alpha;
+			this.currentAnimationAngle = (this.w * dt) + this.currentAnimationAngle;
 
 			mat4.identity(this.transformMatrix);
-			this.transformMatrix.translate(this.centerx,this.centery,0);
-			this.transformMatrix.rotate(alpha, 0, 1, 0);
-			this.transformMatrix.translate(this.radius,0,0);
-			this.transformMatrix.rotate(90, 0, 1, 0);
+
+			mat4.translate(this.transformMatrix, this.transformMatrix, [this.centerx, this.centery, 0]);
+			mat4.rotate(this.transformMatrix, this.transformMatrix, (this.currentAnimationAngle/180)*Math.PI, [0, 1, 0]);
+			mat4.translate(this.transformMatrix, this.transformMatrix, [this.radius,0,0]);
+			mat4.rotate(this.transformMatrix, this.transformMatrix, (90/180)*Math.PI, [0, 1, 0]);
+
+			console.warn("entra bem");
+		}
+		else{
+			this.hasEnded = true;
 		}
 	}
 }

@@ -42,7 +42,10 @@ class linearAnimation extends animation{
 			this.transformMatrix.translate(dx,dy,0);
 			this.transformMatrix.translate(this.controlPoints[this.currentAnimation][0],this.controlPoints[this.currentAnimation][1],0);
 			this.transformMatrix.rotate(Math.acos(this.initValues[this.currentAnimation][3]), 0, 1, 0);
-			}
+		}
+		else{
+			this.hasEnded = true;
+		}
 	}
 }
 
