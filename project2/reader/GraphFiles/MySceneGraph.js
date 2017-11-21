@@ -1356,12 +1356,12 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                     var anime = this.animationArray[animationId];
 
                     if(anime.type == "bezier"){
-                        var newAnime = new bezierAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "bezier", anime.speed, anime.ControlPoints);
+                        var newAnime = new bezierAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "bezier", anime.speed, anime.controlPoints);
                         this.nodes[nodeID].addAnimation(newAnime);
                         this.animationWorkArray.push(newAnime);
                     }
                     else if(anime.type == "linear"){
-                        var newAnime = new linearAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "linear", anime.speed, anime.ControlPoints);
+                        var newAnime = new linearAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "linear", anime.speed, anime.controlPoints);
                         this.nodes[nodeID].addAnimation(newAnime);
                         this.animationWorkArray.push(newAnime);
                     }
@@ -1528,9 +1528,10 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
     
     for (var i = 0; i < children.length; i++){
         animationName = children[i].nodeName;
+        var animationSpeed;
 
         if (animationName == "ANIMATION"){
-            var animationSpeed;
+            
             // Retrieves node ID.
             var animationID = this.reader.getString(children[i], 'id');
             if (animationID == null )

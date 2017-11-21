@@ -17,7 +17,7 @@ class circularAnimation extends animation{
 		this.currentAnimationAngle = startang;
 		this.transformMatrix = mat4.create();
 
-		console.warn(this);
+
 	}
 
 	update(dt) {
@@ -33,7 +33,7 @@ class circularAnimation extends animation{
 			mat4.translate(this.transformMatrix, this.transformMatrix, [this.radius,0,0]);
 			mat4.rotate(this.transformMatrix, this.transformMatrix, (90/180)*Math.PI, [0, 1, 0]);
 
-			console.warn("entra bem");
+
 		}
 		else{
 			this.hasEnded = true;
