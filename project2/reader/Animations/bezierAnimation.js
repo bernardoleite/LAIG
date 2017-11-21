@@ -8,25 +8,10 @@ class bezierAnimation extends animation{
 
 		var index = 0;
 	  	var Vert = [];
-	/*
-		for(var i = 0; i < 4; i++) {
-			var junction = [];
-		
-			for(var j = 0; j < 3; j++) {
-				junction.push(animationControlPoints[index]);
-				index++;
-			}
-			Vert.push(junction);
-		}
-		
 
-		console.warn(Vert);
-*/
 
 		for(var i = 0; i < animationControlPoints.length; i++)
 			this.controlPoints.push(animationControlPoints[i]);	
-
-
 
 	    this.p1x = this.controlPoints[0][0];
 		this.p1y = this.controlPoints[0][1];
@@ -36,7 +21,6 @@ class bezierAnimation extends animation{
 		this.p2y = this.controlPoints[1][1];
 		this.p2z = this.controlPoints[1][2];
 
-
 		this.p3x = this.controlPoints[2][0];
 		this.p3y = this.controlPoints[2][1];
 		this.p3z = this.controlPoints[2][2];
@@ -45,20 +29,71 @@ class bezierAnimation extends animation{
 		this.p4y = this.controlPoints[3][1];
 		this.p4z = this.controlPoints[3][2];
 
+/*Points to CastleJou*/
+
+		this.p12x = (this.p1x+this.p2x)/2;
+		this.p12y = (this.p1y+this.p2y)/2;
+		this.p12z = (this.p1z+this.p2z)/2;
+
+		this.p23x = (this.p2x+this.p3x)/2;
+		this.p23y = (this.p2y+this.p3y)/2;
+		this.p23z = (this.p2z+this.p3z)/2;
+
+		this.p34x = (this.p3x+this.p4x)/2;
+		this.p34y = (this.p3y+this.p4y)/2;
+		this.p34z = (this.p3z+this.p4z)/2;
+
+		this.p123x = (this.p12x+this.p23x)/2;
+		this.p123y = (this.p12y+this.p23y)/2;
+		this.p123z = (this.p12z+this.p23z)/2;
+
+		this.p234x = (this.p23x+this.p34x)/2;
+		this.p234y = (this.p23y+this.p34y)/2;
+		this.p234z = (this.p23z+this.p34z)/2;
+
+
+		this.distance = Math.sqrt(
+						Math.pow(Math.abs(this.p1x-this.p12x),2) + 
+						Math.pow(Math.abs(this.p1y-this.p12y),2) + 
+						Math.pow(Math.abs(this.p1z-this.p12z),2)
+						) +
+
+			 			Math.sqrt(
+						Math.pow(Math.abs(this.p12x-this.p123x),2) + 
+						Math.pow(Math.abs(this.p12y-this.p123y),2) + 
+						Math.pow(Math.abs(this.p12z-this.p123z),2)
+						) +
+
+			 			Math.sqrt(
+						Math.pow(Math.abs(this.p123x-this.p234x),2) + 
+						Math.pow(Math.abs(this.p123y-this.p234y),2) + 
+						Math.pow(Math.abs(this.p123z-this.p234z),2)
+						) +
+
+						Math.sqrt(
+						Math.pow(Math.abs(this.p234x-this.p34x),2) + 
+						Math.pow(Math.abs(this.p234y-this.p34y),2) + 
+						Math.pow(Math.abs(this.p234z-this.p34z),2)
+						) +
+
+				        Math.sqrt(
+						Math.pow(Math.abs(this.p34x-this.p4x),2) + 
+						Math.pow(Math.abs(this.p34y-this.p4y),2) + 
+						Math.pow(Math.abs(this.p34z-this.p4z),2)
+						);
+
+
+/*End*/
+
+
 		this.newPointx = this.p1x;
 		this.newPointy = this.p1y;
 		this.newPointz = this.p1z;
 		
 		this.speed = speed;
 
-		this.distance = Math.sqrt(
-						Math.pow(Math.abs(this.p1x-this.p4x),2) + 
-						Math.pow(Math.abs(this.p1y-this.p4y),2) + 
-						Math.pow(Math.abs(this.p1z-this.p4z),2)
-						);
-
-
 		this.time = this.distance/this.speed;
+
 
 		this.tvalue = 0;
 
@@ -68,6 +103,7 @@ class bezierAnimation extends animation{
 
 	update(dt){
 
+if(this.tvalue<=1){
 			this.timeInc = (dt/1000) / this.time;
 
 			this.oldPointx = this.newPointx;
@@ -78,7 +114,7 @@ class bezierAnimation extends animation{
 
 			this.oldPointz = this.newPointz;
 			this.newPointz = Math.pow((1-this.tvalue), 3)*this.p1z+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2z + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3z + Math.pow(this.tvalue,3)*this.p4z;	
-console.warn(this.newPointx), console.warn(this.newPointy),console.warn(this.newPointz);
+			
 			this.tvalue = this.tvalue + this.timeInc;
 
 			this.difx = this.newPointx - this.oldPointx;
@@ -87,13 +123,16 @@ console.warn(this.newPointx), console.warn(this.newPointy),console.warn(this.new
 
 			this.horizontalAng=Math.atan2((this.difx),(this.difz));
 			this.verticalAng=Math.atan2(Math.abs(this.dify),Math.abs(this.difz));
+			
+
 
 			mat4.identity(this.transformMatrix);
+			
 
 			mat4.translate(this.transformMatrix, this.transformMatrix, [this.newPointx,this.newPointy, this.newPointz]);
 			mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
 			mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
 
-
+}
 	}
 }

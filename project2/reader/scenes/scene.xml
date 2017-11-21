@@ -225,13 +225,13 @@
         <controlpoint xx="0" yy="0" zz="4" /> <!-- seja necessário -->
     </ANIMATION>
 
-    <ANIMATION id="circular1" speed="1" type="circular" centerx="0" centery="0" centerz="0" radius="60" startang="0" rotang="90"/>
+    <ANIMATION id="circular1" speed="3" type="circular" centerx="0" centery="0" centerz="0" radius="5" startang="0" rotang="90"/>
 
-    <ANIMATION id="bezier1" speed="1" type="bezier">
+    <ANIMATION id="bezier1" speed="0.5" type="bezier">
         <controlpoint xx="0" yy="0" zz="0" /> <!-- P1 -->
-        <controlpoint xx="1" yy="1" zz="0" /> <!-- P2 -->
-        <controlpoint xx="2" yy="1" zz="0" /> <!-- P3 -->
-        <controlpoint xx="3" yy="0" zz="0" /> <!-- P4 -->
+        <controlpoint xx="6" yy="0" zz="6" /> <!-- P2 -->
+        <controlpoint xx="8" yy="2" zz="8" /> <!-- P3 -->
+        <controlpoint xx="3" yy="4" zz="3" /> <!-- P4 -->
     </ANIMATION>
 
     <ANIMATION id="combo1" type="combo"> <!-- pode ser repetida para -->
@@ -269,14 +269,14 @@
         <MATERIAL id="null" />     
         <TEXTURE id="earthText" />       			
 
-        <SCALE sx="0.2" sy="0.2" sz="0.2" />
+        <SCALE sx="1" sy="1" sz="1" />
 
         <ANIMATIONREFS>
-            <ANIMATIONREF id="bezier1" />
+            <ANIMATIONREF id="circular1" />
         </ANIMATIONREFS>
 
         <DESCENDANTS>
-			<LEAF type="sphere" args="20 100 100" />
+			<LEAF type="sphere" args="1 100 100" />
         </DESCENDANTS>
     </NODE>
 
