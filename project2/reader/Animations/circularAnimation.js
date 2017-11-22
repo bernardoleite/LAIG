@@ -5,6 +5,8 @@ class circularAnimation extends animation{
 
 		this.graph = graph;
 
+		this.flag = 0;
+
 		this.centerx = centerx;
 		this.centery = centery;
 		this.centerz = centerz;
@@ -16,7 +18,7 @@ class circularAnimation extends animation{
 
 		this.w = speed/radius;
 
-		this.currentAnimationAngle = this.startang;
+		this.currentAnimationAngle = ((this.startang/180)*Math.PI);
 
 		this.transformMatrix = mat4.create();
 
@@ -24,12 +26,14 @@ class circularAnimation extends animation{
 	}
 
 	update(dt) {
-
+				
 	
-		if(this.currentAnimationAngle < ((this.rotang/180)*Math.PI)){
+		if(this.currentAnimationAngle < (((this.rotang/180)*Math.PI)+(this.startang/180)*Math.PI)){
 
 				this.currentAnimationAngle = (this.w * (dt/1000)) + this.currentAnimationAngle;
 
+			
+				
 
 			mat4.identity(this.transformMatrix);
 
@@ -39,8 +43,6 @@ class circularAnimation extends animation{
 				
 			mat4.translate(this.transformMatrix, this.transformMatrix, [this.radius,0,0]);
 			//mat4.rotate(this.transformMatrix, this.transformMatrix, (90/180)*Math.PI, [0, 1, 0]);
-
-
 		}
 		else{
 			this.hasEnded = true;
