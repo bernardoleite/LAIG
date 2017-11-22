@@ -28,7 +28,7 @@ class circularAnimation extends animation{
 	update(dt) {
 				
 	
-		if(this.currentAnimationAngle < (((this.rotang/180)*Math.PI)+(this.startang/180)*Math.PI)){
+		if(this.currentAnimationAngle < ((this.rotang/180)*Math.PI)){
 
 				this.currentAnimationAngle = (this.w * (dt/1000)) + this.currentAnimationAngle;
 
