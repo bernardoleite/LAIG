@@ -27,6 +27,8 @@ function MyGraphNode(graph, nodeID) {
     //transformMatrix
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);
+
+  
 }
 
 /**

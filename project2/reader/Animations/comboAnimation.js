@@ -4,6 +4,6 @@ class comboAnimation extends animation{
 
 	    this.graph = graph;
 	    this.animations = comboAnimations;
-	    console.warn(this);
+
 	}
 }
