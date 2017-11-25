@@ -98,6 +98,8 @@ class bezierAnimation extends animation{
 		this.tvalue = 0;
 
 	    this.transformMatrix = mat4.create();
+
+	    this.difex = 0, this.difey = 0, this.difez=0;
 	    
 	}
 
@@ -121,6 +123,10 @@ class bezierAnimation extends animation{
 					this.difz = this.newPointz - this.oldPointz;
 					this.dify = this.newPointy - this.oldPointy;
 
+					this.difex= this.difex+this.difx;
+					this.difey= this.difey+this.dify;
+					this.difez= this.difez+this.difz;
+
 					this.horizontalAng=Math.atan2((this.difx),(this.difz));
 					this.verticalAng=Math.atan2(Math.abs(this.dify),Math.abs(this.difz));
 					
@@ -129,8 +135,9 @@ class bezierAnimation extends animation{
 					mat4.identity(this.transformMatrix);
 					
 
-					mat4.translate(this.transformMatrix, this.transformMatrix, [this.newPointx,this.newPointy, this.newPointz]);
-					mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
+					mat4.translate(this.transformMatrix, this.transformMatrix, [this.difex,this.difey, this.difez]);
+					//mat4.translate(this.transformMatrix, this.transformMatrix,[this.p1x,this.p1y,this.p1z]);
+					//mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
 					mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
 
 		}

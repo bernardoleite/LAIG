@@ -223,7 +223,7 @@
     <ANIMATION id="linear1" speed="1" type="linear">
         <controlpoint xx="0" yy="0" zz="0" /> <!-- repete conforme -->
         <controlpoint xx="0" yy="0" zz="5" /> <!-- seja necessário -->
-        <controlpoint xx="5" yy="5" zz="5" />
+        <controlpoint xx="5" yy="0" zz="5" />
         <controlpoint xx="5" yy="0" zz="0" />
 
     </ANIMATION>
@@ -231,9 +231,9 @@
     <ANIMATION id="circular1" speed="3" type="circular" centerx="0" centery="0" centerz="0" radius="5" startang="15" rotang="90"/>
 
     <ANIMATION id="bezier1" speed="0.5" type="bezier">
-        <controlpoint xx="0" yy="0" zz="0" /> <!-- P1 -->
-        <controlpoint xx="2" yy="0" zz="2" /> <!-- P2 -->
-        <controlpoint xx="5" yy="2" zz="5" /> <!-- P3 -->
+        <controlpoint xx="3" yy="0" zz="3" /> <!-- P1 -->
+        <controlpoint xx="5" yy="0" zz="5" /> <!-- P2 -->
+        <controlpoint xx="7" yy="2" zz="7" /> <!-- P3 -->
         <controlpoint xx="3" yy="5" zz="3" /> <!-- P4 -->
     </ANIMATION>
 
@@ -271,6 +271,8 @@
     <NODE id="earth" selectable ="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="earthText" />  
+
+         
 
         <ANIMATIONREFS>
             <ANIMATIONREF id="linear1" />
