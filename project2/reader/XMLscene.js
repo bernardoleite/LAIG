@@ -10,6 +10,8 @@ function XMLscene(interface) {
     this.interface = interface;
 
     this.lightValues = {};
+
+    this.increment = 0;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -101,12 +103,13 @@ XMLscene.prototype.onGraphLoaded = function()
 
 XMLscene.prototype.update = function(currTime){
 
-    //console.warn("entra");
+    if(this.increment < this.graph.animationWorkArray.length){
+        this.graph.animationWorkArray[this.increment].update(currTime - this.lastTime);
 
-    for(let i = 0; i < this.graph.animationWorkArray.length; i++){
-        this.graph.animationWorkArray[i].update(currTime - this.lastTime);
-    }
-        
+        if(this.graph.animationWorkArray[this.increment].hasEnded){
+            this.increment++;
+        }
+    }       
     
     this.lastTime = currTime;
 }

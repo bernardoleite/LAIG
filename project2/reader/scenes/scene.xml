@@ -221,9 +221,10 @@
     na animação circular os angulos são em graus -->
 
     <ANIMATION id="linear1" speed="1" type="linear">
-        <controlpoint xx="1" yy="1" zz="1" /> <!-- repete conforme -->
-        <controlpoint xx="3" yy="3" zz="3" /> <!-- seja necessário -->
-        <controlpoint xx="1" yy="1" zz="1" /> <!-- seja necessário -->
+        <controlpoint xx="0" yy="0" zz="0" /> <!-- repete conforme -->
+        <controlpoint xx="0" yy="0" zz="5" /> <!-- seja necessário -->
+        <controlpoint xx="5" yy="5" zz="5" />
+        <controlpoint xx="5" yy="0" zz="0" />
 
     </ANIMATION>
 
@@ -267,14 +268,9 @@
 
     </NODE>
 
-    <NODE id="earth">       
+    <NODE id="earth" selectable ="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="earthText" />  
-
-
-
-
-
 
         <ANIMATIONREFS>
             <ANIMATIONREF id="linear1" />

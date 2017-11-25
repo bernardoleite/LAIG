@@ -103,36 +103,39 @@ class bezierAnimation extends animation{
 
 	update(dt){
 
-if(this.tvalue<=1){
-			this.timeInc = (dt/1000) / this.time;
+		if(this.tvalue<=1){
+					this.timeInc = (dt/1000) / this.time;
 
-			this.oldPointx = this.newPointx;
-			this.newPointx = Math.pow((1-this.tvalue), 3)*this.p1x+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2x + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3x + Math.pow(this.tvalue,3)*this.p4x;
+					this.oldPointx = this.newPointx;
+					this.newPointx = Math.pow((1-this.tvalue), 3)*this.p1x+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2x + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3x + Math.pow(this.tvalue,3)*this.p4x;
 
-			this.oldPointy = this.newPointy;
-			this.newPointy = Math.pow((1-this.tvalue), 3)*this.p1y+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2y + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3y + Math.pow(this.tvalue,3)*this.p4y;
+					this.oldPointy = this.newPointy;
+					this.newPointy = Math.pow((1-this.tvalue), 3)*this.p1y+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2y + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3y + Math.pow(this.tvalue,3)*this.p4y;
 
-			this.oldPointz = this.newPointz;
-			this.newPointz = Math.pow((1-this.tvalue), 3)*this.p1z+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2z + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3z + Math.pow(this.tvalue,3)*this.p4z;	
-			
-			this.tvalue = this.tvalue + this.timeInc;
+					this.oldPointz = this.newPointz;
+					this.newPointz = Math.pow((1-this.tvalue), 3)*this.p1z+ 3*this.tvalue*Math.pow((1-this.tvalue), 2)*this.p2z + 3*Math.pow(this.tvalue,2)*(1-this.tvalue)*this.p3z + Math.pow(this.tvalue,3)*this.p4z;	
+					
+					this.tvalue = this.tvalue + this.timeInc;
 
-			this.difx = this.newPointx - this.oldPointx;
-			this.difz = this.newPointz - this.oldPointz;
-			this.dify = this.newPointy - this.oldPointy;
+					this.difx = this.newPointx - this.oldPointx;
+					this.difz = this.newPointz - this.oldPointz;
+					this.dify = this.newPointy - this.oldPointy;
 
-			this.horizontalAng=Math.atan2((this.difx),(this.difz));
-			this.verticalAng=Math.atan2(Math.abs(this.dify),Math.abs(this.difz));
-			
+					this.horizontalAng=Math.atan2((this.difx),(this.difz));
+					this.verticalAng=Math.atan2(Math.abs(this.dify),Math.abs(this.difz));
+					
 
 
-			mat4.identity(this.transformMatrix);
-			
+					mat4.identity(this.transformMatrix);
+					
 
-			mat4.translate(this.transformMatrix, this.transformMatrix, [this.newPointx,this.newPointy, this.newPointz]);
-			mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
-			mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
+					mat4.translate(this.transformMatrix, this.transformMatrix, [this.newPointx,this.newPointy, this.newPointz]);
+					mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
+					mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
 
-}
+		}
+		else{
+			this.hasEnded = 1;
+		}
 	}
 }

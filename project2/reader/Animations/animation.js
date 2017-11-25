@@ -8,6 +8,7 @@ class animation{
     this.animationID = animationID;
     this.type = animationType;
     this.speed = animationSpeed;
+    this.hasEnded = 0;
     }
 
 }

@@ -1226,6 +1226,8 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                             return "no boolean defiened for selectable";
                 }
 
+            console.warn(this.selectable); 
+
             // Creates node.
             this.nodes[nodeID] = new MyGraphNode(this,nodeID);
 
@@ -1758,8 +1760,10 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     this.scene.pushMatrix();
 
+            
             this.scene.multMatrix(node.transformMatrix);
             this.applyAnimation(node);
+           
 
 
         if (node.textureID != null) {
