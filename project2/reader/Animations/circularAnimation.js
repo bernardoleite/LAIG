@@ -45,5 +45,6 @@ class circularAnimation extends animation{
 		else{
 			this.hasEnded = true;
 		}
+
 	}
 }
