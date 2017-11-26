@@ -235,6 +235,7 @@
         <controlpoint xx="24" yy="0" zz="30" /> <!-- seja necessário -->
         <controlpoint xx="28" yy="0" zz="32" /> <!-- seja necessário -->
         <controlpoint xx="20" yy="0" zz="20" /> <!-- seja necessário -->
+
     </ANIMATION>
 
 
@@ -242,6 +243,21 @@
         <controlpoint xx="20" yy="0" zz="14" /> <!-- repete conforme -->
         <controlpoint xx="10" yy="0" zz="14" /> <!-- seja necessário -->
     </ANIMATION>
+
+    <ANIMATION id="monsterrun" speed="8" type="linear">
+        <controlpoint xx="35" yy="0" zz="38" /> <!-- repete conforme -->
+        <controlpoint xx="35" yy="0" zz="15" /> <!-- seja necessário -->
+        <controlpoint xx="20" yy="0" zz="15" /> <!-- seja necessário -->
+        <controlpoint xx="20" yy="0" zz="20" /> <!-- seja necessário -->
+        <controlpoint xx="30" yy="0" zz="20" /> <!-- seja necessário -->
+        <controlpoint xx="20" yy="0" zz="10" /> <!-- seja necessário -->
+        <controlpoint xx="18" yy="6" zz="2" /> <!-- seja necessário -->
+        <controlpoint xx="19" yy="6" zz="2" /> <!-- seja necessário -->
+    </ANIMATION>
+
+    <ANIMATION id="currentwave" speed="1" type="circular" centerx="25" centery="0" centerz="4" radius="1" startang="0" rotang="3600"/>
+
+    <ANIMATION id="circularearth" speed="1" type="circular" centerx="-10" centery="8" centerz="0" radius="1" startang="0" rotang="360"/>
 
     <ANIMATION id="circular1" speed="1" type="circular" centerx="20" centery="0" centerz="17" radius="3" startang="-90" rotang="90"/>
 
@@ -265,25 +281,31 @@
         <SPANREF id="bezier1" />
 
 
+    </ANIMATION>
 
+    <ANIMATION id="bezierhouse" speed="3" type="bezier">
+        <controlpoint xx="17" yy="11" zz="29" /> <!-- repete conforme -->
+        <controlpoint xx="18" yy="5" zz="29" /> <!-- seja necessário -->
+        <controlpoint xx="20" yy="2" zz="29" /> <!-- seja necessário -->
+        <controlpoint xx="25" yy="0" zz="29" /> <!-- seja necessário -->
+    </ANIMATION>
 
+    <ANIMATION id="bezierhouse2" speed="3" type="bezier">
+         <controlpoint xx="25" yy="0" zz="29" />
+         <controlpoint xx="26" yy="8" zz="30" />
+         <controlpoint xx="28" yy="5" zz="33" />
+         <controlpoint xx="35" yy="0" zz="38" />
+    </ANIMATION>
+
+        <ANIMATION id="bezierfall" speed="1" type="bezier">
+         <controlpoint xx="19" yy="6" zz="2" />
+         <controlpoint xx="23" yy="8" zz="3" />
+         <controlpoint xx="24" yy="5" zz="4" />
+         <controlpoint xx="25" yy="0" zz="4" />
     </ANIMATION>
 
 
-        <ANIMATION id="combo2" type="combo"> <!-- pode ser repetida para -->
-        <!-- várias animações -->
-        <!-- a próxima instrução deve existir pelo menos uma vez
-        com id a referir-se a uma animação definida acima -->
-        <!-- as animacoes devem ser executadas sequencialmente
-        pela ordem com que sao declaradas -->
 
-        <SPANREF id="linear1" />
-
-
-
-
-
-    </ANIMATION>
 </ANIMATIONS>
 
 
@@ -316,13 +338,17 @@
     </NODE>
 
 
-    <NODE id="monstergreen2">       
+    <NODE id="monstergreen2" selectable="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="bodymonster" /> 
 
        
         <ANIMATIONREFS>
-            <ANIMATIONREF id="combo2" />
+            <ANIMATIONREF id="bezierhouse" />
+            <ANIMATIONREF id="bezierhouse2" />
+            <ANIMATIONREF id="monsterrun" />
+            <ANIMATIONREF id="bezierfall" />
+            <ANIMATIONREF id="currentwave" />
         </ANIMATIONREFS>
 
         <DESCENDANTS>
@@ -334,7 +360,7 @@
 
     </NODE>
 
-     <NODE id="monstergreen">       
+     <NODE id="monstergreen" selectable="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="bodymonster" /> 
 
@@ -524,12 +550,18 @@
 
 
 
-    <NODE id="earth">       
+    <NODE id="earth" selectable="true">       
         <MATERIAL id="null" />     
-        <TEXTURE id="earthText" />                  
+        <TEXTURE id="earthText" />  
+                        
 
         <TRANSLATION x="-10" y="8" z="0" />
         <SCALE sx="0.2" sy="0.2" sz="0.2" />
+
+         <ANIMATIONREFS>
+            <ANIMATION id="circularearth" />
+        </ANIMATIONREFS>
+
 
         <DESCENDANTS>
             <LEAF type="sphere" args="20 100 100" />
@@ -539,6 +571,7 @@
     <NODE id="waves">       
         <MATERIAL id="null" />     
         <TEXTURE id="waterText" /> 
+        
         
         <DESCENDANTS>
             <NODEREF id="wave_water" />
@@ -654,7 +687,7 @@
     </NODE>
    
 
-<NODE id="house" selectable ="true">       
+<NODE id="house">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" /> 
         <SCALE sx="0.30" sy="0.30" sz="0.30" />
@@ -2617,7 +2650,7 @@
       <NODE id="treetrunk">       
         <MATERIAL id="null" />     
         <TEXTURE id="oakText" />
-        <TRANSLATION x="33" y="5" z="35" />    
+        <TRANSLATION x="33" y="3" z="35" />    
         <ROTATION axis="x" angle="90" />
         <SCALE sx="3" sy="3" sz="2" />
 
@@ -2627,7 +2660,7 @@
 
     </NODE>
 
-    <NODE id="leaves">       
+    <NODE id="leaves" selectable="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 

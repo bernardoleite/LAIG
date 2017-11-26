@@ -32,7 +32,7 @@ XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
     this.shader = new CGFshader(this.gl, "Shader/shader.vert", "Shader/shader.frag");
-    this.shader.setUniformsValues({selectedRed: 1.0, selectedGreen: 0.0, selectedBlue: 0.0});
+    this.shader.setUniformsValues({selectedRed: 0.0, selectedGreen: 1.0, selectedBlue: 0.0});
     //this.updateScalingFactor();
     
     this.initCameras();
