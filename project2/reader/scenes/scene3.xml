@@ -407,7 +407,7 @@
     </NODE>
    
 
-<NODE id="house">       
+<NODE id="house" selectable ="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" /> 
         <SCALE sx="0.30" sy="0.30" sz="0.30" />

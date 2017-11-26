@@ -30,6 +30,8 @@ function MySceneGraph(filename, scene) {
 
     this.animationIt = 0;
 
+    this.selectableNodes = ["Select"];
+
 
 
     this.axisCoords = [];
@@ -174,6 +176,8 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
         if ((error = this.parseNodes(nodes[index])) != null )
             return error;
     }
+
+
 
 
 
@@ -1217,19 +1221,22 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 return "node ID must be unique (conflict: ID = " + nodeID + ")";
             
             this.log("Processing node "+nodeID);
-                
+             
+             let selectable = false;
+          
             //Reads selectable
             if( this.reader.hasAttribute(children[i], 'selectable'))
                 {
-                    this.selectable = this.reader.getString(children[i], 'selectable');
-                        if(this.selectable == null)
-                            return "no boolean defiened for selectable";
+                    selectable = this.reader.getBoolean(children[i], 'selectable');
+                        
                 }
 
-            console.warn(this.selectable); 
 
             // Creates node.
-            this.nodes[nodeID] = new MyGraphNode(this,nodeID);
+            this.nodes[nodeID] = new MyGraphNode(this, nodeID, selectable);
+           
+            if(selectable)
+                this.selectableNodes.push(nodeID);
 
             // Gathers child nodes.
             var nodeSpecs = children[i].children;
@@ -1765,9 +1772,14 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         var node = this.nodes[nodeName];
     }
 
+ 
+
     //console.warn(this.animationWorkArray);
 
     this.scene.pushMatrix();
+
+       if(this.scene.selectedStr == nodeName)
+        this.scene.setActiveShader(this.scene.shader);
 
             
             this.scene.multMatrix(node.transformMatrix);
@@ -1809,6 +1821,9 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
             }
             node.leaves[z].type.display();
         }
+        
+            if(this.scene.selectedStr == nodeName)
+                this.scene.setActiveShader(this.scene.defaultShader);
 
 
 	this.scene.popMatrix();

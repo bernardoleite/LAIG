@@ -3,7 +3,7 @@
  * @constructor
 **/
 
-function MyGraphNode(graph, nodeID) {
+function MyGraphNode(graph, nodeID, selectable) {
     this.graph = graph;
 
     this.nodeID = nodeID;
@@ -21,6 +21,8 @@ function MyGraphNode(graph, nodeID) {
     this.textureID = null ;
 
     this.animations = [];
+
+    this.selectable = selectable;
 
     this.animationHasEnded = false; 
 
