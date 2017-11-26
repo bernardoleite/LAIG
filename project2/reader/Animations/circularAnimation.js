@@ -34,7 +34,7 @@ class circularAnimation extends animation{
 
 			mat4.identity(this.transformMatrix);
 
-			mat4.translate(this.transformMatrix, this.transformMatrix, [this.centerx, this.centery, 0]);
+			mat4.translate(this.transformMatrix, this.transformMatrix, [this.centerx, this.centery, this.centerz]);
 			
 			mat4.rotate(this.transformMatrix, this.transformMatrix, this.currentAnimationAngle, [0, 1, 0]);
 				
@@ -47,4 +47,9 @@ class circularAnimation extends animation{
 		}
 
 	}
+
+	
+    changeSameNode(){
+    	this.sameNode = true;
+    }
 }

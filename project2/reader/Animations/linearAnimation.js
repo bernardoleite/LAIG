@@ -90,4 +90,9 @@ class linearAnimation extends animation{
 			this.hasEnded = 1;
 		}
 	}
+
+	
+    changeSameNode(){
+    	this.sameNode = true;
+    }
 }

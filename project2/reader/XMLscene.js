@@ -14,6 +14,10 @@ function XMLscene(interface) {
     this.increment = 0;
 
     this.selectedStr = "Select";
+
+    this.sameNodesIt = 0;
+
+    this.sameNodesEnd = false;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -122,7 +126,23 @@ XMLscene.prototype.update = function(currTime){
     }*/
 
     for(let i = 0; i < this.graph.animationWorkArray.length; i++){
-        this.graph.animationWorkArray[i].update(currTime - this.lastTime);
+
+        if(this.sameNodesIt >= this.graph.sameNodesArray.length)
+            this.sameNodesEnd = true;
+
+            if(this.graph.animationWorkArray[i].sameNode){
+                if(this.sameNodesEnd == false)
+                    if(this.graph.animationWorkArray[i].animationID == this.graph.sameNodesArray[this.sameNodesIt]){
+                        if(!this.graph.animationWorkArray[i].hasEnded){
+                            this.graph.animationWorkArray[i].update(currTime - this.lastTime);
+                        }
+                        else{
+                            this.sameNodesIt++;
+                        }
+                    }
+            }
+        else
+            this.graph.animationWorkArray[i].update(currTime - this.lastTime);
     }       
     
     this.lastTime = currTime;

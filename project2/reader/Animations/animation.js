@@ -9,7 +9,7 @@ class animation{
     this.type = animationType;
     this.speed = animationSpeed;
     this.hasEnded = 0;
+    this.sameNode = false;
     }
-
 }
 

@@ -136,7 +136,7 @@ class bezierAnimation extends animation{
 					
 
 					mat4.translate(this.transformMatrix, this.transformMatrix, [this.difex,this.difey, this.difez]);
-					//mat4.translate(this.transformMatrix, this.transformMatrix,[this.p1x,this.p1y,this.p1z]);
+					mat4.translate(this.transformMatrix, this.transformMatrix,[this.p1x,this.p1y,this.p1z]);
 					//mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
 					mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
 
@@ -145,4 +145,8 @@ class bezierAnimation extends animation{
 			this.hasEnded = 1;
 		}
 	}
+	
+    changeSameNode(){
+    	this.sameNode = true;
+    }
 }

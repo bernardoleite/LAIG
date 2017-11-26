@@ -32,6 +32,8 @@ function MySceneGraph(filename, scene) {
 
     this.selectableNodes = ["Select"];
 
+    this.sameNodesArray = [];
+
 
 
     this.axisCoords = [];
@@ -1360,8 +1362,13 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 
             if(animationIndex != -1){
                 var animations = nodeSpecs[animationIndex].children;
+
+                var aFlag = 0;
                 
                 for (var j = 0; j < animations.length; j++) {
+
+                    if (animations.length > 1)
+                        aFlag = 1;
 
                     if (animations[j].nodeName == "ANIMATIONREF")
                     {
@@ -1375,16 +1382,28 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                     if(anime.type == "bezier"){
                         var newAnime = new bezierAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "bezier", anime.speed, anime.controlPoints);
                         this.nodes[nodeID].addAnimation(newAnime);
+                        if(aFlag != 0){
+                            newAnime.changeSameNode();
+                            this.sameNodesArray.push(newAnime.animationID);
+                        }
                         this.animationWorkArray.push(newAnime);
                     }
                     else if(anime.type == "linear"){
                         var newAnime = new linearAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "linear", anime.speed, anime.controlPoints);
                         this.nodes[nodeID].addAnimation(newAnime);
+                        if(aFlag != 0){
+                            newAnime.changeSameNode();
+                            this.sameNodesArray.push(newAnime.animationID);
+                        }
                         this.animationWorkArray.push(newAnime);
                     }
                     else if(anime.type == "circular"){ //graph, animationID, animationType, speed, centerx, centery, centerz, radius, startang, rotang
                         var newAnime = new circularAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "circular", anime.speed, anime.centerx, anime.centery, anime.centerz, anime.radius, anime.startang, anime.rotang);
                         this.nodes[nodeID].addAnimation(newAnime);
+                        if(aFlag != 0){
+                            newAnime.changeSameNode();
+                            this.sameNodesArray.push(newAnime.animationID);
+                        }
                         this.animationWorkArray.push(newAnime); 
                     }
                     else if(anime.type == "combo"){
@@ -1417,6 +1436,10 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 
                         var newAnime = new comboAnimation(this.scene, (anime.animationID + toString(this.animationIt.toString())), "combo", animationCombo);
                         this.nodes[nodeID].addAnimation(newAnime);
+                        if(aFlag != 0){
+                            newAnime.changeSameNode();
+                            this.sameNodesArray.push(newAnime.animationID);
+                        }
                         this.animationWorkArray.push(newAnime);
                     }
                 }
@@ -1744,15 +1767,24 @@ MySceneGraph.generateRandomString = function(length) {
 
 
 MySceneGraph.prototype.applyAnimation = function(node){
-    for(var i = 0; i < node.animations.length; i++){
 
-        if(node.animations[i].type !== "combo")
-            this.scene.multMatrix(node.animations[i].transformMatrix);
-        else
-            for(let a; a < node.animations[i].animations.length; a++){
-                this.scene.multMatrix(node.animations[i].animations[a].transformMatrix);
-            }
-    }
+        for(var i = 0; i < node.animations.length; i++){
+
+            if(node.animations[i].type !== "combo")
+                this.scene.multMatrix(node.animations[i].transformMatrix);
+            else
+                for(let a; a < node.animations[i].animations.length; a++){
+                    this.scene.multMatrix(node.animations[i].animations[a].transformMatrix);
+                }
+
+            if(node.animations[i].sameNode)
+            if(node.animations.length > 1)
+                if(node.animations[i].hasEnded)
+                    if(i < node.animations.length-1)
+                        this.scene.multMatrix(mat4.identity(node.animations[i].transformMatrix));
+        }
+        
+    
 }
 
 
