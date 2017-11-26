@@ -113,12 +113,16 @@ XMLscene.prototype.onGraphLoaded = function()
 
 XMLscene.prototype.update = function(currTime){
 
-    if(this.increment < this.graph.animationWorkArray.length){
+    /*if(this.increment < this.graph.animationWorkArray.length){
         this.graph.animationWorkArray[this.increment].update(currTime - this.lastTime);
 
         if(this.graph.animationWorkArray[this.increment].hasEnded){
             this.increment++;
         }
+    }*/
+
+    for(let i = 0; i < this.graph.animationWorkArray.length; i++){
+        this.graph.animationWorkArray[i].update(currTime - this.lastTime);
     }       
     
     this.lastTime = currTime;
