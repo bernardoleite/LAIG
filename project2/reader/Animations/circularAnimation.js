@@ -1,3 +1,6 @@
+/**
+ * circular animation class, representing a animation in the scene graph.
+**/
 class circularAnimation extends animation{
 	constructor(graph, animationID, animationType, speed, centerx, centery, centerz, radius, startang, rotang) {
 
@@ -24,7 +27,10 @@ class circularAnimation extends animation{
 
 
 	}
-
+/**
+ * Updates Animation 
+ * @param {dt} delta - Recieves time difference between two calls
+ */
 	update(dt) {
 				
 	

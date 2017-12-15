@@ -1,3 +1,7 @@
+/**
+ * linearAnimation class, representing a animation in the scene graph.
+ * @constructor
+**/
 class linearAnimation extends animation{
 	constructor(graph, animationID, animationType, speed, animationControlPoints) {
 	    super(graph, animationID, animationType, speed);
@@ -51,7 +55,10 @@ class linearAnimation extends animation{
 	
 		
 	}
-
+/**
+ * Updates Animation 
+ * @param {dt} delta - Recieves time difference between two calls
+ */
 	update(dt) {
 
 		var deltaTime = dt/1000;

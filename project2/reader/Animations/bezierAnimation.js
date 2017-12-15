@@ -1,3 +1,6 @@
+/**
+ * bezier animation class, representing a animation in the scene graph.
+**/
 class bezierAnimation extends animation{
 	constructor(graph, animationID, animationType, speed, animationControlPoints) {
 
@@ -102,7 +105,10 @@ class bezierAnimation extends animation{
 	    this.difex = 0, this.difey = 0, this.difez=0;
 	    
 	}
-
+/**
+ * Updates Animation 
+ * @param {dt} delta - Recieves time difference between two calls
+ */
 	update(dt){
 
 		if(this.tvalue<=1){
@@ -137,7 +143,6 @@ class bezierAnimation extends animation{
 
 					mat4.translate(this.transformMatrix, this.transformMatrix, [this.difex,this.difey, this.difez]);
 					mat4.translate(this.transformMatrix, this.transformMatrix,[this.p1x,this.p1y,this.p1z]);
-					//mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
 					mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
 
 		}

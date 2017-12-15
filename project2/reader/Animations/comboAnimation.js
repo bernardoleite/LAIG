@@ -1,3 +1,7 @@
+/**
+ * comboAnimation class, representing a animation in the scene graph.
+ * @constructor
+**/
 class comboAnimation extends animation{
 	constructor(graph, animationID, animationType, comboAnimations) {
 	    super(graph, animationID, animationType, null);
@@ -10,7 +14,10 @@ class comboAnimation extends animation{
 	    this.transformMatrix = mat4.create();
 
 	}
-
+/**
+ * Updates Animation 
+ * @param {dt} delta - Recieves time difference between two calls
+ */
 	update(dt){
 
 

@@ -544,12 +544,6 @@
     </NODE>
 
 
-
-
-
-
-
-
     <NODE id="earth" selectable="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="earthText" />  
@@ -557,10 +551,6 @@
 
         <TRANSLATION x="-10" y="8" z="0" />
         <SCALE sx="0.2" sy="0.2" sz="0.2" />
-
-         <ANIMATIONREFS>
-            <ANIMATION id="circularearth" />
-        </ANIMATIONREFS>
 
 
         <DESCENDANTS>

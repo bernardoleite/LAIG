@@ -48,10 +48,16 @@ MyInterface.prototype.addLightsGroup = function(lights) {
     }
 }
 
-MyInterface.prototype.addSelectedDropDown = function(selectedNodes) {
+/**
+ * Function responsible for add Drop Down Selectors
+ * @param {Array} selectedNodes - Recieves the selected Nodes
+ * @param {Array} colors - Recieves the colors
+ */
+MyInterface.prototype.addSelectedDropDown = function(selectedNodes, colors) {
      var selected = this.gui.addFolder("Shaders");
 
      selected.open();
      selected.add(this.scene, "selectedStr", selectedNodes);
+     selected.add(this.scene, "Color", colors);
 }
 

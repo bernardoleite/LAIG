@@ -18,6 +18,10 @@ function XMLscene(interface) {
     this.sameNodesIt = 0;
 
     this.sameNodesEnd = false;
+
+    this.Color = "Select";
+
+    this.colors=["Select","Red","Green","Blue"];
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -32,8 +36,6 @@ XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
     this.shader = new CGFshader(this.gl, "Shader/shader.vert", "Shader/shader.frag");
-    this.shader.setUniformsValues({selectedRed: 0.0, selectedGreen: 1.0, selectedBlue: 0.0});
-    //this.updateScalingFactor();
     
     this.initCameras();
 
@@ -111,19 +113,11 @@ XMLscene.prototype.onGraphLoaded = function()
     // Adds lights group.
     this.interface.addLightsGroup(this.graph.lights);
 
-    this.interface.addSelectedDropDown(this.graph.selectableNodes);
+    this.interface.addSelectedDropDown(this.graph.selectableNodes, this.colors);
 
 }
 
 XMLscene.prototype.update = function(currTime){
-
-    /*if(this.increment < this.graph.animationWorkArray.length){
-        this.graph.animationWorkArray[this.increment].update(currTime - this.lastTime);
-
-        if(this.graph.animationWorkArray[this.increment].hasEnded){
-            this.increment++;
-        }
-    }*/
 
     for(let i = 0; i < this.graph.animationWorkArray.length; i++){
 
@@ -197,7 +191,7 @@ XMLscene.prototype.display = function() {
            this.initialTime = currTime;
        }
        dT = (currTime - this.initialTime)/1000;
-       this.updateScalingFactor(dT);
+       this.updateShader(dT);
 
         // Displays the scene.
         this.graph.displayScene();
@@ -211,12 +205,24 @@ XMLscene.prototype.display = function() {
     
 
     this.popMatrix();
+
     
     // ---- END Background, camera and axis setup
     
 }
 
-XMLscene.prototype.updateScalingFactor = function(date)
+/**
+ * Updates Shader Properties
+ * @param {Date} date - Recieves the date
+ */
+XMLscene.prototype.updateShader = function(date)
 {
     this.shader.setUniformsValues({timeFactor: date});
+
+    if(this.Color == "Red")
+    	this.shader.setUniformsValues({selectedRed: 1.0, selectedGreen: 0.0, selectedBlue: 0.0});
+  	else if(this.Color == "Green")
+  		this.shader.setUniformsValues({selectedRed: 0.0, selectedGreen: 1.0, selectedBlue: 0.0});
+  	else if(this.Color == "Blue")
+  		this.shader.setUniformsValues({selectedRed: 0.0, selectedGreen: 0.0, selectedBlue: 1.0});
 };

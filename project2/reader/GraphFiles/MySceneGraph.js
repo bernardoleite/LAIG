@@ -1397,6 +1397,15 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                         }
                         this.animationWorkArray.push(newAnime);
                     }
+                    else if(anime.type == "linearRotation"){
+                        var newAnime = new linearRotation(this.scene, (anime.animationID + this.animationIt.toString()), "linearRotation", anime.speed, anime.controlPoints, anime.totalRotation);
+                        this.nodes[nodeID].addAnimation(newAnime);
+                        if(aFlag != 0){
+                            newAnime.changeSameNode();
+                            this.sameNodesArray.push(newAnime.animationID);
+                        }
+                        this.animationWorkArray.push(newAnime);
+                    }
                     else if(anime.type == "circular"){ //graph, animationID, animationType, speed, centerx, centery, centerz, radius, startang, rotang
                         var newAnime = new circularAnimation(this.scene, (anime.animationID + this.animationIt.toString()), "circular", anime.speed, anime.centerx, anime.centery, anime.centerz, anime.radius, anime.startang, anime.rotang);
                         this.nodes[nodeID].addAnimation(newAnime);
@@ -1572,6 +1581,7 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
     for (var i = 0; i < children.length; i++){
         animationName = children[i].nodeName;
         var animationSpeed;
+        var totalRotation;
 
         if (animationName == "ANIMATION"){
             
@@ -1604,6 +1614,23 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
             }
             else{
                 var animationSpeed = null;
+            }
+
+            if(animationType == "linearRotation"){
+
+                
+               if( this.reader.hasAttribute(children[i], 'rotation'))
+                {
+                    totalRotation = this.reader.getString(children[i], 'rotation');
+                        
+                }
+                if (totalRotation == null )
+                    return "failed to retrieve rotation angle";
+                // Checks if rotation is valid.
+                if (parseFloat(this.nodes[totalRotation]) == NaN)
+                    return "animation rotation must be a number (conflict: ID = " + animationID + ")";
+                
+                this.log("Processing rotation "+totalRotation);
             }
 
 
@@ -1664,6 +1691,35 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
 
                 this.animationArray[animationID] = new bezierAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints);
             }
+
+         else if(animationType == "linearRotation"){
+                var animationControlPoints = [];
+
+                for (var j = 0; j < animationSpecs.length; j++) {
+                switch (animationSpecs[j].nodeName) {
+                    case "controlpoint":
+                        var coords = [];
+                        // Retrieves translation parameters.
+                        var x = this.reader.getFloat(animationSpecs[j], 'xx');
+                        if (x == null ) 
+                            this.onXMLMinorError("error parsing x on control points anymation");
+                        var y = this.reader.getFloat(animationSpecs[j], 'yy');
+                        if (y == null ) 
+                            this.onXMLMinorError("error parsing y on control points anymation");
+                        var z = this.reader.getFloat(animationSpecs[j], 'zz');
+                        if (z == null ) 
+                            this.onXMLMinorError("error parsing z on control points anymation");
+                        coords.push(x);
+                        coords.push(y);
+                        coords.push(z);
+                        animationControlPoints.push(coords);
+                        break;
+                    }
+                }
+                this.animationArray[animationID] =new linearRotation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints, parseFloat(totalRotation));
+            }
+
+
             else if(animationType == "linear"){
                 var animationControlPoints = [];
 
@@ -1690,6 +1746,7 @@ MySceneGraph.prototype.parseAnimation = function(nodesNode){
                 }
                 this.animationArray[animationID] =new linearAnimation(this.scene, animationID, animationType, parseFloat(animationSpeed), animationControlPoints);
             }
+   
             else if(animationType == "combo"){
                 var combos = [];
                 for (var j = 0; j < animationSpecs.length; j++) {
@@ -1765,7 +1822,10 @@ MySceneGraph.generateRandomString = function(length) {
 }
 
 
-
+/**
+ * Funcion used to applyAnimation to Nodes
+ * @param {Object} node - Recieves the node
+ */
 MySceneGraph.prototype.applyAnimation = function(node){
 
         for(var i = 0; i < node.animations.length; i++){
@@ -1804,10 +1864,6 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         var node = this.nodes[nodeName];
     }
 
- 
-
-    //console.warn(this.animationWorkArray);
-
     this.scene.pushMatrix();
 
        if(this.scene.selectedStr == nodeName)
@@ -1835,8 +1891,6 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
        if(node.textureID != 'null' && node.textureID != 'clear'){
             text = this.textures[node.textureID];
        }
-    //   else if (node.textureID == "clear")
-      //      textura2 = null;
 
 
         for(var i=0; i < node.children.length; i++){
@@ -1863,7 +1917,10 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
 }
 
-
+/**
+ * Funcion used to clone object
+ * @param {Object} original - Recieves the object
+ */
 MySceneGraph.prototype.clone = function( original )
 {
     // First create an empty object with
@@ -1883,7 +1940,9 @@ MySceneGraph.prototype.clone = function( original )
     return clone ;
 }
 
-
+/**
+ * Funcion used to display scene
+ */
 MySceneGraph.prototype.displayScene = function() {
 	// entry point for graph rendering
 	// remove log below to avoid performance issues
