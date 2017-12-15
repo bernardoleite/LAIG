@@ -71,6 +71,8 @@ function MySceneGraph(filename, scene) {
 	 */
     
     this.reader.open('scenes/' + filename, this);
+
+    
 }
 
 /*
@@ -1804,23 +1806,28 @@ MySceneGraph.prototype.applyAnimation = function(node){
 }
 
 
-/*MySceneGraph.prototype.logPicking = function ()
+MySceneGraph.prototype.logPicking = function ()
 {
-    if (this.pickMode == false) {
-        if (this.pickResults != null && this.pickResults.length > 0) {
-            for (var i=0; i< this.pickResults.length; i++) {
-                var obj = this.pickResults[i][0];
+    if (this.scene.pickMode == false) {
+        if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
+            for (var i=0; i< this.scene.pickResults.length; i++) {
+                var obj = this.scene.pickResults[i][0];
                 if (obj)
                 {
-                    var customId = this.pickResults[i][1];              
+                    var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + obj + ", with pick id " + customId);
+                    this.scene.getPrologRequest('test(1,2)', handleReply);
                 }
             }
-            this.pickResults.splice(0,this.pickResults.length);
+            this.scene.pickResults.splice(0,this.scene.pickResults.length);
         }       
     }
-}*/
+}
 
+function handleReply(data){
+    //resposta do servidor
+    alert(data.target.response);
+}
 
 /**
  * Recursive Function Responsible to Process Graph treating all aspects of 
@@ -1887,14 +1894,18 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         
             if(this.scene.selectedStr == nodeName)
                 this.scene.setActiveShader(this.scene.defaultShader);
+
+
         
        let preto = this.textures['preto'];
        let branco = this.textures['branco'];
        let bFlag = true;
        let cFlag = false;
 	
+       let cellID = 0;
 	   for(let i = 0; i < this.boardPositionsArray.length; i++){
             for(let j = 0; j < this.boardPositionsArray[i].length; j++){
+                cellID++;
                 cFlag = !cFlag;
                 this.scene.pushMatrix();
                     this.scene.multMatrix(this.boardPositionsArray[i][j].transformMatrix);
@@ -1906,6 +1917,8 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
                         preto[0].bind();
                     else if(bFlag == false && cFlag == false)
                         branco[0].bind();
+
+                    this.scene.registerForPick(cellID, this.boardPositionsArray[i][j].square);
 
                     this.boardPositionsArray[i][j].square.display();
                 this.scene.popMatrix();         

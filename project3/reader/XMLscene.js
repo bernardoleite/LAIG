@@ -23,6 +23,20 @@ function XMLscene(interface) {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
+
+XMLscene.prototype.getPrologRequest = function(requestString, onSuccess, onError, port)
+{
+    var requestPort = port || 8082
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
+
+    request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
+    request.onerror = onError || function(){console.log("Error waiting for response");};
+
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.send();
+}
+
 /**
  * Initializes the scene, setting some WebGL defaults, initializing the camera and the axis.
  */
@@ -49,6 +63,7 @@ XMLscene.prototype.init = function(application) {
     this.setUpdatePeriod(100);
 
     
+    this.setPickEnabled(true);
 }
 
 /**
@@ -152,6 +167,9 @@ XMLscene.prototype.update = function(currTime){
  * Displays the scene.
  */
 XMLscene.prototype.display = function() {
+
+    this.graph.logPicking();
+    this.clearPickRegistration();
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
