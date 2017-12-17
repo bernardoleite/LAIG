@@ -22,6 +22,10 @@ function MySceneGraph(filename, scene) {
     this.scene = scene;
     scene.graph = this;
 
+    this.lolada = 0;
+
+    this.obj;
+
     this.currTexture;
     
     this.nodes = [];
@@ -33,6 +37,8 @@ function MySceneGraph(filename, scene) {
     this.selectableNodes = ["Select"];
 
     this.sameNodesArray = [];
+
+    this.PiecesArray = [];
 
     var tabX = [];
     var tabY = [];
@@ -1246,10 +1252,12 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
           
             //Reads selectable
             if( this.reader.hasAttribute(children[i], 'selectable'))
-                {
-                    selectable = this.reader.getBoolean(children[i], 'selectable');
-                        
-                }
+            {
+                selectable = this.reader.getBoolean(children[i], 'selectable');
+                    
+            }
+
+
 
 
             // Creates node.
@@ -1563,6 +1571,19 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 						  this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,nodeID,type,args,this.args2));
 						
                         sizeChildren++;
+
+                        //PIECE NODE
+
+                        if( this.reader.hasAttribute(children[i], 'piece'))
+                        {
+
+                            let pieceColor;
+
+                            pieceColor = this.reader.getString(children[i], 'piece');
+
+                            this.PiecesArray.push(this.nodes[nodeID]);
+                                
+                        }
 					}
 					else
 						this.onXMLMinorError("unknown tag <" + descendants[j].nodeName + ">");
@@ -1811,22 +1832,42 @@ MySceneGraph.prototype.logPicking = function ()
     if (this.scene.pickMode == false) {
         if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
             for (var i=0; i< this.scene.pickResults.length; i++) {
-                var obj = this.scene.pickResults[i][0];
-                if (obj)
+                this.obj = this.scene.pickResults[i][0];
+                if (this.obj)
                 {
                     var customId = this.scene.pickResults[i][1];              
-                    console.log("Picked object: " + obj + ", with pick id " + customId);
-                    this.scene.getPrologRequest('test(1,2)', handleReply);
+                    console.log("Picked object: " + this.obj + ", with pick id " + customId);
+                    this.scene.getPrologRequest('test(1,2)', this.handleReply.bind(this));
                 }
             }
+            this.PiecesArray;
             this.scene.pickResults.splice(0,this.scene.pickResults.length);
         }       
     }
 }
 
-function handleReply(data){
+MySceneGraph.prototype.handleReply = function(data){
     //resposta do servidor
-    alert(data.target.response);
+    //alert(data.target.response);
+
+    this.lolada++;
+
+    if(data.target.response == '[1,1]'){
+        for(let i = 0; i < this.PiecesArray.length; i++){
+            if(this.PiecesArray[i].nodeID == 'whitePiece'){
+                let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
+
+
+                newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, this.PiecesArray[i].animations, this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+                mat4.translate(newPiece.transformMatrix, newPiece.transformMatrix, [this.obj.posX*2+1, 0, this.obj.posY*2+1]);
+                mat4.scale(newPiece.transformMatrix, newPiece.transformMatrix, [3, 0.5, 3]);
+                mat4.rotate(newPiece.transformMatrix, newPiece.transformMatrix, (-90/180)*Math.PI, [1, 0, 0]);
+
+                this.PiecesArray.push(newPiece);
+                return 0;
+            }
+        }
+    }
 }
 
 /**
@@ -1897,13 +1938,17 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
 
         
-       let preto = this.textures['preto'];
+       
+
+	this.scene.popMatrix();
+
+let preto = this.textures['preto'];
        let branco = this.textures['branco'];
        let bFlag = true;
        let cFlag = false;
-	
+    
        let cellID = 0;
-	   for(let i = 0; i < this.boardPositionsArray.length; i++){
+       for(let i = 0; i < this.boardPositionsArray.length; i++){
             for(let j = 0; j < this.boardPositionsArray[i].length; j++){
                 cellID++;
                 cFlag = !cFlag;
@@ -1918,7 +1963,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
                     else if(bFlag == false && cFlag == false)
                         branco[0].bind();
 
-                    this.scene.registerForPick(cellID, this.boardPositionsArray[i][j].square);
+                    this.scene.registerForPick(cellID, this.boardPositionsArray[i][j]);
 
                     this.boardPositionsArray[i][j].square.display();
                 this.scene.popMatrix();         
@@ -1926,9 +1971,43 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
              bFlag = !bFlag;
         }
 
-	this.scene.popMatrix();
+
+        //Tratamento das Peças
+
+        let node2;
+
+        for(let u=0; u < this.PiecesArray.length; u++){
+            this.scene.pushMatrix();
+
+                node2 = this.PiecesArray[u];
 
 
+               /*if(this.scene.selectedStr == node2.nodeID)
+                this.scene.setActiveShader(this.scene.shader);
+
+                this.applyAnimation(node2);*/
+
+                let text2 = this.textures[node2.textureID];
+
+                let material2 = null;
+
+                if(this.materials[node2.materialID] != null)
+                    material2 = this.materials[node2.materialID];
+
+                this.scene.multMatrix(node2.transformMatrix);            
+
+                for(let y=0; y < node2.leaves.length; y++){                   
+                    if(material2 != null){
+                        material.apply();}
+                    if(text2 != null && node2.textureID != 'clear'){
+                        text2[0].bind();
+                        node2.leaves[y].type.scaleTexCoords(text2[1], text2[2]);    
+                    } 
+                    node2.leaves[y].type.display();
+                }
+
+            this.scene.popMatrix();
+        }
 
 
 }

@@ -7,6 +7,9 @@ function MyGraphNode(graph, nodeID, selectable) {
     this.graph = graph;
 
     this.nodeID = nodeID;
+
+    this.posX = 0;
+    this.posY = 0;
     
     // IDs of child nodes.
     this.children = [];
@@ -38,6 +41,35 @@ function MyGraphNode(graph, nodeID, selectable) {
  */
 MyGraphNode.prototype.addChild = function(nodeID) {
     this.children.push(nodeID);
+}
+
+MyGraphNode.prototype.addAll = function(graph, nodeID, posx, posy, children, leaves, materialID, textureID, animations, selectable, transformMatrix) {
+    this.graph = graph;
+
+    this.nodeID = nodeID;
+
+    this.posX = posx;
+    this.posY = posy;
+    
+    // IDs of child nodes.
+    this.children = children;
+
+    // IDs of child nodes.
+    this.leaves = leaves;
+
+    // The material ID.
+    this.materialID = materialID;
+
+    // The texture ID.
+    this.textureID = textureID;
+
+    this.animations = animations;
+
+    this.selectable = selectable;
+
+    this.animationHasEnded = false; 
+
+    this.transformMatrix = transformMatrix;
 }
 
 /**

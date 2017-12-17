@@ -267,49 +267,31 @@
 
 
         <DESCENDANTS>  
-			<NODEREF id="earth" />
+			<NODEREF id="whitePiece" />
+            <NODEREF id="blackPiece" />
         </DESCENDANTS>
 
     </NODE>
 
-    <NODE id="earth" selectable ="false">       
-        <MATERIAL id="null" />     
-        <TEXTURE id="earthText" />  
 
-         
+
+    <NODE id="whitePiece" piece="white" selectable ="false">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="futTexture" />       
 
         <DESCENDANTS>
-			<LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 0 0" />
+			<LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="earth2" selectable ="true">       
+
+
+    <NODE id="blackPiece" piece="black" selectable ="true">       
         <MATERIAL id="null" />     
-        <TEXTURE id="earthText" />  
-
-         
-
-        <ANIMATIONREFS>
-            <ANIMATIONREF id="circular2" />
-        </ANIMATIONREFS>
+        <TEXTURE id="oakText" />     
 
         <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 0 0" />
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="earth3" selectable ="true">       
-        <MATERIAL id="null" />     
-        <TEXTURE id="earthText" />  
-
-         
-
-        <ANIMATIONREFS>
-            <ANIMATIONREF id="combo1" />
-        </ANIMATIONREFS>
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 0 0" />
+            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
         </DESCENDANTS>
     </NODE>
 
