@@ -105,6 +105,9 @@ print_header_line(_).
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
+
+parse_input(putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY), Res):- putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res).
+
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.
@@ -113,6 +116,11 @@ test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
 parse_input(quit1, [1,2,3,4]).
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                    Inicio do Nosso Jogo                                         %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 /*These Functions are responsible to check if it is possible to place a Black Piece 
 considering all possible cases of Crosscut*/
@@ -654,6 +662,19 @@ checkPos(X,Y):- X > 9.
 checkPos(X,Y):- Y > 9.
 checkPos(X,Y):- Y < 0.
 
+teste(Res):-
+	putPiece(LX,LY,LX2,LY2,1,1,[[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+			],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],1,1,'w',1,0,1,Bool,0,0, Res).
+
 stroke(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador, Counter, Move, Bool, LASTX, LASTY):-
 								Counter < 100, write('Player '), write(Jogador), write(' it is your turn!'), nl,
 								write('Line: '), nl, read(X), nl, 
@@ -664,7 +685,10 @@ stroke(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador, Counter, Move, Bool, LASTX, LASTY):
 								if_then_else(Jogador==1, P = 'b', P = 'w'),nl,
 								putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, NewCounter, Move,Bool,LASTX,LASTY).
 
-putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY):- 
+
+
+/*putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = 'yes'.*/
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- 
 								Jogador == 1,
 								getPiece(B,X,Y,Elem),
 								
@@ -686,8 +710,10 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LAST
 								if_then_else(Move==1, stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
+
+								Res = 'yes'.
 							
-								if_then_else(Mode=1,
+								/*if_then_else(Mode=1,
 											stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
 											continueplay
 											),
@@ -696,11 +722,11 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LAST
 								if_then_else(Mode=2,
 											strokeComputer(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
 											continueplay
-											).
+											)*/
 											
 								
 										
-putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LASTX, LASTY):- 
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LASTX, LASTY, Res):- 
 								Jogador == 2,
 								getPiece(B,X,Y,Elem),
 								
@@ -720,11 +746,11 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LAS
 	
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
 								if_then_else(Move==1, stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 2,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
-
 		
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
-		
-								stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1, Counter, 1, 0, LASTX,LASTY).
+								Res = 'yes'.
+
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = 'no'.
 
 
 indexOf([Element|_], Element, 0). 

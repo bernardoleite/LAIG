@@ -1837,7 +1837,7 @@ MySceneGraph.prototype.logPicking = function ()
                 {
                     var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + this.obj + ", with pick id " + customId);
-                    this.scene.getPrologRequest('test(1,2)', this.handleReply.bind(this));
+                    this.scene.getPrologRequest("putPiece(LX,LY,LX2,LY2,1,1,[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],1,1,'w',1,0,1,Bool,0,0)", this.handleReply.bind(this));
                 }
             }
             this.PiecesArray;
@@ -1852,7 +1852,9 @@ MySceneGraph.prototype.handleReply = function(data){
 
     this.lolada++;
 
-    if(data.target.response == '[1,1]'){
+    alert(data.target.response);
+
+    if(data.target.response == 'yes'){
         for(let i = 0; i < this.PiecesArray.length; i++){
             if(this.PiecesArray[i].nodeID == 'whitePiece'){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
