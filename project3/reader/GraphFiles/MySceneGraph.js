@@ -68,6 +68,7 @@ function MySceneGraph(filename, scene) {
 
     this.animationArray = [];
     this.animationWorkArray = []; 
+    this.animationPiecesWorkArray = [];
        // this.setPickEnabled(true);
 
     /*
@@ -1837,7 +1838,9 @@ MySceneGraph.prototype.logPicking = function ()
                 {
                     var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + this.obj + ", with pick id " + customId);
-                    this.scene.getPrologRequest("putPiece(LX,LY,LX2,LY2,1,1,[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],1,1,'w',1,0,1,Bool,0,0)", this.handleReply.bind(this));
+
+                    //this.scene.getPrologRequest("putPiece(LX,LY,LX2,LY2,1,1,[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],1,1,'w',1,0,1,Bool,0,0)", this.handleReply.bind(this));
+                    this.handleReply(null);
                 }
             }
             this.PiecesArray;
@@ -1852,24 +1855,26 @@ MySceneGraph.prototype.handleReply = function(data){
 
     this.lolada++;
 
-    alert(data.target.response);
+    //alert(data.target.response);
 
-    if(data.target.response == 'yes'){
+    //if(data.target.response == 'yes'){
         for(let i = 0; i < this.PiecesArray.length; i++){
             if(this.PiecesArray[i].nodeID == 'whitePiece'){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
 
-
                 newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, this.PiecesArray[i].animations, this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
-                mat4.translate(newPiece.transformMatrix, newPiece.transformMatrix, [this.obj.posX*2+1, 0, this.obj.posY*2+1]);
-                mat4.scale(newPiece.transformMatrix, newPiece.transformMatrix, [3, 0.5, 3]);
-                mat4.rotate(newPiece.transformMatrix, newPiece.transformMatrix, (-90/180)*Math.PI, [1, 0, 0]);
+
+                let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[this.obj.posX*2, 10, this.obj.posY*2], [this.obj.posX*2, 0.5, this.obj.posY*2]]);
+
+                newPiece.addAnimation(pickingAnimation);
+
+                this.animationPiecesWorkArray.push(pickingAnimation);
 
                 this.PiecesArray.push(newPiece);
                 return 0;
             }
         }
-    }
+    //}
 }
 
 /**
@@ -1942,9 +1947,11 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
         
        
 
-	this.scene.popMatrix();
+    this.scene.popMatrix();
+    
+    //desenho do tabuleiro
 
-let preto = this.textures['preto'];
+    let preto = this.textures['preto'];
        let branco = this.textures['branco'];
        let bFlag = true;
        let cFlag = false;
@@ -1968,6 +1975,7 @@ let preto = this.textures['preto'];
                     this.scene.registerForPick(cellID, this.boardPositionsArray[i][j]);
 
                     this.boardPositionsArray[i][j].square.display();
+
                 this.scene.popMatrix();         
             }
              bFlag = !bFlag;
@@ -1985,9 +1993,9 @@ let preto = this.textures['preto'];
 
 
                /*if(this.scene.selectedStr == node2.nodeID)
-                this.scene.setActiveShader(this.scene.shader);
+                this.scene.setActiveShader(this.scene.shader);*/
 
-                this.applyAnimation(node2);*/
+                this.applyAnimation(node2);
 
                 let text2 = this.textures[node2.textureID];
 

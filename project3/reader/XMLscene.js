@@ -16,6 +16,7 @@ function XMLscene(interface) {
     this.selectedStr = "Select";
 
     this.sameNodesIt = 0;
+    this.sameNodesPiecesIt = 0;
 
     this.sameNodesEnd = false;
 }
@@ -158,7 +159,27 @@ XMLscene.prototype.update = function(currTime){
             }
         else
             this.graph.animationWorkArray[i].update(currTime - this.lastTime);
-    }       
+    }      
+    
+    for(let i = 0; i < this.graph.animationPiecesWorkArray.length; i++){
+
+        if(this.sameNodesPiecesIt >= this.graph.sameNodesArray.length)
+            this.sameNodesEnd = true;
+
+            if(this.graph.animationPiecesWorkArray[i].sameNode){
+                if(this.sameNodesEnd == false)
+                    if(this.graph.animationPiecesWorkArray[i].animationID == this.graph.sameNodesArray[this.sameNodesPiecesIt]){
+                        if(!this.graph.animationPiecesWorkArray[i].hasEnded){
+                            this.graph.animationPiecesWorkArray[i].update(currTime - this.lastTime);
+                        }
+                        else{
+                            this.sameNodesPiecesIt++;
+                        }
+                    }
+            }
+        else
+            this.graph.animationPiecesWorkArray[i].update(currTime - this.lastTime);
+    } 
     
     this.lastTime = currTime;
 }

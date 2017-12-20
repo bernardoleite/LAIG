@@ -68,12 +68,20 @@ class linearAnimation extends animation{
 			this.deltaz = this.deltaz + (deltaTime * this.values[this.step][4]);
 
 			mat4.identity(this.transformMatrix);
+
+			
 			
 			mat4.translate(this.transformMatrix, this.transformMatrix, [this.deltax, this.deltay, this.deltaz]);
 
 			mat4.translate(this.transformMatrix, this.transformMatrix,this.values[this.step][0]);
 
 			mat4.rotate(this.transformMatrix, this.transformMatrix, this.values[this.step][5], [0, 1, 0]);
+
+			if(this.animationID == "pickingAnimation"){
+				mat4.translate(this.transformMatrix, this.transformMatrix, [1, 0, 1]);
+                mat4.scale(this.transformMatrix, this.transformMatrix, [3, 0.5, 3]);
+                mat4.rotate(this.transformMatrix, this.transformMatrix, (-90/180)*Math.PI, [1, 0, 0]);
+			}
 
 			this.cum = this.cum + Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2)+Math.pow(dz,2));
 
