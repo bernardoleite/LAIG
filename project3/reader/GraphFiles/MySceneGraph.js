@@ -26,6 +26,8 @@ function MySceneGraph(filename, scene) {
 
     this.obj;
 
+    this.NewPiecesArray = [];
+
     this.currTexture;
     
     this.nodes = [];
@@ -1862,15 +1864,13 @@ MySceneGraph.prototype.handleReply = function(data){
             if(this.PiecesArray[i].nodeID == 'whitePiece'){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
 
-                newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, this.PiecesArray[i].animations, this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+                newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
 
                 let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[this.obj.posX*2, 10, this.obj.posY*2], [this.obj.posX*2, 0.5, this.obj.posY*2]]);
 
                 newPiece.addAnimation(pickingAnimation);
 
-                this.animationPiecesWorkArray.push(pickingAnimation);
-
-                this.PiecesArray.push(newPiece);
+                this.NewPiecesArray.push(newPiece);
                 return 0;
             }
         }
@@ -1995,10 +1995,10 @@ MySceneGraph.prototype.drawPiece = function()
 
     let node2;
 
-    for(let u=0; u < this.PiecesArray.length; u++){
+    for(let u=0; u < this.NewPiecesArray.length; u++){
         this.scene.pushMatrix();
 
-            node2 = this.PiecesArray[u];
+            node2 = this.NewPiecesArray[u];
 
 
         /*if(this.scene.selectedStr == node2.nodeID)

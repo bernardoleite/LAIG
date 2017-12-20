@@ -161,25 +161,23 @@ XMLscene.prototype.update = function(currTime){
             this.graph.animationWorkArray[i].update(currTime - this.lastTime);
     }      
     
-    for(let i = 0; i < this.graph.animationPiecesWorkArray.length; i++){
+    /*for(let i = 0; i < this.graph.animationPiecesWorkArray.length; i++){
 
-        if(this.sameNodesPiecesIt >= this.graph.sameNodesArray.length)
-            this.sameNodesEnd = true;
-
-            if(this.graph.animationPiecesWorkArray[i].sameNode){
-                if(this.sameNodesEnd == false)
-                    if(this.graph.animationPiecesWorkArray[i].animationID == this.graph.sameNodesArray[this.sameNodesPiecesIt]){
-                        if(!this.graph.animationPiecesWorkArray[i].hasEnded){
-                            this.graph.animationPiecesWorkArray[i].update(currTime - this.lastTime);
-                        }
-                        else{
-                            this.sameNodesPiecesIt++;
-                        }
-                    }
-            }
-        else
+        if(!this.graph.animationPiecesWorkArray[i].hasEnded){
             this.graph.animationPiecesWorkArray[i].update(currTime - this.lastTime);
-    } 
+        }
+        else{
+            this.sameNodesPiecesIt++;
+        }
+    }*/
+
+    for(let i = 0; i < this.graph.NewPiecesArray.length; i++){
+
+        if(this.graph.NewPiecesArray[i].animations.length != 0)
+            if(!this.graph.NewPiecesArray[i].animations[0].hasEnded){
+                this.graph.NewPiecesArray[i].animations[0].update(currTime - this.lastTime);
+            }
+    }
     
     this.lastTime = currTime;
 }
