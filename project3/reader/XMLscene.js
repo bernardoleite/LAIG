@@ -14,6 +14,7 @@ function XMLscene(interface) {
     this.increment = 0;
 
     this.selectedStr = "Select";
+    this.selectedCam = "Default"
 
     this.sameNodesIt = 0;
     this.sameNodesPiecesIt = 0;
@@ -128,6 +129,7 @@ XMLscene.prototype.onGraphLoaded = function()
     this.interface.addLightsGroup(this.graph.lights);
 
     this.interface.addSelectedDropDown(this.graph.selectableNodes);
+    this.interface.addSelectedDropDownCams(this.graph.selectableCams);
 
 }
 

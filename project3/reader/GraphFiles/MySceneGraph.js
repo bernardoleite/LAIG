@@ -37,6 +37,9 @@ function MySceneGraph(filename, scene) {
     this.animationIt = 0;
 
     this.selectableNodes = ["Select"];
+    this.selectableCams = ["Default"];
+
+    this.selectableCams.push("Top");
 
     this.sameNodesArray = [];
 
@@ -461,6 +464,15 @@ MySceneGraph.prototype.parseInitials = function(initialsNode) {
             this.onXMLMinorError("unable to parse reference length; assuming 'length = 1'");
     
     }
+
+    this.initialTransformsDefault = mat4.clone(this.initialTransforms);
+
+    this.initialTransformsTop = mat4.create();
+
+    mat4.scale(this.initialTransformsTop, this.initialTransformsTop, [0.5, 0.5, 0.5]);
+    //mat4.rotate(this.initialTransformsTop, this.initialTransformsTop, DEGREE_TO_RAD * 90, [0,1,0]);
+
+
     
     console.log("Parsed initials");
     
@@ -1891,6 +1903,14 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     if(nodeName != 'null'){
         var node = this.nodes[nodeName];
+    }
+
+    if(this.scene.selectedCam == "Top"){
+        this.initialTransforms = mat4.clone(this.initialTransformsTop);
+    }
+    else if(this.scene.selectedCam == "Default"){
+        this.initialTransforms = mat4.clone(this.initialTransformsDefault);
+
     }
 
  

@@ -48,6 +48,13 @@ MyInterface.prototype.addLightsGroup = function(lights) {
     }
 }
 
+MyInterface.prototype.addSelectedDropDownCams = function(selectedCams) {
+    var selectedCam = this.gui.addFolder("Camera");
+
+    selectedCam.open();
+    selectedCam.add(this.scene, "selectedCam", selectedCams);
+}
+
 MyInterface.prototype.addSelectedDropDown = function(selectedNodes) {
      var selected = this.gui.addFolder("Shaders");
 
