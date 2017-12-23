@@ -15,7 +15,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'GraphFiles/MySceneGraph.js',
 			 'GraphFiles/MyGraphNode.js', 'GraphFiles/MyGraphLeaf.js', 'MyInterface.js', 'Primitives/MyQuad.js',
 			 'Primitives/MyTriangle.js','Primitives/MySphere.js','Primitives/MyCylinder.js', 'Primitives/Patch.js',
 			 'Primitives/MyCircle.js', 'Primitives/MyCylinderWithTamps.js', 'Animations/animation.js', 'Animations/bezierAnimation.js', 'Animations/linearAnimation.js', 
-             'Animations/comboAnimation.js', 'Animations/circularAnimation.js','Shader/shader.frag', 'Shader/shader.vert',
+             'Animations/comboAnimation.js', 'Animations/circularAnimation.js','Shader/shader.frag', 'Shader/shader.vert', 'GameBoard/data.js',
              'GameBoard/positions.js',
 
 main=function()

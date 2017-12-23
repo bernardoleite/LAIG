@@ -714,7 +714,7 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LAST
 */
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
 
-								Res = ['yes',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
+								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,0,0].
 							
 								/*if_then_else(Mode=1,
 											stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
@@ -753,7 +753,7 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LAS
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
 
 
-								Res = ['yes',B,C,I,Move,Bool,LASTX,LASTY].
+								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,0,0].
 
 putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = 'replay'.
 

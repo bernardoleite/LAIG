@@ -74,6 +74,12 @@ function MySceneGraph(filename, scene) {
     this.animationArray = [];
     this.animationWorkArray = []; 
     this.animationPiecesWorkArray = [];
+    this.player1Data =  new data(1, 1,1,1);
+    this.player2Data =  new data(2, 1,1,2);
+
+    this.playerBool = 0;
+    this.playedAlready2Times = 0;
+
        // this.setPickEnabled(true);
 
     /*
@@ -1841,6 +1847,29 @@ MySceneGraph.prototype.applyAnimation = function(node){
     
 }
 
+MySceneGraph.prototype.saveGameData = function(data){
+
+    if(this.playerBool){
+        this.player2Data.changeData(data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
+        this.player2Data.addJogada();
+        this.playedAlready2Times++;
+        if(this.playedAlready2Times == 2){
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+        }
+    }
+    else{
+        this.player1Data.changeData(data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
+        this.player1Data.addJogada();
+        this.playedAlready2Times++;
+        if(this.playedAlready2Times == 2){
+            this.playerBool = 1;
+            this.playedAlready2Times = 0;
+        }
+    }
+
+}
+
 
 MySceneGraph.prototype.logPicking = function ()
 {
@@ -1853,8 +1882,13 @@ MySceneGraph.prototype.logPicking = function ()
                     var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + this.obj + ", with pick id " + customId);
 
-                    this.scene.getPrologRequest("teste", this.handleReply.bind(this));
-                    //this.handleReply(null);
+                    if(this.playerBool){ //p2
+                        this.scene.getPrologRequest(this.player2Data.requestToDo(2,2), this.handleReply.bind(this));
+                    }
+                    else{ //p1
+                        this.scene.getPrologRequest(this.player1Data.requestToDo(2,2), this.handleReply.bind(this));
+                    }
+
                 }
             }
             this.PiecesArray;
@@ -1863,15 +1897,21 @@ MySceneGraph.prototype.logPicking = function ()
     }
 }
 
+
+
+
+
 MySceneGraph.prototype.handleReply = function(data){
     //resposta do servidor
-    //alert(data.target.response);
-
     this.lolada++;
 
-    //alert(data.target.response);
+    console.log(data.target.response);
 
-    if(data.target.response == 'yes'){
+    var response = JSON.parse(data.target.response);
+
+    if(response[0] == 'yes'){
+        this.saveGameData(response);
+
         for(let i = 0; i < this.PiecesArray.length; i++){
             if(this.PiecesArray[i].nodeID == 'blackPiece'){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
