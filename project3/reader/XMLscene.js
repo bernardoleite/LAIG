@@ -28,7 +28,7 @@ XMLscene.prototype.constructor = XMLscene;
 
 XMLscene.prototype.getPrologRequest = function(requestString, onSuccess, onError, port)
 {
-    var requestPort = port || 8082
+    var requestPort = port || 8081;
     var request = new XMLHttpRequest();
     request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 

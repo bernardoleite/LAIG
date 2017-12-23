@@ -1853,8 +1853,8 @@ MySceneGraph.prototype.logPicking = function ()
                     var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + this.obj + ", with pick id " + customId);
 
-                    //this.scene.getPrologRequest("putPiece(LX,LY,LX2,LY2,1,1,[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],1,1,'w',1,0,1,Bool,0,0)", this.handleReply.bind(this));
-                    this.handleReply(null);
+                    this.scene.getPrologRequest("teste", this.handleReply.bind(this));
+                    //this.handleReply(null);
                 }
             }
             this.PiecesArray;
@@ -1871,9 +1871,9 @@ MySceneGraph.prototype.handleReply = function(data){
 
     //alert(data.target.response);
 
-    //if(data.target.response == 'yes'){
+    if(data.target.response == 'yes'){
         for(let i = 0; i < this.PiecesArray.length; i++){
-            if(this.PiecesArray[i].nodeID == 'whitePiece'){
+            if(this.PiecesArray[i].nodeID == 'blackPiece'){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
 
                 newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
@@ -1886,7 +1886,7 @@ MySceneGraph.prototype.handleReply = function(data){
                 return 0;
             }
         }
-    //}
+    }
 }
 
 /**
