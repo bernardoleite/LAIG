@@ -1882,11 +1882,14 @@ MySceneGraph.prototype.logPicking = function ()
                     var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + this.obj + ", with pick id " + customId);
 
+                    let x = this.findXY(customId)[0];
+                    let y = this.findXY(customId)[1];
+
                     if(this.playerBool){ //p2
-                        this.scene.getPrologRequest(this.player2Data.requestToDo(2,2), this.handleReply.bind(this));
+                        this.scene.getPrologRequest(this.player2Data.requestToDo(x,y), this.handleReply.bind(this));
                     }
                     else{ //p1
-                        this.scene.getPrologRequest(this.player1Data.requestToDo(2,2), this.handleReply.bind(this));
+                        this.scene.getPrologRequest(this.player1Data.requestToDo(x,y), this.handleReply.bind(this));
                     }
 
                 }
@@ -1898,7 +1901,23 @@ MySceneGraph.prototype.logPicking = function ()
 }
 
 
+MySceneGraph.prototype.findXY = function(valuePicked){
+    let comp = 0;
+    let x = 0;
+    let y = 0;
 
+    for(let i=0; i < 10; i++){
+        for(let j=0; j < 10; j++){
+            comp ++;
+            if(comp == valuePicked){
+                x = j;
+                y = i;
+            }
+        }
+    }
+
+    return [x,y];
+}
 
 
 MySceneGraph.prototype.handleReply = function(data){
@@ -1906,14 +1925,22 @@ MySceneGraph.prototype.handleReply = function(data){
     this.lolada++;
 
     console.log(data.target.response);
+    let pl;
 
     var response = JSON.parse(data.target.response);
 
     if(response[0] == 'yes'){
+
+
+        if(this.playerBool)
+            pl = 'whitePiece';
+        else
+            pl = 'blackPiece';
+
         this.saveGameData(response);
 
         for(let i = 0; i < this.PiecesArray.length; i++){
-            if(this.PiecesArray[i].nodeID == 'blackPiece'){
+            if(this.PiecesArray[i].nodeID == pl){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
 
                 newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));

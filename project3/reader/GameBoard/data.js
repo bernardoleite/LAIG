@@ -48,7 +48,8 @@ class data{
 	changeData(R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY) { 
 	this.R = R;
 	this.NewCountingBoard = NewCountingBoard;
-	this.NewIdentityBoard = NewMove;
+	this.NewIdentityBoard = NewIdentityBoard;
+	this.NewMove = NewMove;
 	this.NewBool = NewBool;
 	this.NEWLASTX = NEWLASTX;
 	this.NEWLASTY = NEWLASTY;
