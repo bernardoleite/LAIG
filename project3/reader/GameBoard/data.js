@@ -62,9 +62,15 @@ class data{
 	requestToDo(x,y){
 
 		//putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY)
-		return 'putPiece(LX,LY,LX2,LY2,' + JSON.stringify(this.mode) + ',' + JSON.stringify(this.dif) + ',' + JSON.stringify(this.R) + ','
-		 + JSON.stringify(this.NewCountingBoard) + ',' + JSON.stringify(this.NewIdentityBoard) + ',' + x + ',' + y + ',' + this.p + ',' + 
+		let response = 'putPiece(LX,LY,LX2,LY2,' + JSON.stringify(this.mode) + ',' + JSON.stringify(this.dif) + ',' + JSON.stringify(this.R) + ','
+		 + JSON.stringify(this.NewCountingBoard) + ',' + JSON.stringify(this.NewIdentityBoard) + ',' + y + ',' + x + ',' + this.p + ',' + 
 		 JSON.stringify(this.player) + ',0,1,' + JSON.stringify(this.NewBool) + ',' + JSON.stringify(this.NEWLASTX) + ',' + 
 		 JSON.stringify(this.NEWLASTY) + ')';
+
+		 response = response.replace(/"/g, '\''); 
+
+		 console.log(response);
+
+		 return response;
 	}
 }

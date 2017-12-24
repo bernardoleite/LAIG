@@ -74,8 +74,8 @@ function MySceneGraph(filename, scene) {
     this.animationArray = [];
     this.animationWorkArray = []; 
     this.animationPiecesWorkArray = [];
-    this.player1Data =  new data(1, 1,1,'b');
-    this.player2Data =  new data(2, 1,1,'w');
+    this.player1Data =  new data(1, 1,1,"b");
+    this.player2Data =  new data(2, 1,1,"w");
 
     this.playerBool = 0;
     this.playedAlready2Times = 0;
@@ -1851,7 +1851,9 @@ MySceneGraph.prototype.saveGameData = function(data){
 
     if(this.playerBool){
         this.player2Data.changeData(data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
+        this.player1Data.changeData(data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
         this.player2Data.addJogada();
+        this.player1Data.addJogada();
         this.playedAlready2Times++;
         if(this.playedAlready2Times == 2){
             this.playerBool = 0;
@@ -1859,8 +1861,10 @@ MySceneGraph.prototype.saveGameData = function(data){
         }
     }
     else{
+        this.player2Data.changeData(data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
         this.player1Data.changeData(data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
         this.player1Data.addJogada();
+        this.player2Data.addJogada();
         this.playedAlready2Times++;
         if(this.playedAlready2Times == 2){
             this.playerBool = 1;
@@ -1927,7 +1931,12 @@ MySceneGraph.prototype.handleReply = function(data){
     console.log(data.target.response);
     let pl;
 
-    var response = JSON.parse(data.target.response);
+    var response = data.target.response;
+    response = response.replace(/b/g, '"b"'); 
+    response = response.replace(/B/g, '"B"');
+    response = response.replace(/w/g, '"w"');  
+    response = response.replace(/W/g, '"W"'); 
+    response = JSON.parse(response);
 
     if(response[0] == 'yes'){
 

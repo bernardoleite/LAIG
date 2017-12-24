@@ -755,7 +755,7 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LAS
 
 								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,0,0].
 
-putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = 'replay'.
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = '"replay"'.
 
 
 indexOf([Element|_], Element, 0). 
