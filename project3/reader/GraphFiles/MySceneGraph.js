@@ -74,8 +74,8 @@ function MySceneGraph(filename, scene) {
     this.animationArray = [];
     this.animationWorkArray = []; 
     this.animationPiecesWorkArray = [];
-    this.player1Data =  new data(1, 1,1,1);
-    this.player2Data =  new data(2, 1,1,2);
+    this.player1Data =  new data(1, 1,1,'b');
+    this.player2Data =  new data(2, 1,1,'w');
 
     this.playerBool = 0;
     this.playedAlready2Times = 0;
