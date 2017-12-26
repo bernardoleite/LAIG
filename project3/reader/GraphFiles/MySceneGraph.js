@@ -45,6 +45,8 @@ function MySceneGraph(filename, scene) {
 
     this.PiecesArray = [];
 
+    this.gameType = 0;
+
     var tabX = [];
     var tabY = [];
 
@@ -115,6 +117,12 @@ MySceneGraph.prototype.onXMLReady = function()
     
     // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
     this.scene.onGraphLoaded();
+}
+
+MySceneGraph.prototype.atributeGameType = function(type, difficult){
+    console.log("FUCCKKKKKKCKKKKKKKKKKKKK!");
+    console.log(type);
+    console.log(difficult);
 }
 
 /**
@@ -218,7 +226,7 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
     }
 
 
-    
+
 
 
 }

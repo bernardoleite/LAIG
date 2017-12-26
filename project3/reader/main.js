@@ -39,12 +39,10 @@ main=function()
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
+	this.myGraph = new MySceneGraph(filename, myScene);
 	
 	// start
     app.run();
-
-    //document.body.innerHTML += '<div style="width:300px; height:300px; background-color:#FFF;"><h2>Teste kjbasdbbsbsbjsk</h2></div>';
 }
 
 ]);
