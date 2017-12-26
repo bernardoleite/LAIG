@@ -43,6 +43,8 @@ main=function()
 	
 	// start
     app.run();
+
+    //document.body.innerHTML += '<div style="width:300px; height:300px; background-color:#FFF;"><h2>Teste kjbasdbbsbsbjsk</h2></div>';
 }
 
 ]);

@@ -6,6 +6,7 @@ class data{
 
 		this.mode = mode;
 		this.dif = dif;
+		this.NewMove = 1;
 
 		this.R = [[0,0,0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0,0,0],
@@ -64,7 +65,7 @@ class data{
 		//putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY)
 		let response = 'putPiece(LX,LY,LX2,LY2,' + JSON.stringify(this.mode) + ',' + JSON.stringify(this.dif) + ',' + JSON.stringify(this.R) + ','
 		 + JSON.stringify(this.NewCountingBoard) + ',' + JSON.stringify(this.NewIdentityBoard) + ',' + y + ',' + x + ',' + this.p + ',' + 
-		 JSON.stringify(this.player) + ',0,1,' + JSON.stringify(this.NewBool) + ',' + JSON.stringify(this.NEWLASTX) + ',' + 
+		 JSON.stringify(this.player) + ',0,' + JSON.stringify(this.NewMove) + ',' + JSON.stringify(this.NewBool) + ',' + JSON.stringify(this.NEWLASTX) + ',' + 
 		 JSON.stringify(this.NEWLASTY) + ')';
 
 		 response = response.replace(/"/g, '\''); 
@@ -72,5 +73,11 @@ class data{
 		 console.log(response);
 
 		 return response;
+	}
+
+	changeBool(NEWLASTX, NEWLASTY){
+		this.newBool = -10;
+		this.NEWLASTX = NEWLASTX;
+		this.NEWLASTY = NEWLASTY;
 	}
 }

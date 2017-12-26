@@ -622,10 +622,10 @@ verify_bool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY):- Move=2, Bool==43,
 verify_bool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY):- Move=2, Bool==44, OTHERX is LASTX+1, OTHERY is LASTY+1, X=OTHERX, Y=OTHERY.
 
 
-seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=31. 
-seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=32. 
-seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=33.
-seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=34.
+seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=31, Res = ['"replay"', 31]. 
+seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=32, Res = ['"replay"', 32]. 
+seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=33, Res = ['"replay"', 33].
+seeIfReplays(B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):- Bool=34, Res = ['"replay"', 34].
 
 
 
@@ -695,26 +695,27 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LAST
 					
 								getPiece(B,X,Y,Elem),
 								
-								if_then_else(Elem='B', (!, Res = '"replay"'), continueplay),
-								if_then_else(Elem='W', (!, Res = '"replay"'), continueplay),
-								if_then_else(Elem='w', (!, Res = '"replay"'), continueplay),
+								if_then_else(Elem='B', fail, continueplay),
+								if_then_else(Elem='W', fail, continueplay),
+								if_then_else(Elem='w', fail, continueplay),
 
 	
 								if_then_else(Bool>0, (!, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY)), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), (!, Res = '"replay"', takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool)), NewBool is 0),
-								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), (!, Res = '"replay"'), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), if_then_else(takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), continueplay, fail), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), fail, continueplay),
 								
 								if_then_else(Elem='b', setPiece(B, X, Y, 'B', R), setPiece(B, X, Y, P, R)),
 								setCounting(C,X,Y,NewCountingBoard),
 								setIdentity(Jogador,I,X,Y, NewIdentityBoard),
 								showBoard(R), nl,
 		
+								if_then_else(Move == 2, NewMove is 1, continueplay),
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
 								/*if_then_else(Move==1, stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 */
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
 
-								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,0,0].
+								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
 							
 								/*if_then_else(Mode=1,
 											stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
@@ -733,29 +734,62 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LAS
 								Jogador == 2,
 								getPiece(B,X,Y,Elem),
 								
-								if_then_else(Elem='W', (!, Res = '"replay"'), continueplay),
-								if_then_else(Elem='B', (!, Res = '"replay"'), continueplay),
-								if_then_else(Elem='b', (!, Res = '"replay"'), continueplay),
+								if_then_else(Elem='W', fail, continueplay),
+								if_then_else(Elem='B', fail, continueplay),
+								if_then_else(Elem='b', fail, continueplay),
 	
 
 								if_then_else(Bool>0, (!, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY)), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), (!, Res = '"replay"', takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool)), NewBool is 0),
-								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), (!, Res = '"replay"'), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), if_then_else(takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool),continueplay, fail), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), fail, continueplay),
 
 								if_then_else(Elem='w', setPiece(B, X, Y, 'W', R), setPiece(B, X, Y, P, R)),
 								setCounting(C,X,Y,NewCountingBoard),
 								setIdentity(Jogador,I,X,Y, NewIdentityBoard),
 								showBoard(R), nl,
-	
+
+
+
+								if_then_else(Move == 2, NewMove is 1, continueplay),
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
 								/*if_then_else(Move==1, stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 2,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 		*/
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
 
 
-								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,0,0].
+								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
 
-putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = '"replay"'.
+
+
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):-
+								Jogador == 1,
+								getPiece(B,X,Y,Elem),
+								
+								if_then_else(Elem='B', fail, continueplay),
+								if_then_else(Elem='W', fail, continueplay),
+								if_then_else(Elem='w', fail, continueplay),
+
+	
+								if_then_else(Bool>0, (!, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY)), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), if_then_else(takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), Res = ['"replay"', -10, 0, 0], fail), continueplay),
+								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), Res = ['"replay"', -10, LASTX, LASTY], continueplay).
+
+
+
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):-
+								Jogador == 2,
+								getPiece(B,X,Y,Elem),
+								
+								if_then_else(Elem='W', fail, continueplay),
+								if_then_else(Elem='B', fail, continueplay),
+								if_then_else(Elem='b', fail, continueplay),
+	
+
+								if_then_else(Bool>0, (!, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY)), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), if_then_else(takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), Res = ['"replay"', -10, 0, 0], fail), continueplay),
+								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), Res = ['"replay"', -10, LASTX, LASTY], continueplay).
+
+putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- Res = ['"replay"', 0].
 
 
 indexOf([Element|_], Element, 0). 

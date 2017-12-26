@@ -87,6 +87,8 @@ function MySceneGraph(filename, scene) {
 	 * After the file is read, the reader calls onXMLReady on this object.
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
+
+
     
     this.reader.open('scenes/' + filename, this);
 
@@ -216,7 +218,7 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
     }
 
 
-
+    
 
 
 }
@@ -1961,6 +1963,14 @@ MySceneGraph.prototype.handleReply = function(data){
                 this.NewPiecesArray.push(newPiece);
                 return 0;
             }
+        }
+    }
+    else if(response[0] == 'replay' && response[1] == -10){
+        if(this.playerBool){
+            this.player1Data.changeBool(response[2], response[3]);
+        }
+        else{
+            this.player2Data.changeBool(response[2], response[3]);
         }
     }
 }
