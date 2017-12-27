@@ -160,7 +160,7 @@ canvas {
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="document.getElementById('menuBox').style.display = 'none'; document.getElementById('statsBar').style.display = 'block';">2 PLAYER</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(1,1);">2 PLAYER</button><br>
 				</td>
 			</tr>
 			<tr>
@@ -184,17 +184,17 @@ canvas {
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.atributeGameType(1,1);">EASY</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(2,1);">EASY</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn">MEDIUM</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(2,2);">MEDIUM</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn">HARD</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(2,3);">HARD</button><br>
 				</td>
 			</tr>
 			<tr>
@@ -213,17 +213,17 @@ canvas {
 			</tr>
 			<tr>
 				<td>
-					<button class="btn">EASY</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(3,1);">EASY</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn">MEDIUM</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(3,2);">MEDIUM</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn">HARD</button><br>
+					<button class="btn" onclick="myGraph.loadGameData(3,3);">HARD</button><br>
 				</td>
 			</tr>
 			<tr>

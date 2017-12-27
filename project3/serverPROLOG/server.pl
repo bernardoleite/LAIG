@@ -1,6 +1,7 @@
 :-use_module(library(sockets)).
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
+:-use_module(library(random)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -104,6 +105,9 @@ print_header_line(_).
 % Require your Prolog Files here
 parse_input(putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LASTX,LASTY), Res):- 
 	putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LASTX,LASTY,Res).
+
+parse_input(strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY), Res):-
+	strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY, Res).
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
@@ -655,8 +659,12 @@ replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):-  nl
 																write('-> Due to CrossCut Rankings, you have to place your Piece in other position But not on that Crosscut'), nl,
 																if_then_else(Mode=1, stroke(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY), continueplay),
 																if_then_else(modeAndJogador1(Mode,Jogador), stroke(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY), continueplay),
-																if_then_else(modeAndJogador2(Mode,Jogador), strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY), continueplay),
-																if_then_else(Mode=3, strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY), continueplay).
+																if_then_else(modeAndJogador2(Mode,Jogador), strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY,Res), continueplay),
+																if_then_else(Mode=3, strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY,Res), continueplay).
+																
+replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY,Res):-
+				if_then_else(modeAndJogador2(Mode,Jogador), strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY,Res), continueplay),
+				if_then_else(Mode=3, strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, Jogador, Counter,Move,Bool,LASTX,LASTY,Res), continueplay).
 																
 
 checkPos(X,Y):- X < 0.
@@ -850,10 +858,15 @@ createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,Counter):-
 																				 
 					
 createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,Counter):- 
+								nl,write('ola1'),nl,
 								random(0, 10, AUXX),
 								random(0, 10, AUXY),
+								nl,write('ola2'),nl,
 								NewPos=[AUXX,AUXY],
+								
+								nl,write('ola3'),nl,
 								NewCounter is Counter+1,
+								nl,write('ola4'),nl,
 								createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,NewPos,VALX,VALY,NewCounter).
 
 checkConnection(Jogador,ElemC1,ElemC2):- ElemC1=0, ElemC2=0.											
@@ -1042,23 +1055,35 @@ atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint):- Jogador=2, CurrPoint=[LX,LY], nl.
 seeIfChangesDif(Dif,WAY,ACTIVE):- Dif=3, is_list(WAY), nth0(0,WAY,X),nth0(1,WAY,Y), X=100,Y=100, ACTIVE is 1.
 seeIfBoolisBiggerthanZero(Bool,Dif):- Bool=0, Dif==3.
 							
-strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY):-
+strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY, Res):-
+
 								Counter < 1000, write('Player '), write(Jogador), write('(Computer) '), write(' it is your turn!'), nl,
 								possiblePositions(B,C,I,Jogador,FreePos), 
+
+								write('passa aqui0'),
 						
 								if_then_else(Dif==1, createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,0), continueplay),
+								write('passa aqui01'),
 								if_then_else(checkBoolAndDIF(Bool,Dif), computerChecksBool(Move,LASTX,LASTY,VALX,VALY,Bool,Pos), continueplay),
+								write('passa aqui02'),
 								if_then_else(verifyDif2(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
+								write('passa aqui03'),
 								if_then_else(verifyDif3(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
-							
+								
+								write('passa aqui'),
 						
 								if_then_else(seeIfBoolisBiggerthanZero(Bool,Dif), searchAdvance(Counter, Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
+								write('passa aqui2'),
 								if_then_else(seeIfChangesDif(Dif,WAY,ACTIVE), searchPath(Bool,CurrPoint,B,C,I,Jogador,NEWWAY), continueplay),
+								write('passa aqui3'),
 								if_then_else(Dif==2, searchPath(Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
+								write('passa aqui4'),
 
 																	
 								if_then_else(verifyDif2List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY,ACTIVE,NEWWAY),continueplay,continueplay),
+								write('passa aqui5'),
 								if_then_else(verifyDif3List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY),continueplay,continueplay),
+								write('passa aqui6'),
 
 					
 								
@@ -1067,12 +1092,12 @@ strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LAST
 								write('Piece: '), if_then_else(Jogador==1,write('b'),write('w')), nl,
 								if_then_else(Jogador==1, P = 'b', P = 'w'), 
 								write('Nr of Stroke: '), write(Counter), nl, NewCounter is Counter+1, 
-								putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,VALX,VALY,P,Jogador,NewCounter,Move,Bool,LASTX,LASTY).	
+								putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,VALX,VALY,P,Jogador,NewCounter,Move,Bool,LASTX,LASTY,Res).	
 
 
 moveAndMode(Move,Mode):- Move==1, Mode==3.
 								
-putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY):- 
+putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- 
 								Jogador == 1,
 								getPiece(B,X,Y,Elem),
 
@@ -1091,7 +1116,7 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,B
 								NEWLX2 is X, NEWLY2 is Y,
 						
 								
-								if_then_else(moveAndMode(Move,Mode), strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
+								if_then_else(moveAndMode(Move,Mode), strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY,Res), continueplay),
 								if_then_else(Move==1, stroke(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 
 
@@ -1099,19 +1124,19 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,B
 
 
 								
-								strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY).
+								strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY,Res).
 
 											
 											
 											
 											
-putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LASTX,LASTY):- 
+putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LASTX,LASTY, Res):- 
 								Jogador == 2,
 								getPiece(B,X,Y,Elem),	
 
 								if_then_else(Bool>0, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), NewBool is 0),
-								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY,Res), continueplay),
 
 								if_then_else(Elem='w', setPiece(B, X, Y, 'W', R), setPiece(B, X, Y, P, R)),
 								
@@ -1122,14 +1147,14 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 								NEWLX is X, NEWLY is Y,
 							
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
-								if_then_else(Move==1, strokeComputer(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 2,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
-
+								if_then_else(Move==2, NewMove is 1, continueplay),
 		
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
+								Res = ['"yes"',NEWLX,NEWLY,0,0,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
 								
 								
 
-								if_then_else(Mode=1,
+								/*if_then_else(Mode=1,
 											stroke(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,1,Counter,1,0,LASTX,LASTY),
 											continueplay
 											),
@@ -1141,9 +1166,9 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 											
 
 								if_then_else(Mode=3,
-											strokeComputer(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,1,Counter,1,0,LASTX,LASTY),
+											strokeComputer(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,1,Counter,1,0,LASTX,LASTY,Res),
 											continueplay
-											).
+											).*/
 											
 
 

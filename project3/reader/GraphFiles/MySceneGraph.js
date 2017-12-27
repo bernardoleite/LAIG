@@ -15,6 +15,8 @@ var NODES_INDEX = 6;
  * @constructor
  */
 function MySceneGraph(filename, scene) {
+    this.computerPlayed = 0;
+
     this.loadedOk = null ;
 
     
@@ -82,6 +84,8 @@ function MySceneGraph(filename, scene) {
     this.playerBool = 0;
     this.playedAlready2Times = 0;
 
+    this.computerBool = 0;
+
        // this.setPickEnabled(true);
 
     /*
@@ -117,12 +121,6 @@ MySceneGraph.prototype.onXMLReady = function()
     
     // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
     this.scene.onGraphLoaded();
-}
-
-MySceneGraph.prototype.atributeGameType = function(type, difficult){
-    console.log("FUCCKKKKKKCKKKKKKKKKKKKK!");
-    console.log(type);
-    console.log(difficult);
 }
 
 /**
@@ -1900,9 +1898,11 @@ MySceneGraph.prototype.logPicking = function ()
                     let y = this.findXY(customId)[1];
 
                     if(this.playerBool){ //p2
-                        this.scene.getPrologRequest(this.player2Data.requestToDo(x,y), this.handleReply.bind(this));
+                        if(this.player2Data.mode == 1)
+                            this.scene.getPrologRequest(this.player2Data.requestToDo(x,y), this.handleReply.bind(this));
                     }
                     else{ //p1
+                        if(this.player1Data.mode != 3)
                         this.scene.getPrologRequest(this.player1Data.requestToDo(x,y), this.handleReply.bind(this));
                     }
 
@@ -1994,6 +1994,68 @@ MySceneGraph.prototype.handleReply = function(data){
 
         statsBar.innerHTML = "<h3>Player " + (this.playerBool + 1) + ", you cant put that piece here!</h3>";
     }
+
+}
+
+MySceneGraph.prototype.loadGameData = function(mode, dif) {
+
+    document.getElementById('menuBox').style.display = 'none'; 
+    document.getElementById('statsBar').style.display = 'block';
+
+    //player, mode dif
+    this.animationWorkArray = []; 
+    this.animationPiecesWorkArray = [];
+
+    this.player1Data =  new data(1, mode,dif,"b");
+    this.player2Data =  new data(2, mode,dif,"w");
+
+    this.playerBool = 0;
+    this.playedAlready2Times = 0;
+
+    /*if(mode == 1){
+            this.player1Data =  new data(1, 1,1,"b");
+            this.player2Data =  new data(2, 1,1,"w");
+    
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+    }
+    else if(mode == 2){
+        this.playerBool = 1;
+        if(dif == 1)
+        {
+            this.player1Data =  new data(1, 2,1,"b");
+            this.player2Data =  new data(2, 2,1,"w");
+    
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+        }
+        else if(dif == 3){
+            this.player1Data =  new data(1, 2,3,"b");
+            this.player2Data =  new data(2, 2,3,"w");
+    
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+        }
+    }
+    else if(mode == 3){
+        this.playerBool = 3;
+        if(dif == 1)
+        {
+            this.player1Data =  new data(1, 3,1,"b");
+            this.player2Data =  new data(2, 3,1,"w");
+    
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+        }
+        else if(dif == 3){
+            this.player1Data =  new data(1, 3,3,"b");
+            this.player2Data =  new data(2, 3,3,"w");
+    
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+        }
+    }*/
+    
 }
 
 /**
@@ -2079,9 +2141,6 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
        
 
     this.scene.popMatrix();
-    
-    this.drawBoard();
-    this.drawPiece();
     
 }
 
@@ -2187,4 +2246,93 @@ MySceneGraph.prototype.displayScene = function() {
 
     this.processGraph(this.idRoot, null, null);
 
+        
+    this.drawBoard();
+    this.drawPiece();
+
+
+    if(this.player2Data.mode == 2)
+        if(this.playerBool)
+            if(!this.computerPlayed){
+            this.scene.getPrologRequest(this.player2Data.requestToDoComputer(), this.handleReplyComputer.bind(this));
+            this.computerPlayed++;
+        }
+    }
+
+MySceneGraph.prototype.handleReplyComputer = function(data){
+
+    //resposta do servidor
+    this.lolada++;
+    let statsBar = document.getElementById('statsBarError');
+
+
+    console.log(data.target.response);
+    let pl;
+
+
+    var response = data.target.response;
+    response = response.replace(/b/g, '"b"'); 
+    response = response.replace(/B/g, '"B"');
+    response = response.replace(/w/g, '"w"');  
+    response = response.replace(/W/g, '"W"'); 
+    response = JSON.parse(response);
+
+    if(response[0] == 'yes'){
+        this.computerPlayed = 0;
+
+        statsBar.style.display = 'none';
+
+        if(this.playerBool)
+            pl = 'whitePiece';
+        else
+            pl = 'blackPiece';
+
+        this.saveGameDataComputer(response);
+
+        for(let i = 0; i < this.PiecesArray.length; i++){
+            if(this.PiecesArray[i].nodeID == pl){
+                let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
+
+                newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[2], response[1], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+
+                let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[response[2]*2, 10, response[1]*2], [response[2]*2, 0.5, response[1]*2]]);
+
+                newPiece.addAnimation(pickingAnimation);
+
+                this.NewPiecesArray.push(newPiece);
+                return 0;
+            }
+        }
+    }
+
 }
+
+MySceneGraph.prototype.saveGameDataComputer = function(data){
+
+    if(this.playerBool){
+        this.player2Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
+        this.player1Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
+        this.player2Data.addLX(data[1], data[2], data[3], data[4]);
+        this.player2Data.addJogada();
+        this.player1Data.addJogada();
+        this.playedAlready2Times++;
+        if(this.playedAlready2Times == 2){
+            this.playerBool = 0;
+            this.playedAlready2Times = 0;
+        }
+    }
+    else{
+        this.player2Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
+        this.player1Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
+        this.player1Data.addLX(data[1], data[2], data[3], data[4]);
+        this.player1Data.addJogada();
+        this.player2Data.addJogada();
+        this.playedAlready2Times++;
+        if(this.playedAlready2Times == 2){
+            this.playerBool = 1;
+            this.playedAlready2Times = 0;
+        }
+    }
+
+}
+
