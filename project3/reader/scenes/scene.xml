@@ -23,7 +23,7 @@
 <LIGHTS>	
 	<LIGHT id="light0">                                    
         <enable value ="1" />                   	       
-        <position  x="0" y="10" z="0" w="1" />       	   
+        <position  x="0" y="5" z="0" w="1" />       	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />        	 
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
@@ -47,7 +47,7 @@
 	
 	<LIGHT id="light1">                                    
         <enable value ="1" />                   	      
-        <position x="30" y="10" z="0" w="1" />       	   
+        <position x="20" y="5" z="0" w="1" />       	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
@@ -55,7 +55,7 @@
 	
 	<LIGHT id="light2">                                   
         <enable value ="1" />                   	       
-        <position x="0" y="10" z="20" w="1" />       		   
+        <position x="0" y="5" z="20" w="1" />       		   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
@@ -63,10 +63,18 @@
 
     <LIGHT id="light3">                                   
         <enable value ="1" />                   	       
-        <position x="30" y="10" z="20" w="1" />       			
+        <position x="20" y="5" z="20" w="1" />       			
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />           	
         <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />       
         <specular r="0.6" g="0.6" b="0.6" a="1.0" />      
+    </LIGHT>
+  
+    <LIGHT id="light4">                                   
+        <enable value ="1" />                   	       
+        <position x="10" y="14" z="10" w="1" />       			
+        <ambient r="1" g="1" b="1" a="1.0" />           	
+        <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />       
+        <specular r="0.6" g="0.6" b="0.6" a="1.0" />       
     </LIGHT>
     
 </LIGHTS>
@@ -129,6 +137,11 @@
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
+    <TEXTURE id="wood">
+        <file path="images/wood.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
     <TEXTURE id="leavesText">
         <file path="images/leaves.png" />                
         <amplif_factor s="5" t="4" />                           
@@ -164,6 +177,20 @@
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
+     <TEXTURE id="decorative">
+        <file path="images/decorative.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
+     <TEXTURE id="glass">
+        <file path="images/glass.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
+     <TEXTURE id="gold">
+        <file path="images/gold.png" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
     
 </TEXTURES>
 
@@ -269,9 +296,338 @@
         <DESCENDANTS>  
 			<NODEREF id="whitePiece" />
             <NODEREF id="blackPiece" />
+            <NODEREF id="table" />
+            <NODEREF id="lampMiddle" />
+            <NODEREF id="lampLeft" />
+            <NODEREF id="lampRight" />
         </DESCENDANTS>
 
     </NODE>
+
+
+     <NODE id="lampOri" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="wood" /> 
+
+	<TRANSLATION x="14" y="0" z="-14" />
+	<ROTATION axis="y" angle="-45" />        
+
+        <DESCENDANTS>
+			<NODEREF id="support" />
+			<NODEREF id="minilamp" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="lampLeft" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="wood" />
+         
+	<TRANSLATION x="-14" y="0" z="6" />
+	<ROTATION axis="y" angle="45" />   
+
+        <DESCENDANTS>
+			<NODEREF id="support" />
+			<NODEREF id="minilamp" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="lampRight" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="wood" /> 
+
+	<TRANSLATION x="34" y="0" z="14" />
+	<ROTATION axis="y" angle="-135" />          
+
+        <DESCENDANTS>
+			<NODEREF id="support" />
+			<NODEREF id="minilamp" />
+        </DESCENDANTS>
+    </NODE>    
+    
+     <NODE id="minilamp" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="glass" /> 
+
+	<SCALE sx="1" sy="1" sz="1" />
+	<TRANSLATION x="0" y="5" z="20" />
+
+        <DESCENDANTS>
+			<LEAF type="sphere" args="0.5 100 100" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="support" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+
+        <DESCENDANTS>
+			<NODEREF id="supportVert" />
+			<NODEREF id="supportHor" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="supportVert" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+
+	<SCALE sx="0.25" sy="1.3" sz="0.25" />
+	<TRANSLATION x="-8" y="0" z="80" />
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF type="cylinder" args="4 1 1 20 20 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="supportHor" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+
+	<SCALE sx="0.4" sy="0.25" sz="0.25" />
+	<TRANSLATION x="-5" y="20" z="80" />
+	<ROTATION axis="y" angle="90" />
+
+        <DESCENDANTS>
+			<LEAF type="cylinder" args="4 1 1 20 20 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="lampMiddle" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="wood" /> 
+
+        <DESCENDANTS>
+			<NODEREF id="wire" />
+			<NODEREF id="bulb" />
+			<NODEREF id="decorative" />
+        </DESCENDANTS>
+    </NODE>
+
+
+
+     <NODE id="wire" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="gold" /> 
+	
+	<SCALE sx="0.2" sy="20" sz="0.2" />
+	<TRANSLATION x="50" y="0.8" z="50" />
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF type="cylinder" args="4 1 1 20 20 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="bulb" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="glass" /> 
+
+	<SCALE sx="1" sy="1" sz="1" />
+	<TRANSLATION x="10" y="15" z="10" />
+
+        <DESCENDANTS>
+			<LEAF type="sphere" args="1.5 100 100" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="decorative" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="decorative" /> 
+	
+	<SCALE sx="1" sy="1" sz="1" />
+	<TRANSLATION x="10" y="15" z="10" />
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF type="cylinder" args="4 3 1 20 20 1 0" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="table" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="wood" /> 
+
+        <DESCENDANTS>
+			<NODEREF id="tampo" />
+			<NODEREF id="perna1" />
+			<NODEREF id="perna2" />	
+			<NODEREF id="perna3" />
+			<NODEREF id="perna4" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="tampo" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+              
+	<SCALE sx="5" sy="0.5" sz="5" />
+	<TRANSLATION x="-3" y="-8.1" z="-3" /> 
+
+
+        <DESCENDANTS>
+			<NODEREF id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="perna1" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+              
+	<SCALE sx="0.5" sy="5" sz="0.5" />
+	<TRANSLATION x="-3" y="-8.1" z="-3" /> 
+
+
+        <DESCENDANTS>
+			<NODEREF id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="perna2" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+              
+	<SCALE sx="0.5" sy="5" sz="0.5" />
+	<TRANSLATION x="33" y="-8.1" z="-3" /> 
+
+
+        <DESCENDANTS>
+			<NODEREF id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="perna3" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+              
+	<SCALE sx="0.5" sy="5" sz="0.5" />
+	<TRANSLATION x="33" y="-8.1" z="33" /> 
+
+
+        <DESCENDANTS>
+			<NODEREF id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="perna4" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+              
+	<SCALE sx="0.5" sy="5" sz="0.5" />
+	<TRANSLATION x="-3" y="-8.1" z="33" /> 
+
+
+        <DESCENDANTS>
+			<NODEREF id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="cube" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       
+
+        <DESCENDANTS>
+       		<NODEREF id="faceCubo1" />
+            <NODEREF id="faceCubo2" />
+            <NODEREF id="faceCubo3" />
+            <NODEREF id="faceCubo4" />
+            <NODEREF id="faceCubo5" />
+            <NODEREF id="faceCubo6" />      
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="faceCubo1">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="2.5" y="4" z="7.5" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+     <NODE id="faceCubo2">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="2.5" y="4" z="2.5" />
+		<ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo3">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="7.5" y="4" z="7.5" />
+		<ROTATION axis="y" angle="90" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo4">       
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="7.5" y="4" z="2.5" />
+        <ROTATION axis="y" angle="180" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo5">       
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />       			
+
+        <ROTATION axis="x" angle="-90" />
+        <TRANSLATION x="2.5" y="-7.5" z="8" />
+        <SCALE sx="1" sy="1.25" sz="1" />
+
+        <DESCENDANTS>
+ 					<LEAF  type="rectangle" args="0 4 5 0" />        
+       </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo6">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="2.5" y="4" z="2.5" />
+        <ROTATION axis="x" angle="90" />
+        <SCALE sx="1" sy="1.25" sz="1" />
+
+        <DESCENDANTS>
+					<LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
 
 
 

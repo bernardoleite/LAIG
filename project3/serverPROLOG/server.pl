@@ -637,10 +637,23 @@ crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX, NEWLASTY):-  fullCrossCut(C,I,X,
 
 takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool):- if_then_else(Move=2, fail, continueplay).
 
+
+
+/*Duplicate for computer Mode*/
+takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res):- if_then_else(Move=2, replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,0,0,Res), continueplay).
+
+
+
 verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY):- 
 				if_then_else(verify_bool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY), 
 				continueplay, 
 				fail).
+	
+/*Duplicate for Computer mode*/	
+verifyTheBool2(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY,Res):- 
+				if_then_else(verify_bool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY), 
+				continueplay, 
+				replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY,Res)).				
 
 				
 startGame(Mode,Dif):-  use_module(library(lists)), use_module(library(system)), use_module(library(random)), initialBoard(B), countingBoard(C), identityBoard(I), showBoard(B), 
@@ -858,15 +871,10 @@ createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,Counter):-
 																				 
 					
 createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,Counter):- 
-								nl,write('ola1'),nl,
 								random(0, 10, AUXX),
 								random(0, 10, AUXY),
-								nl,write('ola2'),nl,
 								NewPos=[AUXX,AUXY],
-								
-								nl,write('ola3'),nl,
 								NewCounter is Counter+1,
-								nl,write('ola4'),nl,
 								createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,NewPos,VALX,VALY,NewCounter).
 
 checkConnection(Jogador,ElemC1,ElemC2):- ElemC1=0, ElemC2=0.											
@@ -1057,54 +1065,44 @@ seeIfBoolisBiggerthanZero(Bool,Dif):- Bool=0, Dif==3.
 							
 strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY, Res):-
 
-								Counter < 1000, write('Player '), write(Jogador), write('(Computer) '), write(' it is your turn!'), nl,
-								possiblePositions(B,C,I,Jogador,FreePos), 
+	Counter < 1000, write('Player '), write(Jogador), write('(Computer) '), write(' it is your turn!'), nl,
+	possiblePositions(B,C,I,Jogador,FreePos), 
 
-								write('passa aqui0'),
-						
-								if_then_else(Dif==1, createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,0), continueplay),
-								write('passa aqui01'),
-								if_then_else(checkBoolAndDIF(Bool,Dif), computerChecksBool(Move,LASTX,LASTY,VALX,VALY,Bool,Pos), continueplay),
-								write('passa aqui02'),
-								if_then_else(verifyDif2(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
-								write('passa aqui03'),
-								if_then_else(verifyDif3(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
-								
-								write('passa aqui'),
-						
-								if_then_else(seeIfBoolisBiggerthanZero(Bool,Dif), searchAdvance(Counter, Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
-								write('passa aqui2'),
-								if_then_else(seeIfChangesDif(Dif,WAY,ACTIVE), searchPath(Bool,CurrPoint,B,C,I,Jogador,NEWWAY), continueplay),
-								write('passa aqui3'),
-								if_then_else(Dif==2, searchPath(Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
-								write('passa aqui4'),
+	if_then_else(Dif==1, createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,0), continueplay),
+	if_then_else(checkBoolAndDIF(Bool,Dif), computerChecksBool(Move,LASTX,LASTY,VALX,VALY,Bool,Pos), continueplay),
+	if_then_else(verifyDif2(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
 
-																	
-								if_then_else(verifyDif2List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY,ACTIVE,NEWWAY),continueplay,continueplay),
-								write('passa aqui5'),
-								if_then_else(verifyDif3List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY),continueplay,continueplay),
-								write('passa aqui6'),
-
-					
-								
-								write('Line: '), nl,  write(VALX),  nl, 
-								write('Column: '), nl, write(VALY), nl, 
-								write('Piece: '), if_then_else(Jogador==1,write('b'),write('w')), nl,
-								if_then_else(Jogador==1, P = 'b', P = 'w'), 
-								write('Nr of Stroke: '), write(Counter), nl, NewCounter is Counter+1, 
-								putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,VALX,VALY,P,Jogador,NewCounter,Move,Bool,LASTX,LASTY,Res).	
+	if_then_else(verifyDif3(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
 
 
-moveAndMode(Move,Mode):- Move==1, Mode==3.
+	if_then_else(seeIfBoolisBiggerthanZero(Bool,Dif), searchAdvance(Counter, Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
+	if_then_else(seeIfChangesDif(Dif,WAY,ACTIVE), searchPath(Bool,CurrPoint,B,C,I,Jogador,NEWWAY), continueplay),
+	if_then_else(Dif==2, searchPath(Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
+
+
+										
+	if_then_else(verifyDif2List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY,ACTIVE,NEWWAY),continueplay,continueplay),
+	if_then_else(verifyDif3List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY),continueplay,continueplay),
+
+
+
+write('Line: '), nl,  write(VALX),  nl, 
+write('Column: '), nl, write(VALY), nl, 
+write('Piece: '), if_then_else(Jogador==1,write('b'),write('w')), nl,
+if_then_else(Jogador==1, P = 'b', P = 'w'), 
+write('Nr of Stroke: '), write(Counter), nl, NewCounter is Counter+1, 
+putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,VALX,VALY,P,Jogador,NewCounter,Move,Bool,LASTX,LASTY,Res).	
+
+
 								
 putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LASTX,LASTY, Res):- 
 								Jogador == 1,
 								getPiece(B,X,Y,Elem),
 
 	
-								if_then_else(Bool>0, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), NewBool is 0),
-								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY), continueplay),
+								if_then_else(Bool>0, verifyTheBool2(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY,Res), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else((Bool=31;Bool=32;Bool=33;Bool=34), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY,Res), continueplay),
 								
 								if_then_else(Elem='b', setPiece(B, X, Y, 'B', R), setPiece(B, X, Y, P, R)),
 								setCounting(C,X,Y,NewCountingBoard),
@@ -1115,8 +1113,8 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,B
 								
 								NEWLX2 is X, NEWLY2 is Y,
 						
-								
-								if_then_else(moveAndMode(Move,Mode), strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY,Res), continueplay),
+								/*Tirar isto no Modo 3*/
+								if_then_else((Move==1, Mode==3), strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY,Res), continueplay),
 								if_then_else(Move==1, stroke(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 
 
@@ -1134,9 +1132,9 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 								Jogador == 2,
 								getPiece(B,X,Y,Elem),	
 
-								if_then_else(Bool>0, verifyTheBool(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
-								if_then_else(seeIfReplays(B,C,I,Jogador,Counter,Move,NewBool,LASTX,LASTY), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY,Res), continueplay),
+								if_then_else(Bool>0, verifyTheBool2(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY,Res), continueplay),
+								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else((Bool=31;Bool=32;Bool=33;Bool=34), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY,Res), continueplay),
 
 								if_then_else(Elem='w', setPiece(B, X, Y, 'W', R), setPiece(B, X, Y, P, R)),
 								
