@@ -1937,9 +1937,12 @@ MySceneGraph.prototype.findXY = function(valuePicked){
 MySceneGraph.prototype.handleReply = function(data){
     //resposta do servidor
     this.lolada++;
+    let statsBar = document.getElementById('statsBarError');
+
 
     console.log(data.target.response);
     let pl;
+
 
     var response = data.target.response;
     response = response.replace(/b/g, '"b"'); 
@@ -1950,6 +1953,7 @@ MySceneGraph.prototype.handleReply = function(data){
 
     if(response[0] == 'yes'){
 
+        statsBar.style.display = 'none';
 
         if(this.playerBool)
             pl = 'whitePiece';
@@ -1974,12 +1978,21 @@ MySceneGraph.prototype.handleReply = function(data){
         }
     }
     else if(response[0] == 'replay' && response[1] == -10){
+        statsBar.style.display = 'block';
+
+        statsBar.innerHTML = "<h3>Player " + (this.playerBool + 1) + ", your opponent has a bigger crosscut rank!</h3>";
+
         if(this.playerBool){
             this.player1Data.changeBool(response[2], response[3]);
         }
         else{
             this.player2Data.changeBool(response[2], response[3]);
         }
+    }
+    else if(response[0] == 'replay' && response[1] == 0){
+        statsBar.style.display = 'block';
+
+        statsBar.innerHTML = "<h3>Player " + (this.playerBool + 1) + ", you cant put that piece here!</h3>";
     }
 }
 
@@ -1991,6 +2004,10 @@ MySceneGraph.prototype.handleReply = function(data){
  * @return {Number} textInit - Initial Texture of the Node
  */
 MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
+
+    let statsBar = document.getElementById('statsBar');
+
+        statsBar.innerHTML = "<h3><a style=\"color:#000 \">Player " + (this.playerBool + 1) + "</a> its your turn!</h3>";
 
     var material = matInit;
     var text = textInit;

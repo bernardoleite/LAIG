@@ -45,6 +45,30 @@ canvas {
     display: none;
 }
 
+#statsBar{
+	position: absolute;
+	display: none;
+	width: 200px;
+	left: 20px;
+	top: 20px;
+	background-color: #FFF;
+	color: #666;
+	border-radius: 8px;
+	padding: 10px;
+}
+
+#statsBarError{
+	position: absolute;
+	display: none;
+	width: 200px;
+	left: 20px;
+	top: 105px;
+	background-color: #f44242;
+	color: #FFF;
+	border-radius: 8px;
+	padding: 10px;
+}
+
 .btn {
   -webkit-border-radius: 9;
   -moz-border-radius: 9;
@@ -94,6 +118,14 @@ canvas {
 
 
 <script src="main.js"></script>
+
+<div id="statsBar">
+	
+</div>
+<div id="statsBarError">
+	
+</div>
+
 <div id="menuBox">
 	<div id="content">
 		<table>
@@ -128,7 +160,7 @@ canvas {
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="document.getElementById('menuBox').style.display = 'none';">2 PLAYER</button><br>
+					<button class="btn" onclick="document.getElementById('menuBox').style.display = 'none'; document.getElementById('statsBar').style.display = 'block';">2 PLAYER</button><br>
 				</td>
 			</tr>
 			<tr>
