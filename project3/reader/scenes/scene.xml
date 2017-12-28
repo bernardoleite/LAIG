@@ -148,12 +148,12 @@
     </TEXTURE>
 
     <TEXTURE id="preto">
-        <file path="images/magma.png" />                
+        <file path="images/cell.gif" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
     <TEXTURE id="branco">
-        <file path="images/box.png" />                
+        <file path="images/cell2.jpg" />                
         <amplif_factor s="2" t="1.25" />                           
     </TEXTURE>
 
@@ -191,6 +191,28 @@
         <file path="images/gold.png" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
+
+     <TEXTURE id="supportPieces">
+        <file path="images/supporPieces.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>    
+
+    <TEXTURE id="varanda">
+        <file path="images/varanda.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>    
+
+     <TEXTURE id="varanda2">
+        <file path="images/varanda2.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>    
+
+     <TEXTURE id="floor">
+        <file path="images/floor.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>      
+
+
     
 </TEXTURES>
 
@@ -294,6 +316,9 @@
 
 
         <DESCENDANTS>  
+        	<NODEREF id="wall1" />
+        	<NODEREF id="wall2" />
+        	<NODEREF id="floor" />
 			<NODEREF id="whitePiece" />
             <NODEREF id="blackPiece" />
             <NODEREF id="table" />
@@ -303,6 +328,50 @@
         </DESCENDANTS>
 
     </NODE>
+
+     <NODE id="floor" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="floor" /> 
+
+
+     	<SCALE sx="13" sy="13" sz="23" />   
+		<TRANSLATION x="-2" y="-1.5" z="3" /> 
+		<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="wall1" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="varanda" /> 
+
+
+     	<SCALE sx="13" sy="13" sz="1" />   
+		<TRANSLATION x="-2" y="-1.5" z="-23" /> 
+		<ROTATION axis="x" angle="0" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+    <NODE id="wall2" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="varanda2" /> 
+
+
+     <SCALE sx="13" sy="13" sz="16" />   
+	<TRANSLATION x="-2" y="-1.52" z="3.5" /> 
+	<ROTATION axis="y" angle="90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>    
+
 
 
      <NODE id="lampOri" >       
@@ -456,6 +525,10 @@
 
         <DESCENDANTS>
 			<NODEREF id="tampo" />
+			<NODEREF id="sup1Black" />
+			<NODEREF id="sup1White" />
+			<NODEREF id="sup2Black" />
+			<NODEREF id="sup2White" />
 			<NODEREF id="perna1" />
 			<NODEREF id="perna2" />	
 			<NODEREF id="perna3" />
@@ -463,6 +536,62 @@
         </DESCENDANTS>
     </NODE>
 
+     <NODE id="sup1Black" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="supportPieces" /> 
+
+
+     <SCALE sx="2" sy="1" sz="1" />   
+	<TRANSLATION x="3" y="-1" z="25" /> 
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="sup1White" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="supportPieces" /> 
+
+     <SCALE sx="1" sy="1" sz="2" />   
+	<TRANSLATION x="20" y="-1" z="7" /> 
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>    
+
+
+     <NODE id="sup2Black" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="supportPieces" /> 
+
+
+     <SCALE sx="2" sy="1" sz="1" />   
+	<TRANSLATION x="3" y="-1" z="-1" /> 
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="sup2White" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="supportPieces" /> 
+
+     <SCALE sx="1" sy="1" sz="2" />   
+	<TRANSLATION x="-5" y="-1" z="7" /> 
+	<ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>   
 
      <NODE id="tampo" >       
         <MATERIAL id="null" />     
