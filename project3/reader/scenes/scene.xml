@@ -21,31 +21,8 @@
 
 <!-- Lights -->
 <LIGHTS>	
-	<LIGHT id="light0">                                    
-        <enable value ="1" />                   	       
-        <position  x="0" y="5" z="0" w="1" />       	   
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />        	 
-        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
-        <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
-    </LIGHT>
 
-    <LIGHT id="lightchao1">                                    
-        <enable value ="1" />                   	       
-        <position  x="10" y="-1" z="30" w="1" />       	   
-        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />        	 
-        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
-        <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
-    </LIGHT>
-
-    <LIGHT id="lightchao2">                                    
-        <enable value ="1" />                   	       
-        <position  x="35" y="-1" z="10" w="1" />       	   
-        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />        	 
-        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
-        <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
-    </LIGHT>
-	
-	<LIGHT id="light1">                                    
+	<LIGHT id="Right Lamp">                                    
         <enable value ="1" />                   	      
         <position x="20" y="5" z="0" w="1" />       	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
@@ -53,7 +30,7 @@
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </LIGHT>
 	
-	<LIGHT id="light2">                                   
+	<LIGHT id="Left Lamp">                                   
         <enable value ="1" />                   	       
         <position x="0" y="5" z="20" w="1" />       		   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
@@ -61,15 +38,8 @@
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </LIGHT>
 
-    <LIGHT id="light3">                                   
-        <enable value ="1" />                   	       
-        <position x="20" y="5" z="20" w="1" />       			
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />           	
-        <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />       
-        <specular r="0.6" g="0.6" b="0.6" a="1.0" />      
-    </LIGHT>
   
-    <LIGHT id="light4">                                   
+    <LIGHT id="Top Lamp">                                   
         <enable value ="1" />                   	       
         <position x="10" y="14" z="10" w="1" />       			
         <ambient r="1" g="1" b="1" a="1.0" />           	

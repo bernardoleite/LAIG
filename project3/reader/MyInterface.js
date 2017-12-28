@@ -62,3 +62,10 @@ MyInterface.prototype.addSelectedDropDown = function(selectedNodes) {
      selected.add(this.scene, "selectedStr", selectedNodes);
 }
 
+MyInterface.prototype.addSelectedDropDownScenes = function(selectedScenes) {
+     var selectedScene = this.gui.addFolder("Scenes");
+
+     selectedScene.open();
+     selectedScene.add(this.scene, "selectedScene", selectedScenes);
+}
+

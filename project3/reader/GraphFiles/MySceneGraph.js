@@ -40,8 +40,10 @@ function MySceneGraph(filename, scene) {
 
     this.selectableNodes = ["Select"];
     this.selectableCams = ["Default"];
+    this.selectableScenes = ["Living Room"];
 
     this.selectableCams.push("Top");
+    this.selectableScenes.push("Other");
 
     this.sameNodesArray = [];
 
