@@ -16,6 +16,7 @@ var NODES_INDEX = 6;
  */
 function MySceneGraph(filename, scene) {
     this.computerPlayed = 0;
+    this.computerPlayed2 = 0;
 
     this.loadedOk = null ;
 
@@ -2253,13 +2254,29 @@ MySceneGraph.prototype.displayScene = function() {
     this.drawPiece();
 
 
-    if(this.player2Data.mode == 2)
-        if(this.playerBool)
+    if(this.player2Data.mode == 2){
+        if(this.playerBool){
+                    if(!this.computerPlayed){
+                    this.scene.getPrologRequest(this.player2Data.requestToDoComputer(), this.handleReplyComputer.bind(this));
+                    this.computerPlayed++;
+                }}
+    }
+    else if(this.player2Data.mode == 3 || this.player1Data.mode == 3){
+        if(this.playerBool){
             if(!this.computerPlayed){
-            this.scene.getPrologRequest(this.player2Data.requestToDoComputer(), this.handleReplyComputer.bind(this));
-            this.computerPlayed++;
+                this.scene.getPrologRequest(this.player2Data.requestToDoComputer(), this.handleReplyComputer.bind(this));
+                this.computerPlayed++;
+            }
+        }
+        else{
+            if(!this.computerPlayed2){
+                this.scene.getPrologRequest(this.player1Data.requestToDoComputer(), this.handleReplyComputer.bind(this));
+                this.computerPlayed2++;
+            }
         }
     }
+    
+}
 
 MySceneGraph.prototype.handleReplyComputer = function(data){
 
@@ -2280,7 +2297,6 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
     response = JSON.parse(response);
 
     if(response[0] == 'yes'){
-        this.computerPlayed = 0;
 
         statsBar.style.display = 'none';
 
@@ -2295,16 +2311,26 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
             if(this.PiecesArray[i].nodeID == pl){
                 let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
 
-                newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[2], response[1], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+                let pickingAnimation;
 
-                let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[response[2]*2, 10, response[1]*2], [response[2]*2, 0.5, response[1]*2]]);
-
+                if(pl == 'whitePiece'){
+                    newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[2], response[1], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+                    pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[response[2]*2, 10, response[1]*2], [response[2]*2, 0.5, response[1]*2]]);
+                    this.computerPlayed = 0;
+                }
+                else{
+                    newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[4], response[3], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+                    pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[response[4]*2, 10, response[3]*2], [response[4]*2, 0.5, response[3]*2]]);
+                    this.computerPlayed2 = 0;
+                }     
                 newPiece.addAnimation(pickingAnimation);
 
                 this.NewPiecesArray.push(newPiece);
+                
                 return 0;
             }
         }
+
     }
 
 }
@@ -2315,8 +2341,11 @@ MySceneGraph.prototype.saveGameDataComputer = function(data){
         this.player2Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
         this.player1Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
         this.player2Data.addLX(data[1], data[2], data[3], data[4]);
+        this.player1Data.addLX(data[1], data[2], data[3], data[4]);
+        this.player2Data.counter++;
+        this.player1Data.counter++;
         this.player2Data.addJogada();
-        this.player1Data.addJogada();
+       // this.player1Data.addJogada();
         this.playedAlready2Times++;
         if(this.playedAlready2Times == 2){
             this.playerBool = 0;
@@ -2327,8 +2356,11 @@ MySceneGraph.prototype.saveGameDataComputer = function(data){
         this.player2Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
         this.player1Data.changeData(data[5],data[6],data[7],data[8],data[9],data[10],data[11]);
         this.player1Data.addLX(data[1], data[2], data[3], data[4]);
+        this.player2Data.addLX(data[1], data[2], data[3], data[4]);
+        this.player1Data.counter++;
+        this.player2Data.counter++;
         this.player1Data.addJogada();
-        this.player2Data.addJogada();
+        //this.player2Data.addJogada();
         this.playedAlready2Times++;
         if(this.playedAlready2Times == 2){
             this.playerBool = 1;

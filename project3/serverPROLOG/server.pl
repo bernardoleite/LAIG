@@ -1066,24 +1066,27 @@ seeIfBoolisBiggerthanZero(Bool,Dif):- Bool=0, Dif==3.
 strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY, Res):-
 
 	Counter < 1000, write('Player '), write(Jogador), write('(Computer) '), write(' it is your turn!'), nl,
+
 	possiblePositions(B,C,I,Jogador,FreePos), 
 
 	if_then_else(Dif==1, createRandPos(C,I,Jogador,Move,Bool,LASTX,LASTY,FreePos,Pos,VALX,VALY,0), continueplay),
 	if_then_else(checkBoolAndDIF(Bool,Dif), computerChecksBool(Move,LASTX,LASTY,VALX,VALY,Bool,Pos), continueplay),
 	if_then_else(verifyDif2(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
 
-	if_then_else(verifyDif3(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint)),
 
+	nl,write(Bool),nl,nl,write(Jogador),nl,nl,write(Mode),nl,nl,write(Dif),nl,nl,write(VALX),nl,nl,write(VALY),nl,nl,write(Counter),nl,nl,write(CurrPoint),nl,
+								nl,write(LX),nl,nl,write(LY),nl,nl,write(LX2),nl,nl,write(LY2),nl,
+
+
+	if_then_else(verifyDif3(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,CurrPoint),continueplay,(write('bernardo'),atrbL(Jogador,LX,LY,LX2,LY2,CurrPoint))),
 
 	if_then_else(seeIfBoolisBiggerthanZero(Bool,Dif), searchAdvance(Counter, Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
 	if_then_else(seeIfChangesDif(Dif,WAY,ACTIVE), searchPath(Bool,CurrPoint,B,C,I,Jogador,NEWWAY), continueplay),
 	if_then_else(Dif==2, searchPath(Bool,CurrPoint,B,C,I,Jogador,WAY), continueplay),
 
-
 										
 	if_then_else(verifyDif2List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY,ACTIVE,NEWWAY),continueplay,continueplay),
 	if_then_else(verifyDif3List(Bool,Jogador,Mode,Dif,VALX,VALY,Counter,WAY),continueplay,continueplay),
-
 
 
 write('Line: '), nl,  write(VALX),  nl, 
@@ -1109,20 +1112,21 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,B
 								setIdentity(Jogador,I,X,Y, NewIdentityBoard),
 								showBoard(R), nl,
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
+								if_then_else(Move==2, NewMove is 1, continueplay),
 								
 								
 								NEWLX2 is X, NEWLY2 is Y,
 						
 								/*Tirar isto no Modo 3*/
-								if_then_else((Move==1, Mode==3), strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY,Res), continueplay),
+								/*if_then_else((Move==1, Mode==3), strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY,Res), continueplay),
 								if_then_else(Move==1, stroke(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
-
+*/
 
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
 
 
 								
-								strokeComputer(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY,Res).
+								if_then_else((Mode==3,Counter=<2), Res = ['"yes"',0,0,NEWLX2,NEWLY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY], Res = ['"yes"',LX,LY,NEWLX2,NEWLY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]).
 
 											
 											
@@ -1148,7 +1152,10 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 								if_then_else(Move==2, NewMove is 1, continueplay),
 		
 								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
-								Res = ['"yes"',NEWLX,NEWLY,0,0,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
+
+
+
+								if_then_else(Mode==3, Res = ['"yes"',NEWLX,NEWLY,LX2,LY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY], Res = ['"yes"',NEWLX,NEWLY,0,0,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]).
 								
 								
 

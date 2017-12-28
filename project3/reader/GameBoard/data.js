@@ -1,11 +1,22 @@
 class data{
 	constructor(player, mode, dif, p){
-		if(mode != 1){
+		this.counter = 0;
+
+		if(mode == 2){
 			this.NEWLX = "NEWLX";
 			this.NEWLY = "NEWLY";
 			this.LX2 = "LX";
 			this.LY2 = "LY";
+			this.counter = 3;
 		}
+		else if(mode == 3){
+			this.NEWLX = "NEWLX";
+			this.NEWLY = "NEWLY";
+			this.LX2 = "LX";
+			this.LY2 = "LY";
+			this.counter = 1;
+		}
+
 		this.player = player;
 		this.p = p;
 		this.jogadas = [];
@@ -92,10 +103,30 @@ class data{
 	requestToDoComputer(){
 		//strokeComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,Bool,LASTX,LASTY, Res)
 
+		if(this.counter == 3){
+			let response = 'strokeComputer(LX,LY,'+ JSON.stringify(this.LX2) + ',' + JSON.stringify(this.LY2)  + ',' +
+		JSON.stringify(this.mode) + ',' + JSON.stringify(this.dif) + ',' + JSON.stringify(this.R) + ','
+		 + JSON.stringify(this.NewCountingBoard) + ',' + JSON.stringify(this.NewIdentityBoard) + ',' +
+		 JSON.stringify(this.player) + ',' + JSON.stringify(this.counter) + ',' + JSON.stringify(this.NewMove) + ',' + JSON.stringify(this.NewBool) + ',' + JSON.stringify(this.NEWLASTX) + ',' + 
+		 JSON.stringify(this.NEWLASTY) + ')';
+
+		 if(this.flag != 0){
+		 	response = response.replace(/"/g, '\'');
+		 }
+		 else{
+		 	response = response.replace(/"/g, '');
+		 	this.flag++;
+		 }
+
+		 console.log(response);
+
+		 return response;
+		}
+
 		let response = 'strokeComputer('+ JSON.stringify(this.NEWLX) + ',' + JSON.stringify(this.NEWLY) + ',' + JSON.stringify(this.LX2) + ',' + JSON.stringify(this.LY2)  + ',' +
 		JSON.stringify(this.mode) + ',' + JSON.stringify(this.dif) + ',' + JSON.stringify(this.R) + ','
 		 + JSON.stringify(this.NewCountingBoard) + ',' + JSON.stringify(this.NewIdentityBoard) + ',' +
-		 JSON.stringify(this.player) + ',3,' + JSON.stringify(this.NewMove) + ',' + JSON.stringify(this.NewBool) + ',' + JSON.stringify(this.NEWLASTX) + ',' + 
+		 JSON.stringify(this.player) + ',' + JSON.stringify(this.counter) + ',' + JSON.stringify(this.NewMove) + ',' + JSON.stringify(this.NewBool) + ',' + JSON.stringify(this.NEWLASTX) + ',' + 
 		 JSON.stringify(this.NEWLASTY) + ')';
 
 		 if(this.flag != 0){
