@@ -20,6 +20,8 @@ function MySceneGraph(filename, scene) {
 
     this.loadedOk = null ;
 
+    this.animationEnded=0;
+
     
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
@@ -227,8 +229,7 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
     }
 
 
-
-
+    this.humanCanPlay = 0;
 
 }
 
@@ -1867,6 +1868,7 @@ MySceneGraph.prototype.saveGameData = function(data){
         this.player1Data.addJogada();
         this.playedAlready2Times++;
         if(this.playedAlready2Times == 2){
+            this.humanCanPlay = 0;
             this.playerBool = 0;
             this.playedAlready2Times = 0;
         }
@@ -1878,6 +1880,7 @@ MySceneGraph.prototype.saveGameData = function(data){
         this.player2Data.addJogada();
         this.playedAlready2Times++;
         if(this.playedAlready2Times == 2){
+            this.humanCanPlay = 0;
             this.playerBool = 1;
             this.playedAlready2Times = 0;
         }
@@ -1897,17 +1900,28 @@ MySceneGraph.prototype.logPicking = function ()
                     var customId = this.scene.pickResults[i][1];              
                     console.log("Picked object: " + this.obj + ", with pick id " + customId);
 
-                    let x = this.findXY(customId)[0];
-                    let y = this.findXY(customId)[1];
+                    if(customId == 101 || customId == 102){
+                            this.humanCanPlay = 0;
+                    }
+                    else if(this.humanCanPlay){
 
-                    if(this.playerBool){ //p2
-                        if(this.player2Data.mode == 1)
-                            this.scene.getPrologRequest(this.player2Data.requestToDo(x,y), this.handleReply.bind(this));
+                        let x = this.findXY(customId)[0];
+                        let y = this.findXY(customId)[1];
+
+                        if(this.playerBool){ //p2
+                            if(this.player2Data.mode == 1)
+                                this.scene.getPrologRequest(this.player2Data.requestToDo(x,y), this.handleReply.bind(this));
+                        }
+                        else{ //p1
+                            if(this.player1Data.mode != 3)
+                            this.scene.getPrologRequest(this.player1Data.requestToDo(x,y), this.handleReply.bind(this));
+                        }
                     }
-                    else{ //p1
-                        if(this.player1Data.mode != 3)
-                        this.scene.getPrologRequest(this.player1Data.requestToDo(x,y), this.handleReply.bind(this));
-                    }
+
+                        if(customId == 101 || customId == 102){
+                            this.humanCanPlay = 1;
+                        }
+                    
 
                 }
             }
@@ -1971,7 +1985,13 @@ MySceneGraph.prototype.handleReply = function(data){
 
                 newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
 
-                let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 5, [[this.obj.posX*2, 10, this.obj.posY*2], [this.obj.posX*2, 0.5, this.obj.posY*2]]);
+                //let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 10, [[10,-1,-5],[this.obj.posX*2, 10, this.obj.posY*2], [this.obj.posX*2, 0, this.obj.posY*2]]);
+                let pickingAnimation;
+
+                if(pl == 'blackPiece')
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,-5],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+                else
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,23],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
 
                 newPiece.addAnimation(pickingAnimation);
 
@@ -2014,50 +2034,6 @@ MySceneGraph.prototype.loadGameData = function(mode, dif) {
 
     this.playerBool = 0;
     this.playedAlready2Times = 0;
-
-    /*if(mode == 1){
-            this.player1Data =  new data(1, 1,1,"b");
-            this.player2Data =  new data(2, 1,1,"w");
-    
-            this.playerBool = 0;
-            this.playedAlready2Times = 0;
-    }
-    else if(mode == 2){
-        this.playerBool = 1;
-        if(dif == 1)
-        {
-            this.player1Data =  new data(1, 2,1,"b");
-            this.player2Data =  new data(2, 2,1,"w");
-    
-            this.playerBool = 0;
-            this.playedAlready2Times = 0;
-        }
-        else if(dif == 3){
-            this.player1Data =  new data(1, 2,3,"b");
-            this.player2Data =  new data(2, 2,3,"w");
-    
-            this.playerBool = 0;
-            this.playedAlready2Times = 0;
-        }
-    }
-    else if(mode == 3){
-        this.playerBool = 3;
-        if(dif == 1)
-        {
-            this.player1Data =  new data(1, 3,1,"b");
-            this.player2Data =  new data(2, 3,1,"w");
-    
-            this.playerBool = 0;
-            this.playedAlready2Times = 0;
-        }
-        else if(dif == 3){
-            this.player1Data =  new data(1, 3,3,"b");
-            this.player2Data =  new data(2, 3,3,"w");
-    
-            this.playerBool = 0;
-            this.playedAlready2Times = 0;
-        }
-    }*/
     
 }
 
@@ -2095,10 +2071,12 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
        if(this.scene.selectedStr == nodeName)
         this.scene.setActiveShader(this.scene.shader);
 
-            
-            this.scene.multMatrix(node.transformMatrix);
             this.applyAnimation(node);
-           
+            this.scene.multMatrix(node.transformMatrix);
+            
+        
+        this.scene.registerForPick(101, this.nodes['blackPieceBar'].leaves[0].type);
+        this.scene.registerForPick(102, this.nodes['whitePieceBar'].leaves[0].type);
 
 
         if (node.textureID != null) {
@@ -2178,6 +2156,7 @@ MySceneGraph.prototype.drawBoard = function()
 
             this.scene.popMatrix();         
         }
+
             bFlag = !bFlag;
     }
 }
@@ -2192,10 +2171,6 @@ MySceneGraph.prototype.drawPiece = function()
         this.scene.pushMatrix();
 
             node2 = this.NewPiecesArray[u];
-
-
-        /*if(this.scene.selectedStr == node2.nodeID)
-            this.scene.setActiveShader(this.scene.shader);*/
 
             this.applyAnimation(node2);
 
