@@ -108,7 +108,7 @@
     </TEXTURE>
 
     <TEXTURE id="wood">
-        <file path="images/wood.jpg" />                
+        <file path="images/dirtywood.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
@@ -163,26 +163,34 @@
     </TEXTURE>
 
      <TEXTURE id="supportPieces">
-        <file path="images/supporPieces.jpg" />                
+        <file path="images/metal.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
     <TEXTURE id="varanda">
-        <file path="images/varanda.jpg" />                
+        <file path="images/officewall.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
      <TEXTURE id="varanda2">
-        <file path="images/varanda2.jpg" />                
+        <file path="images/officewall.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
      <TEXTURE id="floor">
-        <file path="images/floor.jpg" />                
+        <file path="images/sandt.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>      
 
+     <TEXTURE id="metal">
+        <file path="images/metal.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>      
 
+     <TEXTURE id="straw">
+        <file path="images/straw.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>   
     
 </TEXTURES>
 
@@ -239,15 +247,11 @@
     <!-- type: pode ter valor "linear", "circular", "bezier" ou “combo”;
     na animação circular os angulos são em graus -->
 
-    <ANIMATION id="linear1" speed="10" type="linear">
-        <controlpoint xx="0" yy="0" zz="0" /> <!-- repete conforme -->
-        <controlpoint xx="0" yy="-2" zz="0" /> <!-- seja necessário -->
-
-    </ANIMATION>
-
-    <ANIMATION id="linear2" speed="10" type="linear">
-        <controlpoint xx="0" yy="0" zz="0" /> <!-- repete conforme -->
-        <controlpoint xx="0" yy="-2" zz="0" /> <!-- seja necessário -->
+    <ANIMATION id="linear1" speed="1" type="linear">
+        <controlpoint xx="0" yy="0" zz="-5" /> <!-- repete conforme -->
+        <controlpoint xx="0" yy="0" zz="5" /> <!-- seja necessário -->
+        <controlpoint xx="5" yy="0" zz="5" />
+        <controlpoint xx="5" yy="0" zz="0" />
 
     </ANIMATION>
 
@@ -255,15 +259,11 @@
 
     <ANIMATION id="circular2" speed="3" type="circular" centerx="0" centery="0" centerz="0" radius="5" startang="90" rotang="180"/>
 
-    <ANIMATION id="bezier1" speed="8" type="bezier">
-        <controlpoint xx="10" yy="0" zz="-4" /> <!-- P1 -->
-        <controlpoint xx="5" yy="5" zz="5" /> <!-- P1 -->
-        <controlpoint xx="10" yy="10" zz="10" /> <!-- P1 -->
-        <controlpoint xx="0" yy="0" zz="0" /> <!-- P1 -->
-
-        <!--<controlpoint xx="10" yy="10" zz="10" />
-        <controlpoint xx="10" yy="10" zz="10" /> 
-        <controlpoint xx="10" yy="0" zz="10" />-->
+    <ANIMATION id="bezier1" speed="0.5" type="bezier">
+        <controlpoint xx="3" yy="0" zz="3" /> <!-- P1 -->
+        <controlpoint xx="5" yy="0" zz="5" /> <!-- P2 -->
+        <controlpoint xx="7" yy="2" zz="7" /> <!-- P3 -->
+        <controlpoint xx="3" yy="5" zz="3" /> <!-- P4 -->
     </ANIMATION>
 
     <ANIMATION id="combo1" type="combo"> <!-- pode ser repetida para -->
@@ -294,6 +294,7 @@
 
 
         <DESCENDANTS>  
+        	<NODEREF id="blockstraw" />
         	<NODEREF id="wall1" />
         	<NODEREF id="wall2" />
         	<NODEREF id="floor" />
@@ -303,11 +304,26 @@
             <NODEREF id="lampMiddle" />
             <NODEREF id="lampLeft" />
             <NODEREF id="lampRight" />
-            <NODEREF id="blackPieceBar" />
-            <NODEREF id="whitePieceBar" />
         </DESCENDANTS>
 
     </NODE>
+
+
+     <NODE id="blockstraw" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="straw" /> 
+
+
+     	<SCALE sx="3" sy="3" sz="6" />   
+		<TRANSLATION x="-9" y="-11" z="-5.9" /> 
+		<ROTATION axis="x" angle="0" />
+
+        <DESCENDANTS>
+			<NODEREF id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+    
 
      <NODE id="floor" >       
         <MATERIAL id="null" />     
@@ -343,8 +359,8 @@
         <TEXTURE id="varanda2" /> 
 
 
-     <SCALE sx="13" sy="13" sz="16" />   
-	<TRANSLATION x="-2" y="-1.52" z="3.5" /> 
+     <SCALE sx="13" sy="13" sz="18" />   
+	<TRANSLATION x="-2" y="-1.52" z="3.7" /> 
 	<ROTATION axis="y" angle="90" />
 
         <DESCENDANTS>
@@ -509,12 +525,42 @@
 			<NODEREF id="sup1White" />
 			<NODEREF id="sup2Black" />
 			<NODEREF id="sup2White" />
-			<NODEREF id="perna1" />
-			<NODEREF id="perna2" />	
-			<NODEREF id="perna3" />
-			<NODEREF id="perna4" />
+			<NODEREF id="leg" />
+			<NODEREF id="base" />
         </DESCENDANTS>
     </NODE>
+
+     <NODE id="base" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="metal" /> 
+
+
+     <SCALE sx="16" sy="1" sz="16" />   
+	<TRANSLATION x="0.63" y="-18" z="0.63" /> 
+	<ROTATION axis="x" angle="90" />
+
+        <DESCENDANTS>
+			<LEAF id="cylinder4" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+
+
+     <NODE id="leg" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="metal" /> 
+
+
+     <SCALE sx="5" sy="12" sz="5" />   
+	<TRANSLATION x="2" y="-0.1" z="2" /> 
+	<ROTATION axis="x" angle="90" />
+
+        <DESCENDANTS>
+			<LEAF id="cylinder3" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
 
      <NODE id="sup1Black" >       
         <MATERIAL id="null" />     
@@ -742,12 +788,7 @@
 
     <NODE id="whitePiece" piece="white" selectable ="false">       
         <MATERIAL id="null" />     
-        <TEXTURE id="futTexture" />   
-
-
-        <ANIMATIONREFS>
-            <ANIMATIONREF id="linear1" />
-        </ANIMATIONREFS>    
+        <TEXTURE id="futTexture" />       
 
         <DESCENDANTS>
 			<LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
@@ -758,49 +799,12 @@
 
     <NODE id="blackPiece" piece="black" selectable ="true">       
         <MATERIAL id="null" />     
-        <TEXTURE id="oakText" />    
-
-         <ANIMATIONREFS>
-            <ANIMATIONREF id="linear2" />
-        </ANIMATIONREFS>
+        <TEXTURE id="oakText" />     
 
         <DESCENDANTS>
             <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
         </DESCENDANTS>
     </NODE>
-
-
-    <NODE id="blackPieceBar" selectable ="true">       
-        <MATERIAL id="null" />     
-        <TEXTURE id="oakText" />    
-
-        <TRANSLATION x="10" y="-1" z="-5" />
-        <TRANSLATION x="1" y="0" z="1" />
-        <SCALE sx="3" sy="0.5" sz="3" />
-        <ROTATION axis="x" angle="-90" />
-        
-
-        <DESCENDANTS>
-            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
-        </DESCENDANTS>
-    </NODE>
-
-
-    <NODE id="whitePieceBar" selectable ="true">       
-        <MATERIAL id="null" />     
-        <TEXTURE id="futTexture" />    
-
-        <TRANSLATION x="10" y="-1" z="23" />
-        <TRANSLATION x="1" y="0" z="1" />
-        <SCALE sx="3" sy="0.5" sz="3" />
-        <ROTATION axis="x" angle="-90" />
-        
-
-        <DESCENDANTS>
-            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
-        </DESCENDANTS>
-    </NODE>
-
 
 
 
