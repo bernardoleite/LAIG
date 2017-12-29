@@ -40,10 +40,10 @@ function MySceneGraph(filename, scene) {
     this.animationIt = 0;
 
     this.selectableNodes = ["Select"];
-    this.selectableCams = ["Front"];
+    this.selectableCams = ["Default"];
     this.selectableScenes = ["Living Room"];
 
-    this.selectableCams.push("Back");
+    this.selectableCams.push("Top");
     this.selectableScenes.push("Other");
 
     this.sameNodesArray = [];
@@ -103,84 +103,6 @@ function MySceneGraph(filename, scene) {
 
     
 }
-
-
-MySceneGraph.prototype.createCamMatrixs = function() 
-{
-
-    this.initialTransformsDefault = mat4.clone(this.initialTransforms);
-
-
-    /**Back**/
-
-    
-    this.matrixBack1 = mat4.clone(this.initialTransforms);
-    this.matrixBack2 = mat4.clone(this.initialTransforms);
-    this.matrixBack3 = mat4.clone(this.initialTransforms);
-    this.matrixBack4 = mat4.clone(this.initialTransforms);
-    this.matrixBack5 = mat4.clone(this.initialTransforms);
-    this.matrixBack6 = mat4.clone(this.initialTransforms);
-    this.matrixBack7 = mat4.clone(this.initialTransforms);
-    this.matrixBack8 = mat4.clone(this.initialTransforms);
-    this.matrixBack9 = mat4.clone(this.initialTransforms);
-
-    mat4.rotate(this.matrixBack1, this.matrixBack1, 20*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack2, this.matrixBack2, 40*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack3, this.matrixBack3, 60*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack4, this.matrixBack4, 80*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack5, this.matrixBack5, 100*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack6, this.matrixBack6, 120*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack7, this.matrixBack7, 140*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack8, this.matrixBack8, 160*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixBack9, this.matrixBack9, 180*Math.PI/180, [0,1,0]);
-
-    this.matrixBack10=mat4.clone(this.matrixBack9);
-    mat4.translate(this.matrixBack10, this.matrixBack10, [-5,0,-5]);
-
-    this.matrixBack11=mat4.clone(this.matrixBack10);
-    mat4.translate(this.matrixBack11, this.matrixBack11, [-10,0,-10]);
-    
-
-    this.arrayCameraBack=[
-    this.matrixBack1,this.matrixBack2,this.matrixBack3,this.matrixBack4,this.matrixBack5,this.matrixBack6,
-    this.matrixBack7,this.matrixBack8,this.matrixBack9,this.matrixBack10,this.matrixBack11];
-    
-    /**Front**/
-
-    this.matrixFront1 = mat4.clone(this.matrixBack9);
-    this.matrixFront2 = mat4.clone(this.matrixBack9);
-    this.matrixFront3 = mat4.clone(this.matrixBack9);
-    this.matrixFront4 = mat4.clone(this.matrixBack9);
-    this.matrixFront5 = mat4.clone(this.matrixBack9);
-    this.matrixFront6 = mat4.clone(this.matrixBack9);
-    this.matrixFront7 = mat4.clone(this.matrixBack9);
-    this.matrixFront8 = mat4.clone(this.matrixBack9);
-    this.matrixFront9 = mat4.clone(this.matrixBack9);
-
-    mat4.rotate(this.matrixFront1, this.matrixFront1, 20*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront2, this.matrixFront2, 40*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront3, this.matrixFront3, 60*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront4, this.matrixFront4, 80*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront5, this.matrixFront5, 100*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront6, this.matrixFront6, 120*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront7, this.matrixFront7, 140*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront8, this.matrixFront8, 160*Math.PI/180, [0,1,0]);
-    mat4.rotate(this.matrixFront9, this.matrixFront9, 180*Math.PI/180, [0,1,0]);
-
-    this.matrixFront10=mat4.clone(this.matrixFront9);
-    mat4.translate(this.matrixFront10, this.matrixFront10, [-1,0,-1]);
-
-    this.matrixFront11=mat4.clone(this.matrixFront10);
-    mat4.translate(this.matrixFront11, this.matrixFront11, [-5,0,-5]);
-    
-
-    this.arrayCameraFront=[
-    this.matrixFront1,this.matrixFront2,this.matrixFront3,this.matrixFront4,this.matrixFront5,this.matrixFront6,
-    this.matrixFront7,this.matrixFront8,this.matrixFront9,this.matrixFront10,this.matrixFront11];
-
-
-}
-
 
 /*
  * Callback to be executed after successful reading
@@ -421,7 +343,7 @@ MySceneGraph.prototype.parseInitials = function(initialsNode) {
         if (translationIndex > thirdRotationIndex || translationIndex > scalingIndex)
             this.onXMLMinorError("initial translation out of order; result may not be as expected");
 
-        mat4.translate(this.initialTransforms, this.initialTransforms, [-10, -10, -10]);
+        mat4.translate(this.initialTransforms, this.initialTransforms, [tx, ty, tz]);
     }
     
     // Rotations.
@@ -560,9 +482,12 @@ MySceneGraph.prototype.parseInitials = function(initialsNode) {
     
     }
 
+    this.initialTransformsDefault = mat4.clone(this.initialTransforms);
 
+    this.initialTransformsTop = mat4.create();
 
-    this.createCamMatrixs();
+    mat4.scale(this.initialTransformsTop, this.initialTransformsTop, [0.5, 0.5, 0.5]);
+    //mat4.rotate(this.initialTransformsTop, this.initialTransformsTop, DEGREE_TO_RAD * 90, [0,1,0]);
 
 
     
@@ -2012,7 +1937,6 @@ MySceneGraph.prototype.findXY = function(valuePicked){
 }
 
 
-
 MySceneGraph.prototype.handleReply = function(data){
     //resposta do servidor
     this.lolada++;
@@ -2155,6 +2079,14 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
 
     if(nodeName != 'null'){
         var node = this.nodes[nodeName];
+    }
+
+    if(this.scene.selectedCam == "Top"){
+        this.initialTransforms = mat4.clone(this.initialTransformsTop);
+    }
+    else if(this.scene.selectedCam == "Default"){
+        this.initialTransforms = mat4.clone(this.initialTransformsDefault);
+
     }
 
  

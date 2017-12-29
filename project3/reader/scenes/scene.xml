@@ -108,7 +108,7 @@
     </TEXTURE>
 
     <TEXTURE id="wood">
-        <file path="images/dirtywood.jpg" />                
+        <file path="images/wood.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
@@ -163,34 +163,26 @@
     </TEXTURE>
 
      <TEXTURE id="supportPieces">
-        <file path="images/metal.jpg" />                
+        <file path="images/supporPieces.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
     <TEXTURE id="varanda">
-        <file path="images/officewall.jpg" />                
+        <file path="images/varanda.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
      <TEXTURE id="varanda2">
-        <file path="images/officewall.jpg" />                
+        <file path="images/varanda2.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
      <TEXTURE id="floor">
-        <file path="images/sandt.jpg" />                
+        <file path="images/floor.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>      
 
-     <TEXTURE id="metal">
-        <file path="images/metal.jpg" />                
-        <amplif_factor s="5" t="4" />                           
-    </TEXTURE>      
 
-     <TEXTURE id="straw">
-        <file path="images/straw.jpg" />                
-        <amplif_factor s="5" t="4" />                           
-    </TEXTURE>   
     
 </TEXTURES>
 
@@ -294,7 +286,6 @@
 
 
         <DESCENDANTS>  
-        	<NODEREF id="blockstraw" />
         	<NODEREF id="wall1" />
         	<NODEREF id="wall2" />
         	<NODEREF id="floor" />
@@ -307,23 +298,6 @@
         </DESCENDANTS>
 
     </NODE>
-
-
-     <NODE id="blockstraw" >       
-        <MATERIAL id="null" />     
-        <TEXTURE id="straw" /> 
-
-
-     	<SCALE sx="3" sy="3" sz="6" />   
-		<TRANSLATION x="-9" y="-11" z="-5.9" /> 
-		<ROTATION axis="x" angle="0" />
-
-        <DESCENDANTS>
-			<NODEREF id="cube" />
-        </DESCENDANTS>
-    </NODE>
-
-    
 
      <NODE id="floor" >       
         <MATERIAL id="null" />     
@@ -359,8 +333,8 @@
         <TEXTURE id="varanda2" /> 
 
 
-     <SCALE sx="13" sy="13" sz="18" />   
-	<TRANSLATION x="-2" y="-1.52" z="3.7" /> 
+     <SCALE sx="13" sy="13" sz="16" />   
+	<TRANSLATION x="-2" y="-1.52" z="3.5" /> 
 	<ROTATION axis="y" angle="90" />
 
         <DESCENDANTS>
@@ -525,42 +499,12 @@
 			<NODEREF id="sup1White" />
 			<NODEREF id="sup2Black" />
 			<NODEREF id="sup2White" />
-			<NODEREF id="leg" />
-			<NODEREF id="base" />
+			<NODEREF id="perna1" />
+			<NODEREF id="perna2" />	
+			<NODEREF id="perna3" />
+			<NODEREF id="perna4" />
         </DESCENDANTS>
     </NODE>
-
-     <NODE id="base" >       
-        <MATERIAL id="null" />     
-        <TEXTURE id="metal" /> 
-
-
-     <SCALE sx="16" sy="1" sz="16" />   
-	<TRANSLATION x="0.63" y="-18" z="0.63" /> 
-	<ROTATION axis="x" angle="90" />
-
-        <DESCENDANTS>
-			<LEAF id="cylinder4" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
-        </DESCENDANTS>
-    </NODE>
-
-
-
-
-     <NODE id="leg" >       
-        <MATERIAL id="null" />     
-        <TEXTURE id="metal" /> 
-
-
-     <SCALE sx="5" sy="12" sz="5" />   
-	<TRANSLATION x="2" y="-0.1" z="2" /> 
-	<ROTATION axis="x" angle="90" />
-
-        <DESCENDANTS>
-			<LEAF id="cylinder3" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
-        </DESCENDANTS>
-    </NODE>
-
 
      <NODE id="sup1Black" >       
         <MATERIAL id="null" />     
