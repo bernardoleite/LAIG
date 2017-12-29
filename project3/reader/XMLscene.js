@@ -14,13 +14,18 @@ function XMLscene(interface) {
     this.increment = 0;
 
     this.selectedStr = "Select";
-    this.selectedCam = "Default";
+    this.selectedCam = "Front";
     this.selectedScene = "Living Room";
 
     this.sameNodesIt = 0;
     this.sameNodesPiecesIt = 0;
 
     this.sameNodesEnd = false;
+
+    this.nrcamf=0;
+    this.nrcamb=0;
+    this.firstTime=1;
+
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -137,13 +142,40 @@ XMLscene.prototype.onGraphLoaded = function()
 
 XMLscene.prototype.update = function(currTime){
 
-    /*if(this.increment < this.graph.animationWorkArray.length){
-        this.graph.animationWorkArray[this.increment].update(currTime - this.lastTime);
 
-        if(this.graph.animationWorkArray[this.increment].hasEnded){
-            this.increment++;
+    if(this.selectedCam == "Back"){
+
+        if(this.nrcamb < this.graph.arrayCameraBack.length)
+            {
+
+                this.graph.initialTransforms = mat4.clone(this.graph.arrayCameraBack[this.nrcamb]);
+                this.nrcamb++;
+            }
+
+            this.nrcamf=0;
+            this.firstTime=0;
+
+    }
+    else if(this.selectedCam == "Front"){
+
+    if(this.firstTime==1)
+        this.graph.initialTransforms = this.graph.initialTransformsDefault;
+
+    else if(this.firstTime==0)
+        {
+            if(this.nrcamf < this.graph.arrayCameraFront.length)
+            {
+
+                this.graph.initialTransforms = mat4.clone(this.graph.arrayCameraFront[this.nrcamf]);
+                this.nrcamf++;
+            }
+
+            this.nrcamb=0;
+
         }
-    }*/
+    }
+
+
 
     for(let i = 0; i < this.graph.animationWorkArray.length; i++){
 
@@ -166,7 +198,6 @@ XMLscene.prototype.update = function(currTime){
     }      
     
     /*for(let i = 0; i < this.graph.animationPiecesWorkArray.length; i++){
-
         if(!this.graph.animationPiecesWorkArray[i].hasEnded){
             this.graph.animationPiecesWorkArray[i].update(currTime - this.lastTime);
         }
