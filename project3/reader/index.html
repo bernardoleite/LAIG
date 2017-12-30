@@ -57,6 +57,19 @@ canvas {
 	padding: 10px;
 }
 
+#progress{
+	position: absolute;
+	display: none;
+	left: 50%;
+	top: 20px;
+	background-color: #FFF;
+	color: #666;
+	border-radius: 8px;
+	padding: 10px;
+	margin-right: -50%;
+	transform: translate(-50%, 0%);
+}
+
 #statsBarError{
 	position: absolute;
 	display: none;
@@ -70,6 +83,21 @@ canvas {
 }
 
 #victoryBar{
+	position: absolute;
+	display: none;
+	width: 50%;
+	height: 50%;
+	background-color: #FFF;
+	color: #666;
+	border-radius: 8px;
+	padding: 10px;
+	top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+#gameOverBar{
 	position: absolute;
 	display: none;
 	width: 50%;
@@ -137,6 +165,10 @@ font-size: 40px;
 <div id="statsBar">
 	
 </div>
+<div id="progress">
+	<a style="text-align: center; font-size: 21px;">Time Left</a><br>
+	<progress value="0" max="30" id="progressBar"></progress>
+</div>
 <div id="statsBarError">
 	
 </div>
@@ -144,6 +176,11 @@ font-size: 40px;
 <div id="victoryBar">
 	
 </div>
+
+<div id="gameOverBar">
+	
+</div>
+
 
 <div id="menuBox">
 	<div id="content">
@@ -179,7 +216,7 @@ font-size: 40px;
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="document.getElementById('content9').style.display = 'block';">2 PLAYER</button><br>
+					<button class="btn" onclick="document.getElementById('content2').style.display = 'none'; document.getElementById('content9').style.display = 'block';">2 PLAYER</button><br>
 				</td>
 			</tr>
 			<tr>

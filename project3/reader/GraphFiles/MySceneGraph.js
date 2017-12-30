@@ -22,6 +22,8 @@ function MySceneGraph(filename, scene) {
 
     this.animationEnded=0;
 
+    this.victory = 0;
+
     
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
@@ -308,6 +310,24 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
 
     this.humanCanPlay = 0;
 
+
+    this.timeleft = 30;
+    document.getElementById("progress").style.display = 'block';
+    this.downloadTimer = setInterval(this.countDown.bind(this),1000);
+
+}
+
+MySceneGraph.prototype.countDown = function(graph){
+    if(!this.victory){
+        document.getElementById("progressBar").value = 30 - --this.timeleft;
+        if(this.timeleft <= 0){
+            this.scene.setPickEnabled(false);
+            let gmb = document.getElementById("gameOverBar");
+            gmb.style.display = 'block';
+            gmb.innerHTML += '<h1>You Loose Your game due to TimeOUT!</h1>'
+            clearInterval(this.downloadTimer);
+        }
+    }
 }
 
 /**
@@ -2027,6 +2047,7 @@ MySceneGraph.prototype.findXY = function(valuePicked){
 
 
 MySceneGraph.prototype.handleReply = function(data){
+    this.timeleft = 30;
     //resposta do servidor
     this.lolada++;
     let statsBar = document.getElementById('statsBarError');
@@ -2043,6 +2064,7 @@ MySceneGraph.prototype.handleReply = function(data){
     response = response.replace(/W/g, '"W"'); 
     response = JSON.parse(response);
 
+    if(!this.victory)
     if(response[0] == 'yes'){
 
         statsBar.style.display = 'none';
@@ -2093,6 +2115,9 @@ MySceneGraph.prototype.handleReply = function(data){
         statsBar.innerHTML = "<h3>Player " + (this.playerBool + 1) + ", you cant put that piece here!</h3>";
     }
     else if(response[0] == 'victory'){
+        this.scene.setPickEnabled(false);
+
+        this.victory = 1;
 
         statsBar = document.getElementById('victoryBar');
 
@@ -2358,6 +2383,7 @@ MySceneGraph.prototype.displayScene = function() {
 }
 
 MySceneGraph.prototype.handleReplyComputer = function(data){
+    this.timeleft = 30;
 
     //resposta do servidor
     this.lolada++;
@@ -2375,6 +2401,7 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
     response = response.replace(/W/g, '"W"'); 
     response = JSON.parse(response);
 
+    if(!this.victory)
     if(response[0] == 'yes'){
 
         statsBar.style.display = 'none';
@@ -2412,6 +2439,8 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
 
     }
     else if(response[0] == 'victory'){
+        this.victory = 1;
+        this.scene.setPickEnabled(false);
         statsBar = document.getElementById('victoryBar');
 
         statsBar.innerHTML += '<h2>Player ' + response[5] + 'Won the game!</h2>';
