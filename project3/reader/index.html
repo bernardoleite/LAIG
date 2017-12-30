@@ -35,7 +35,7 @@ canvas {
     transform: translate(-50%, -50%);
 }
 
-#content2, #content3, #content4 {
+#content2, #content3, #content4, #content5, #content6, #content7,#content8, #content9{
 	position: absolute;
 	color: #FFF;
     top: 50%;
@@ -67,6 +67,21 @@ canvas {
 	color: #FFF;
 	border-radius: 8px;
 	padding: 10px;
+}
+
+#victoryBar{
+	position: absolute;
+	display: none;
+	width: 50%;
+	height: 50%;
+	background-color: #FFF;
+	color: #666;
+	border-radius: 8px;
+	padding: 10px;
+	top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
 
 .btn {
@@ -126,6 +141,10 @@ font-size: 40px;
 	
 </div>
 
+<div id="victoryBar">
+	
+</div>
+
 <div id="menuBox">
 	<div id="content">
 		<table>
@@ -155,17 +174,17 @@ font-size: 40px;
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="document.getElementById('content2').style.display = 'none'; document.getElementById('content3').style.display = 'block';">1 PLAYER</button><br>
+					<button class="btn" onclick="document.getElementById('content2').style.display = 'none'; document.getElementById('content7').style.display = 'block';">1 PLAYER</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(1,1);">2 PLAYER</button><br>
+					<button class="btn" onclick="document.getElementById('content9').style.display = 'block';">2 PLAYER</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="document.getElementById('content2').style.display = 'none'; document.getElementById('content4').style.display = 'block';">COMPUTER</button><br>
+					<button class="btn" onclick="document.getElementById('content2').style.display = 'none'; document.getElementById('content8').style.display = 'block';">COMPUTER</button><br>
 				</td>
 			</tr>
 			<tr>
@@ -184,17 +203,17 @@ font-size: 40px;
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(2,1);">EASY</button><br>
+					<button class="btn" onclick="loadGame(1,2,1);">EASY</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(2,2);">MEDIUM</button><br>
+					<button class="btn" onclick="loadGame(1,2,2);">MEDIUM</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(2,3);">HARD</button><br>
+					<button class="btn" onclick="loadGame(1,2,3);">HARD</button><br>
 				</td>
 			</tr>
 			<tr>
@@ -213,22 +232,154 @@ font-size: 40px;
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(3,1);">EASY</button><br>
+					<button class="btn" onclick="loadGame(1,3,1);">EASY</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(3,2);">MEDIUM</button><br>
+					<button class="btn" onclick="loadGame(1,3,2);">MEDIUM</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="btn" onclick="myGraph.loadGameData(3,3);">HARD</button><br>
+					<button class="btn" onclick="loadGame(1,3,3);">HARD</button><br>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<button class="exitbtn" onclick="document.getElementById('content4').style.display = 'none'; document.getElementById('content2').style.display = 'block';">BACK</button><br>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="content5">
+		<table>
+			<tr>
+				<td>
+					<img style="width: 400px;" src="../images/weheart.png">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,2,1);">EASY</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,2,2);">MEDIUM</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,2,3);">HARD</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="exitbtn" onclick="document.getElementById('content7').style.display = 'none'; document.getElementById('content2').style.display = 'block';">BACK</button><br>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="content6">
+		<table>
+			<tr>
+				<td>
+					<img style="width: 400px;" src="../images/weheart.png">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,3,1);">EASY</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,3,2);">MEDIUM</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,3,3);">HARD</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="exitbtn" onclick="document.getElementById('content8').style.display = 'none'; document.getElementById('content2').style.display = 'block';">BACK</button><br>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
+
+	<div id="content7">
+		<table>
+			<tr>
+				<td>
+					<img style="width: 400px;" src="../images/weheart.png">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="document.getElementById('content7').style.display = 'none'; document.getElementById('content3').style.display= 'block';">FARAWAY</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="document.getElementById('content7').style.display = 'none';document.getElementById('content5').style.display= 'block';">ROOM</button><br>
+				</td>
+			</tr>
+				<td>
+					<button class="exitbtn" onclick="document.getElementById('content7').style.display = 'none'; document.getElementById('content2').style.display = 'block';">BACK</button><br>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="content8">
+		<table>
+			<tr>
+				<td>
+					<img style="width: 400px;" src="../images/weheart.png">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="document.getElementById('content8').style.display = 'none'; document.getElementById('content4').style.display = 'block';">FARAWAY</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="document.getElementById('content8').style.display = 'none'; document.getElementById('content6').style.display = 'block';">ROOM</button><br>
+				</td>
+			</tr>
+				<td>
+					<button class="exitbtn" onclick="document.getElementById('content8').style.display = 'none'; document.getElementById('content2').style.display = 'block';">BACK</button><br>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="content9">
+		<table>
+			<tr>
+				<td>
+					<img style="width: 400px;" src="../images/weheart.png">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(1,1,1);">FARAWAY</button><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="btn" onclick="loadGame(0,1,1);">ROOM</button><br>
+				</td>
+			</tr>
+				<td>
+					<button class="exitbtn" onclick="document.getElementById('content2').style.display = 'none'; document.getElementById('content2').style.display = 'block';">BACK</button><br>
 				</td>
 			</tr>
 		</table>

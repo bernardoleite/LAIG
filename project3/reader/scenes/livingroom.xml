@@ -753,16 +753,13 @@
 
     <NODE id="whitePiece" piece="white" selectable ="false">       
         <MATERIAL id="null" />     
-<<<<<<< HEAD:project3/reader/scenes/scene.xml
-        <TEXTURE id="futTexture" />   
+        <TEXTURE id="whitepiece" />       
 
 
         <ANIMATIONREFS>
             <ANIMATIONREF id="linear1" />
         </ANIMATIONREFS>    
-=======
-        <TEXTURE id="whitepiece" />       
->>>>>>> f79c7a6b923b4da11314798031ae4b67ad4b879e:project3/reader/scenes/livingroom.xml
+
 
         <DESCENDANTS>
 			<LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
@@ -773,9 +770,7 @@
 
     <NODE id="blackPiece" piece="black" selectable ="true">       
         <MATERIAL id="null" />     
-<<<<<<< HEAD:project3/reader/scenes/scene.xml
-        <TEXTURE id="oakText" />    
-
+        <TEXTURE id="blackpiece" />  
          <ANIMATIONREFS>
             <ANIMATIONREF id="linear2" />
         </ANIMATIONREFS>
@@ -794,10 +789,6 @@
         <TRANSLATION x="1" y="0" z="1" />
         <SCALE sx="3" sy="0.5" sz="3" />
         <ROTATION axis="x" angle="-90" />
-        
-=======
-        <TEXTURE id="blackpiece" />     
->>>>>>> f79c7a6b923b4da11314798031ae4b67ad4b879e:project3/reader/scenes/livingroom.xml
 
         <DESCENDANTS>
             <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />

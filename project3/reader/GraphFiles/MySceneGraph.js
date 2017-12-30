@@ -2092,6 +2092,43 @@ MySceneGraph.prototype.handleReply = function(data){
 
         statsBar.innerHTML = "<h3>Player " + (this.playerBool + 1) + ", you cant put that piece here!</h3>";
     }
+    else if(response[0] == 'victory'){
+
+        statsBar = document.getElementById('victoryBar');
+
+
+        statsBar.innerHTML += '<h2>Player ' + response[1] + 'Won the game!</h2>';
+
+        statsBar.style.display = 'block';
+
+        if(this.playerBool)
+            pl = 'whitePiece';
+        else
+            pl = 'blackPiece';
+
+        this.saveGameData(response);
+
+        for(let i = 0; i < this.PiecesArray.length; i++){
+            if(this.PiecesArray[i].nodeID == pl){
+                let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
+
+                newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(), this.obj.posX, this.obj.posY, this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+
+                //let pickingAnimation = new linearAnimation(this.scene, "pickingAnimation", "linear", 10, [[10,-1,-5],[this.obj.posX*2, 10, this.obj.posY*2], [this.obj.posX*2, 0, this.obj.posY*2]]);
+                let pickingAnimation;
+
+                if(pl == 'blackPiece')
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,-5],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+                else
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,23],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+
+                newPiece.addAnimation(pickingAnimation);
+
+                this.NewPiecesArray.push(newPiece);
+                return 0;
+            }
+        }
+    }
 
 }
 
@@ -2373,6 +2410,44 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
             }
         }
 
+    }
+    else if(response[0] == 'victory'){
+        statsBar = document.getElementById('victoryBar');
+
+        statsBar.innerHTML += '<h2>Player ' + response[5] + 'Won the game!</h2>';
+
+        statsBar.style.display = 'block';
+
+        if(this.playerBool)
+            pl = 'whitePiece';
+        else
+            pl = 'blackPiece';
+
+        //this.saveGameDataComputer(response);
+
+        for(let i = 0; i < this.PiecesArray.length; i++){
+            if(this.PiecesArray[i].nodeID == pl){
+                let newPiece = new MyGraphNode(this, this.PiecesArray[i].nodeID, this.PiecesArray[i].selectable);
+
+                let pickingAnimation;
+
+                if(pl == 'whitePiece'){
+                    newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[2], response[1], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 10, [[10,-1,23],[response[2]*2,8,response[1]*2],[response[2]*2,16,response[1]*2],[response[2]*2, 0, response[1]*2]]);
+                    this.computerPlayed = 1;
+                }
+                else{
+                    newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[4], response[3], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
+            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 10, [[10,-1,-5],[response[4]*2,8,response[3]*2],[response[4]*2,16,response[3]*2],[response[4]*2, 0, response[3]*2]]);
+                    this.computerPlayed2 = 1;
+                }     
+                newPiece.addAnimation(pickingAnimation);
+
+                this.NewPiecesArray.push(newPiece);
+                
+                return 0;
+            }
+        }
     }
 
 }

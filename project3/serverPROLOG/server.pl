@@ -475,24 +475,29 @@ whiteCoordsRight([[0,9], [1,9], [2,9], [3,9], [4,9],[5,9],[6,9],[7,9],[8,9],[9,9
 
 /*-------------*/
 
-winner(Jogador,Path):-  if_then_else(current_predicate(edge/2), retractall(edge(X,Y)), continueplay),
-						nl,nl,nl,write('Player '), write(Jogador), write(' is the winner!'), nl,
-						write('You made a connected chain!: '), write(Path), menu.
+winner(Jogador,Path,VictoryBool):-  if_then_else(current_predicate(edge/2), retractall(edge(X,Y)), continueplay),
+    					nl,nl,nl,write('Player '), write(Jogador), write(' is the winner!'), nl,
+						write('You made a connected chain!: '), write(Path), VictoryBool=[].
 						
 
-search(Jogador,ResultList,Counter):-			
+						
+search(Jogador,ResultList,Counter,VictoryBool):-Counter=100.
+search(Jogador,ResultList,Counter,VictoryBool):-			
 						Counter=<99,
 						nth0(Counter,ResultList,Pair),
 						nth0(0,Pair,Point1), nth0(1,Pair,Point2),
-						if_then_else(path(Point1,Point2,Path), winner(Jogador,Path), continueplay),
+						if_then_else(path(Point1,Point2,Path), winner(Jogador,Path,VictoryBool), continueplay),
 						NewCounter is Counter+1,
-						search(Jogador,ResultList,NewCounter).
+						search(Jogador,ResultList,NewCounter,VictoryBool).
 
 
 
 agora(Point1,Point2):- assert(edge(Point1,Point2)).
 
-buildEdges(B,C,I,Jogador,Counter,ResultList):- 
+
+buildEdges(B,C,I,Jogador,Counter,ResultList,VictoryBool):-Counter=4950.
+
+buildEdges(B,C,I,Jogador,Counter,ResultList,VictoryBool):- 
 						Counter=<4949,
 						nth0(Counter,ResultList,Pair),
 						nth0(0,Pair,Point1), nth0(1,Pair,Point2),
@@ -500,27 +505,27 @@ buildEdges(B,C,I,Jogador,Counter,ResultList):-
 						nth0(0,Point2,P2x), nth0(1,Point2, P2y), 
 						if_then_else(existsConnection(Jogador,C,I,P1x,P1y,P2x,P2y), agora(Point1,Point2), continueplay),
 						NewCounter is Counter+1,
-						buildEdges(B,C,I,Jogador,NewCounter,ResultList).
+						buildEdges(B,C,I,Jogador,NewCounter,ResultList,VictoryBool).
 												
 		
-findPaths(Jogador):- Jogador==1,
+findPaths(Jogador,VictoryBool):- Jogador==1,
 			blackCoordsTop(List1), blackCoordsBottom(List2),
 			list_pairs(List1,List2, Pairs),
-			if_then_else(current_predicate(edge/2),search(Jogador,Pairs,0),continueplay).
+			if_then_else(current_predicate(edge/2),search(Jogador,Pairs,0,VictoryBool),continueplay).
 			
 			
-findPaths(Jogador):- Jogador==2,
+findPaths(Jogador,VictoryBool):- Jogador==2,
 			whiteCoordsLeft(List1), whiteCoordsRight(List2),
 			list_pairs(List1,List2, Pairs),
-			if_then_else(current_predicate(edge/2),search(Jogador,Pairs,0),continueplay).
+			if_then_else(current_predicate(edge/2),search(Jogador,Pairs,0,VictoryBool),continueplay).
 
 			
 
-victory(B,C,I,Jogador):- 
+victory(B,C,I,Jogador,VictoryBool):- 
 						allCords(ListCoords),
 						findall(L, combination(2,ListCoords,L), ResultList),
-						if_then_else(buildEdges(B,C,I,Jogador,0,ResultList), continueplay, continueplay),
-						if_then_else(findPaths(Jogador), continueplay,continueplay),
+						if_then_else(buildEdges(B,C,I,Jogador,0,ResultList,VictoryBool), continueplay, continueplay),
+						if_then_else(findPaths(Jogador,VictoryBool), continueplay,continueplay),
 						if_then_else(current_predicate(edge/2), retractall(edge(X,Y)), continueplay).
 	
 						
@@ -734,9 +739,9 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LAST
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
 								/*if_then_else(Move==1, stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 */
-								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
+								victory(R,NewCountingBoard,NewIdentityBoard,Jogador, VictoryBool),
 
-								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
+								if_then_else(is_list(VictoryBool), Res = ['"victory"', 1], Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]).
 							
 								/*if_then_else(Mode=1,
 											stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
@@ -775,10 +780,10 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X, Y, P, Jogador, Counter, Move, Bool, LAS
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
 								/*if_then_else(Move==1, stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 2,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 		*/
-								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
+								victory(R,NewCountingBoard,NewIdentityBoard,Jogador, VictoryBool),
 
 
-								Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY].
+								if_then_else(is_list(VictoryBool), Res = ['"victory"', 2], Res = ['"yes"',R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]).
 
 
 
@@ -1122,11 +1127,11 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,B
 								if_then_else(Move==1, stroke(LX,LY,NEWLX2,NEWLY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard, 1,Counter,NewMove,NewBool,NEWLASTX,NEWLASTY), continueplay),
 */
 
-								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
+								victory(R,NewCountingBoard,NewIdentityBoard,Jogador, VictoryBool),
 
 
 								
-								if_then_else((Mode==3,Counter=<2), Res = ['"yes"',0,0,NEWLX2,NEWLY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY], Res = ['"yes"',LX,LY,NEWLX2,NEWLY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]).
+								if_then_else((Mode==3,Counter=<2), if_then_else(is_list(VictoryBool), Res = ['"victory"',0,0,NEWLX2,NEWLY2,1], Res = ['"yes"',0,0,NEWLX2,NEWLY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]), if_then_else(is_list(VictoryBool), Res = ['"victory"',LX,LY,NEWLX2,NEWLY2,1], Res = ['"yes"',LX,LY,NEWLX2,NEWLY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY])).
 
 											
 											
@@ -1151,11 +1156,11 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 								if_then_else(Move==1, NewMove is Move+1, continueplay),
 								if_then_else(Move==2, NewMove is 1, continueplay),
 		
-								victory(R,NewCountingBoard,NewIdentityBoard,Jogador),
+								victory(R,NewCountingBoard,NewIdentityBoard,Jogador, VictoryBool),
 
 
 
-								if_then_else(Mode==3, Res = ['"yes"',NEWLX,NEWLY,LX2,LY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY], Res = ['"yes"',NEWLX,NEWLY,0,0,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]).
+								if_then_else(Mode==3, if_then_else(is_list(VictoryBool), Res = ['"victory"',NEWLX,NEWLY,LX2,LY2, 2], Res = ['"yes"',NEWLX,NEWLY,LX2,LY2,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY]), if_then_else(is_list(VictoryBool), Res = ['"victory"',NEWLX,NEWLY,0,0,LX2,LY2, 2], Res = ['"yes"',NEWLX,NEWLY,0,0,R,NewCountingBoard,NewIdentityBoard,NewMove,NewBool,NEWLASTX,NEWLASTY])).
 								
 								
 

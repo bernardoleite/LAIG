@@ -21,28 +21,41 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'GraphFiles/MySceneGraph.js',
 main=function()
 {
 	// Standard application, scene and interface setup
-    var app = new CGFapplication(document.body);
-    var myInterface = new MyInterface();
-    var myScene = new XMLscene(myInterface);
+    this.app = new CGFapplication(document.body);
+    this.myInterface = new MyInterface();
+    this.myScene = new XMLscene(myInterface);
 
-    app.init();
+    this.app.init();
 
-    app.setScene(myScene);
-    app.setInterface(myInterface);
+    this.app.setScene(myScene);
+    this.app.setInterface(myInterface);
+    this.clientChoose = 0;
 
-    //myInterface.setActiveCamera(myScene.camera);
+    myInterface.setActiveCamera(myScene.camera);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-	var filename=getUrlVars()['file'] || "livingroom.xml";
-
-	// create and load graph, and associate it to scene. 
-	// Check console for loading errors
-	this.myGraph = new MySceneGraph(filename, myScene);
 	
-	// start
-    app.run();
+	
+	
 }
-
 ]);
+
+function loadGame(choose, mode, dif){
+
+    var filename;
+
+    if(choose)
+        filename=getUrlVars()['file'] || "faraway.xml";
+    else
+        filename=getUrlVars()['file'] || "livingroom.xml";
+    // create and load graph, and associate it to scene. 
+    // Check console for loading errors
+    this.myGraph = new MySceneGraph(filename, myScene);
+
+    this.myGraph.loadGameData(mode, dif);
+
+    // start
+    this.app.run();
+}

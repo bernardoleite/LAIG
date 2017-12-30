@@ -304,6 +304,8 @@
             <NODEREF id="lampMiddle" />
             <NODEREF id="lampLeft" />
             <NODEREF id="lampRight" />
+            <NODEREF id="whitePieceBar" />
+            <NODEREF id="blackPieceBar" />
         </DESCENDANTS>
 
     </NODE>
@@ -806,6 +808,36 @@
         </DESCENDANTS>
     </NODE>
 
+
+    <NODE id="blackPieceBar" selectable ="true">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="oakText" />    
+
+        <TRANSLATION x="10" y="-1" z="-5" />
+        <TRANSLATION x="1" y="0" z="1" />
+        <SCALE sx="3" sy="0.5" sz="3" />
+        <ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+    <NODE id="whitePieceBar" selectable ="true">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="futTexture" />    
+
+        <TRANSLATION x="10" y="-1" z="23" />
+        <TRANSLATION x="1" y="0" z="1" />
+        <SCALE sx="3" sy="0.5" sz="3" />
+        <ROTATION axis="x" angle="-90" />
+        
+
+        <DESCENDANTS>
+            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
 
 
 </NODES>
