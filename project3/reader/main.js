@@ -42,9 +42,18 @@ main=function()
 }
 ]);
 
-function loadGame(choose, mode, dif){
+function loadGame(choose, mode, dif,p1,p2){
 
     var filename;
+
+    statsBar = document.getElementById('victoryBar');
+
+    scoresBar = document.getElementById('statScore');
+    scoresBar.innerHTML = '<table><tr><td><h3>Blacks: '+p1+'</h3></td></tr><tr><td><h3>Whites: '+p2+'</h3></td></tr></table>';
+
+    scoresBar.style.display = 'block';
+
+    statsBar.style.display = 'none';
 
     if(choose)
         filename=getUrlVars()['file'] || "faraway.xml";
@@ -54,7 +63,7 @@ function loadGame(choose, mode, dif){
     // Check console for loading errors
     this.myGraph = new MySceneGraph(filename, myScene);
 
-    this.myGraph.loadGameData(mode, dif);
+    this.myGraph.loadGameData(choose,mode,dif,p1,p2);
 
     // start
     this.app.run();

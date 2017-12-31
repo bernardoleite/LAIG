@@ -18,11 +18,18 @@ function MySceneGraph(filename, scene) {
     this.computerPlayed = 0;
     this.computerPlayed2 = 0;
 
+    this.scoreB = 0;
+    this.scoreW = 0;
+
     this.loadedOk = null ;
 
     this.animationEnded=0;
 
     this.victory = 0;
+
+    this.mode = 0;
+    this.dif = 0;
+    this.cena = 0;
 
     
     // Establish bidirectional references between scene and graph.
@@ -101,7 +108,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-
+     this.scene.setPickEnabled(true);
     
     this.reader.open('scenes/' + filename, this);
 
@@ -322,9 +329,27 @@ MySceneGraph.prototype.countDown = function(graph){
         document.getElementById("progressBar").value = 30 - --this.timeleft;
         if(this.timeleft <= 0){
             this.scene.setPickEnabled(false);
-            let gmb = document.getElementById("gameOverBar");
+
+            let statsBar = document.getElementById('victoryBar');
+
+            let scoresBar = document.getElementById('statScore');
+
+            if(!this.playerBool){
+                this.scoreW = this.scoreW + 1;
+                statsBar.innerHTML = '<img src="../images/winner.gif"><br><h2 style="background-color:#333; padding:30px; border:5px #333; border-radius:8px;">Blacks Loose due to Timeout! Whites Won the game!</h2><br><button class="btn" onclick="loadGame('+this.cena+','+this.mode+','+this.dif+','+ this.scoreB + ',' + this.scoreW +');">Play again</button>';
+            }
+            else{
+                this.scoreB = this.scoreB + 1;
+                statsBar.innerHTML = '<img src="../images/winner.gif"><br><h2 style="background-color:#333; padding:30px; border:5px #333; border-radius:8px;">Whites Loose due to Timeout! Blacks Won the game!</h2><br><button class="btn" onclick="loadGame('+this.cena+','+this.mode+','+this.dif+','+ this.scoreB + ',' + this.scoreW +');">Play again</button>';
+            }
+
+            scoresBar.innerHTML = '<table><tr><td><h3>Blacks: '+this.scoreB+'</h3></td></tr><tr><td><h3>Whites: '+this.scoreW+'</h3></td></tr></table>';
+
+
+            statsBar.style.display = 'block';
+            /*let gmb = document.getElementById("gameOverBar");
             gmb.style.display = 'block';
-            gmb.innerHTML += '<h1>You Loose Your game due to TimeOUT!</h1>'
+            gmb.innerHTML += '<h1>You Loose Your game due to TimeOUT!</h1>'*/
             clearInterval(this.downloadTimer);
         }
     }
@@ -2119,10 +2144,20 @@ MySceneGraph.prototype.handleReply = function(data){
 
         this.victory = 1;
 
-        statsBar = document.getElementById('victoryBar');
+        let statsBar = document.getElementById('victoryBar');
 
+        let scoresBar = document.getElementById('statScore');
 
-        statsBar.innerHTML += '<h2>Player ' + response[1] + 'Won the game!</h2>';
+        if(this.playerBool){
+            this.scoreW = this.scoreW + 1;
+            statsBar.innerHTML = '<img src="../images/winner.gif"><br><h2 style="background-color:#333; padding:30px; border:5px #333; border-radius:8px;">Whites Won the game!</h2><br><button class="btn" onclick="loadGame('+this.cena+','+this.mode+','+this.dif+','+ this.scoreB + ',' + this.scoreW +');">Play again</button>';
+        }
+        else{
+            this.scoreB= this.scoreB + 1;
+            statsBar.innerHTML = '<img src="../images/winner.gif"><br><h2 style="background-color:#333; padding:30px; border:5px #333; border-radius:8px;">Blacks Won the game!</h2><br><button class="btn" onclick="loadGame('+this.cena+','+this.mode+','+this.dif+','+ this.scoreB + ',' + this.scoreW +');">Play again</button>';
+        }
+
+        scoresBar.innerHTML = '<table><tr><td><h3>Blacks: '+this.scoreB+'</h3></td></tr><tr><td><h3>Whites: '+this.scoreW+'</h3></td></tr></table>';
 
         statsBar.style.display = 'block';
 
@@ -2150,6 +2185,10 @@ MySceneGraph.prototype.handleReply = function(data){
                 newPiece.addAnimation(pickingAnimation);
 
                 this.NewPiecesArray.push(newPiece);
+
+                this.playerBool = 0;
+                this.computerPlayed = 0;
+                this.computerPlayed2 = 0;
                 return 0;
             }
         }
@@ -2157,7 +2196,14 @@ MySceneGraph.prototype.handleReply = function(data){
 
 }
 
-MySceneGraph.prototype.loadGameData = function(mode, dif) {
+MySceneGraph.prototype.loadGameData = function(cena, mode, dif, scoreB,scoreW) {
+
+    this.cena = cena;
+    this.mode = mode;
+    this.dif = dif;
+
+    this.scoreB = scoreB;
+    this.scoreW = scoreW;
 
     document.getElementById('menuBox').style.display = 'none'; 
     document.getElementById('statsBar').style.display = 'block';
@@ -2441,9 +2487,21 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
     else if(response[0] == 'victory'){
         this.victory = 1;
         this.scene.setPickEnabled(false);
-        statsBar = document.getElementById('victoryBar');
+        let statsBar = document.getElementById('victoryBar');
 
-        statsBar.innerHTML += '<h2>Player ' + response[5] + 'Won the game!</h2>';
+        let scoresBar = document.getElementById('statScore');
+
+        if(this.playerBool){
+            this.scoreW = this.scoreW + 1;
+            statsBar.innerHTML = '<img src="../images/winner.gif"><br><h2 style="background-color:#333; padding:30px; border:5px #333; border-radius:8px;">Whites Won the game!</h2><br><button class="btn" onclick="loadGame('+this.cena+','+this.mode+','+this.dif+','+ this.scoreB + ',' + this.scoreW +');">Play again</button>';
+        }
+        else{
+            this.scoreB = this.scoreB + 1;
+            statsBar.innerHTML = '<img src="../images/winner.gif"><br><h2 style="background-color:#333; padding:30px; border:5px #333; border-radius:8px;">Blacks Won the game!</h2><br><button class="btn" onclick="loadGame('+this.cena+','+this.mode+','+this.dif+','+ this.scoreB + ',' + this.scoreW +');">Play again</button>';
+        }
+
+        scoresBar.innerHTML = '<table><tr><td><h3>Blacks: '+this.scoreB+'</h3></td></tr><tr><td><h3>Whites: '+this.scoreW+'</h3></td></tr></table>';
+
 
         statsBar.style.display = 'block';
 
@@ -2474,6 +2532,7 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
 
                 this.NewPiecesArray.push(newPiece);
                 
+                this.playerBool = 0;
                 return 0;
             }
         }
