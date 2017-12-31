@@ -163,12 +163,7 @@
     </TEXTURE>
 
      <TEXTURE id="supportPieces">
-        <file path="images/supporPieces.jpg" />                
-        <amplif_factor s="5" t="4" />                           
-    </TEXTURE>    
-
-    <TEXTURE id="varanda">
-        <file path="images/varanda.jpg" />                
+        <file path="images/supportPieces.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
@@ -177,6 +172,11 @@
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
+     <TEXTURE id="varanda">
+        <file path="images/varanda.png" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>        
+
      <TEXTURE id="floor">
         <file path="images/floor.jpg" />                
         <amplif_factor s="5" t="4" />                           
@@ -184,15 +184,36 @@
 
 
     <TEXTURE id="blackpiece">
-        <file path="images/blackPiece.jpg" />                
+        <file path="images/blackPiece.png" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
      <TEXTURE id="whitepiece">
-        <file path="images/whitePiece.png" />                
+        <file path="images/whitePiece.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>    
 
+    <TEXTURE id="windowboat">
+        <file path="images/windowboat.png" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>   
+
+
+    <TEXTURE id="whitebord">
+        <file path="images/whitebord.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>  
+
+
+    <TEXTURE id="blackbord">
+        <file path="images/blackbord.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>     
+
+     <TEXTURE id="puxametal">
+        <file path="images/metal.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>      
 
     
 </TEXTURES>
@@ -303,10 +324,11 @@
         <MATERIAL id="defaultMaterial" />         
         <TEXTURE id="null" />  
 
-
         <DESCENDANTS>  
         	<NODEREF id="wall1" />
         	<NODEREF id="wall2" />
+        	<NODEREF id="wall3" />
+        	<NODEREF id="wall4" />
         	<NODEREF id="floor" />
 			<NODEREF id="whitePiece" />
             <NODEREF id="blackPiece" />
@@ -316,8 +338,21 @@
             <NODEREF id="lampRight" />
             <NODEREF id="blackPieceBar" />
             <NODEREF id="whitePieceBar" />
+            <NODEREF id="windowboat" />
         </DESCENDANTS>
 
+    </NODE>
+
+     <NODE id="windowboat" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="windowboat" /> 
+
+     	<SCALE sx="3" sy="3" sz="3" />   
+		<TRANSLATION x="-3" y="-2" z="-7.6" /> 
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
     </NODE>
 
      <NODE id="floor" >       
@@ -354,8 +389,8 @@
         <TEXTURE id="varanda2" /> 
 
 
-     <SCALE sx="13" sy="13" sz="16" />   
-	<TRANSLATION x="-2" y="-1.52" z="3.5" /> 
+     <SCALE sx="13" sy="13" sz="18.5" />   
+	<TRANSLATION x="-2" y="-1.52" z="3.75" /> 
 	<ROTATION axis="y" angle="90" />
 
         <DESCENDANTS>
@@ -363,6 +398,34 @@
         </DESCENDANTS>
     </NODE>    
 
+
+    <NODE id="wall3" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="varanda2" /> 
+
+
+     <SCALE sx="13" sy="13" sz="18.5" />   
+	<TRANSLATION x="3" y="-1.52" z="-1.25" /> 
+	<ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>        
+
+    <NODE id="wall4" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="varanda" /> 
+
+
+     <SCALE sx="13" sy="13" sz="18.5" />   
+	<TRANSLATION x="3" y="-1.52" z="3.73" /> 
+	<ROTATION axis="y" angle="180" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>  
 
 
      <NODE id="lampOri" >       
@@ -516,53 +579,122 @@
 
         <DESCENDANTS>
 			<NODEREF id="tampo" />
-			<NODEREF id="sup1Black" />
-			<NODEREF id="sup1White" />
-			<NODEREF id="sup2Black" />
-			<NODEREF id="sup2White" />
+			<NODEREF id="supBlack" />
+			<NODEREF id="supWhite" />
 			<NODEREF id="perna1" />
 			<NODEREF id="perna2" />	
 			<NODEREF id="perna3" />
 			<NODEREF id="perna4" />
-        </DESCENDANTS>
-    </NODE>
-
-     <NODE id="sup1Black" >       
-        <MATERIAL id="null" />     
-        <TEXTURE id="supportPieces" /> 
-
-
-     <SCALE sx="2" sy="1" sz="1" />   
-	<TRANSLATION x="3" y="-1" z="25" /> 
-	<ROTATION axis="x" angle="-90" />
-
-        <DESCENDANTS>
-			<LEAF  type="rectangle" args="0 4 5 0" /> 
+			<NODEREF id="bord1" />
+			<NODEREF id="bord2" />
+			<NODEREF id="bord3" />
+		    <NODEREF id="bord4" />
         </DESCENDANTS>
     </NODE>
 
 
-     <NODE id="sup1White" >       
+ 	<NODE id="supWhite" >       
         <MATERIAL id="null" />     
         <TEXTURE id="supportPieces" /> 
 
-     <SCALE sx="1" sy="1" sz="2" />   
-	<TRANSLATION x="20" y="-1" z="7" /> 
-	<ROTATION axis="x" angle="-90" />
+		  <TRANSLATION x="21" y="0" z="20" /> 
+          <ROTATION axis="y" angle="-180" />
 
         <DESCENDANTS>
-			<LEAF  type="rectangle" args="0 4 5 0" /> 
+			<NODEREF id="basegaveta" />
+			<NODEREF id="side1" />
+			<NODEREF id="side12" />
+			<NODEREF id="side2" />
+			<NODEREF id="side22" />
+			<NODEREF id="side33" />
+			<NODEREF id="side3" />
+			<NODEREF id="puxador" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="supBlack" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="supportPieces" /> 
+
+        <DESCENDANTS>
+			<NODEREF id="basegaveta" />
+			<NODEREF id="side1" />
+			<NODEREF id="side12" />
+			<NODEREF id="side2" />
+			<NODEREF id="side22" />
+			<NODEREF id="side33" />
+			<NODEREF id="side3" />
+			<NODEREF id="puxador" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="bord1" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="whitebord" />
+
+        <SCALE sx="1" sy="1" sz="35" /> 
+		<TRANSLATION x="-0.2" y="0.4" z="0.285" />
+		<ROTATION axis="x" angle="90" />
+
+        <DESCENDANTS>
+			<LEAF id="bordtype" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="bord2" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="whitebord" />
+
+        <SCALE sx="1" sy="1" sz="35" /> 
+		<TRANSLATION x="20.3" y="0.4" z="0.285" />
+		<ROTATION axis="x" angle="90" />
+
+        <DESCENDANTS>
+			<LEAF id="bordtype" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="bord3" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="blackbord" />
+
+		<ROTATION axis="y" angle="90" />
+        <SCALE sx="1" sy="1" sz="35" /> 
+		<TRANSLATION x="0.3" y="0.4" z="0.285" />
+		<ROTATION axis="x" angle="90" />
+
+
+        <DESCENDANTS>
+			<LEAF id="bordtype" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="bord4" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="blackbord" />
+
+		<ROTATION axis="y" angle="90" />
+        <SCALE sx="1" sy="1" sz="35" /> 
+		<TRANSLATION x="-20.25" y="0.4" z="0.285" />
+		<ROTATION axis="x" angle="90" />
+
+
+        <DESCENDANTS>
+			<LEAF id="bordtype" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
         </DESCENDANTS>
     </NODE>    
 
 
-     <NODE id="sup2Black" >       
+     <NODE id="basegaveta" >       
         <MATERIAL id="null" />     
-        <TEXTURE id="supportPieces" /> 
+        <TEXTURE id="null" />
 
-
-     <SCALE sx="2" sy="1" sz="1" />   
-	<TRANSLATION x="3" y="-1" z="-1" /> 
+    <SCALE sx="2" sy="1" sz="1" />   
+	<TRANSLATION x="3" y="-1.5" z="25" /> 
 	<ROTATION axis="x" angle="-90" />
 
         <DESCENDANTS>
@@ -571,18 +703,110 @@
     </NODE>
 
 
-     <NODE id="sup2White" >       
+     <NODE id="side1" >       
         <MATERIAL id="null" />     
-        <TEXTURE id="supportPieces" /> 
-
-     <SCALE sx="1" sy="1" sz="2" />   
-	<TRANSLATION x="-5" y="-1" z="7" /> 
-	<ROTATION axis="x" angle="-90" />
+        <TEXTURE id="null" /> 
+		
+		<SCALE sx="2" sy="0.3" sz="1" />   
+		<TRANSLATION x="3" y="-5" z="25" />
 
         <DESCENDANTS>
 			<LEAF  type="rectangle" args="0 4 5 0" /> 
         </DESCENDANTS>
-    </NODE>   
+    </NODE>
+
+
+
+     <NODE id="side12" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+		
+		<SCALE sx="2" sy="0.3" sz="1" />   
+		<TRANSLATION x="8" y="-5" z="25" />
+		<ROTATION axis="y" angle="180" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="side2" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+		
+		<SCALE sx="1" sy="0.3" sz="0.6" /> 
+		<TRANSLATION x="6" y="-5" z="36.7" /> 
+		<ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="side22" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+
+		<SCALE sx="1" sy="0.3" sz="0.50" /> 
+		<TRANSLATION x="6" y="-5" z="50" /> 
+		<ROTATION axis="y" angle="90" />
+
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+
+     <NODE id="side3" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+
+		<SCALE sx="1" sy="0.3" sz="0.50" /> 
+		<TRANSLATION x="16" y="-5" z="50" /> 
+		<ROTATION axis="y" angle="90" />
+
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+
+     <NODE id="side33" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" /> 
+
+		<SCALE sx="1" sy="0.3" sz="0.50" /> 
+		<TRANSLATION x="16" y="-5" z="45" /> 
+		<ROTATION axis="y" angle="-90" />
+
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>
+
+
+     <NODE id="puxador" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="puxametal" /> 
+              
+	<SCALE sx="1" sy="1" sz="0.5" />
+	<TRANSLATION x="11" y="-1" z="50" /> 
+
+
+        <DESCENDANTS>
+			<LEAF id="puxa" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+
+
 
      <NODE id="tampo" >       
         <MATERIAL id="null" />     
@@ -783,7 +1007,7 @@
 
     <NODE id="blackPieceBar" selectable ="true">       
         <MATERIAL id="null" />     
-        <TEXTURE id="oakText" />    
+        <TEXTURE id="blackpiece" />    
 
         <TRANSLATION x="10" y="-1" z="-5" />
         <TRANSLATION x="1" y="0" z="1" />
@@ -798,7 +1022,7 @@
 
     <NODE id="whitePieceBar" selectable ="true">       
         <MATERIAL id="null" />     
-        <TEXTURE id="futTexture" />    
+        <TEXTURE id="whitepiece" />    
 
         <TRANSLATION x="10" y="-1" z="23" />
         <TRANSLATION x="1" y="0" z="1" />
