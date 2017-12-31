@@ -324,6 +324,8 @@
         <MATERIAL id="defaultMaterial" />         
         <TEXTURE id="null" />  
 
+        <TRANSLATION x="0" y="1" z="0" />
+
         <DESCENDANTS>  
         	<NODEREF id="wall1" />
         	<NODEREF id="wall2" />
@@ -977,13 +979,9 @@
 
     <NODE id="whitePiece" piece="white" selectable ="false">       
         <MATERIAL id="null" />     
-        <TEXTURE id="whitepiece" />       
+        <TEXTURE id="whitepiece" />  
 
-
-        <ANIMATIONREFS>
-            <ANIMATIONREF id="linear1" />
-        </ANIMATIONREFS>    
-
+        <TRANSLATION x="0" y="-1" z="0" />        
 
         <DESCENDANTS>
 			<LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
@@ -995,9 +993,8 @@
     <NODE id="blackPiece" piece="black" selectable ="true">       
         <MATERIAL id="null" />     
         <TEXTURE id="blackpiece" />  
-         <ANIMATIONREFS>
-            <ANIMATIONREF id="linear2" />
-        </ANIMATIONREFS>
+
+        <TRANSLATION x="0" y="-1" z="0" /> 
 
         <DESCENDANTS>
             <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />

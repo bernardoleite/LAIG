@@ -2111,9 +2111,9 @@ MySceneGraph.prototype.handleReply = function(data){
                 let pickingAnimation;
 
                 if(pl == 'blackPiece')
-                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,-5],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",20, [[10,-1,-5],[this.obj.posX*2,15,this.obj.posY*2],[this.obj.posX*2,25,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
                 else
-                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,23],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",20, [[10,-1,23],[this.obj.posX*2,15,this.obj.posY*2],[this.obj.posX*2,25,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
 
                 newPiece.addAnimation(pickingAnimation);
 
@@ -2178,9 +2178,9 @@ MySceneGraph.prototype.handleReply = function(data){
                 let pickingAnimation;
 
                 if(pl == 'blackPiece')
-                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,-5],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",20, [[10,-1,-5],[this.obj.posX*2,15,this.obj.posY*2],[this.obj.posX*2,25,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
                 else
-                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",10, [[10,-1,23],[this.obj.posX*2,8,this.obj.posY*2],[this.obj.posX*2,16,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
+                    pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier",20, [[10,-1,23],[this.obj.posX*2,15,this.obj.posY*2],[this.obj.posX*2,25,this.obj.posY*2],[this.obj.posX*2, 0, this.obj.posY*2]]);
 
                 newPiece.addAnimation(pickingAnimation);
 
@@ -2467,12 +2467,12 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
 
                 if(pl == 'whitePiece'){
                     newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[2], response[1], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
-            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 10, [[10,-1,23],[response[2]*2,8,response[1]*2],[response[2]*2,16,response[1]*2],[response[2]*2, 0, response[1]*2]]);
+            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 20, [[10,-1,23],[response[2]*2,15,response[1]*2],[response[2]*2,25,response[1]*2],[response[2]*2, 0, response[1]*2]]);
                     this.computerPlayed = 0;
                 }
                 else{
                     newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[4], response[3], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
-            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 10, [[10,-1,-5],[response[4]*2,8,response[3]*2],[response[4]*2,16,response[3]*2],[response[4]*2, 0, response[3]*2]]);
+            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 20, [[10,-1,-5],[response[4]*2,15,response[3]*2],[response[4]*2,25,response[3]*2],[response[4]*2, 0, response[3]*2]]);
                     this.computerPlayed2 = 0;
                 }     
                 newPiece.addAnimation(pickingAnimation);
@@ -2520,12 +2520,12 @@ MySceneGraph.prototype.handleReplyComputer = function(data){
 
                 if(pl == 'whitePiece'){
                     newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[2], response[1], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
-            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 10, [[10,-1,23],[response[2]*2,8,response[1]*2],[response[2]*2,16,response[1]*2],[response[2]*2, 0, response[1]*2]]);
+            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 20, [[10,-1,23],[response[2]*2,15,response[1]*2],[response[2]*2,25,response[1]*2],[response[2]*2, 0, response[1]*2]]);
                     this.computerPlayed = 1;
                 }
                 else{
                     newPiece.addAll(this.PiecesArray[i].graph, this.PiecesArray[i].nodeID + this.lolada.toString(),response[4], response[3], this.PiecesArray[i].children, this.PiecesArray[i].leaves, this.PiecesArray[i].materialID, this.PiecesArray[i].textureID, [], this.PiecesArray[i].selectable, mat4.clone(this.PiecesArray[i].transformMatrix));
-            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 10, [[10,-1,-5],[response[4]*2,8,response[3]*2],[response[4]*2,16,response[3]*2],[response[4]*2, 0, response[3]*2]]);
+            pickingAnimation = new bezierAnimation(this.scene, "pickingAnimation", "bezier", 20, [[10,-1,-5],[response[4]*2,15,response[3]*2],[response[4]*2,25,response[3]*2],[response[4]*2, 0, response[3]*2]]);
                     this.computerPlayed2 = 1;
                 }     
                 newPiece.addAnimation(pickingAnimation);

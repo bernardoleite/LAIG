@@ -140,7 +140,7 @@ class bezierAnimation extends animation{
 					//mat4.rotate(this.transformMatrix, this.transformMatrix, this.verticalAng, [0, 0, 1]);
 					//mat4.rotate(this.transformMatrix, this.transformMatrix, this.horizontalAng, [0, 1, 0]);
 					if(this.animationID == "pickingAnimation"){
-						mat4.translate(this.transformMatrix, this.transformMatrix, [1, 0, 1]);
+						mat4.translate(this.transformMatrix, this.transformMatrix, [1, 1, -2]);
 		                mat4.scale(this.transformMatrix, this.transformMatrix, [3, 0.5, 3]);
 		                mat4.rotate(this.transformMatrix, this.transformMatrix, (-90/180)*Math.PI, [1, 0, 0]);
 					}
@@ -151,7 +151,7 @@ class bezierAnimation extends animation{
 					mat4.translate(this.transformMatrix, this.transformMatrix, [this.p4x,this.p4y, this.p4z]);
 
 					if(this.animationID == "pickingAnimation"){
-						mat4.translate(this.transformMatrix, this.transformMatrix, [1, 0, 1]);
+						mat4.translate(this.transformMatrix, this.transformMatrix, [1, 1, -2]);
 		                mat4.scale(this.transformMatrix, this.transformMatrix, [3, 0.5, 3]);
 		                mat4.rotate(this.transformMatrix, this.transformMatrix, (-90/180)*Math.PI, [1, 0, 0]);
 					}

@@ -303,6 +303,8 @@
         <MATERIAL id="defaultMaterial" />         
         <TEXTURE id="null" />  
 
+        <TRANSLATION x="0" y="1" z="0" />
+
 
         <DESCENDANTS>  
         	<NODEREF id="blockstraw" />
@@ -839,7 +841,7 @@
         <TEXTURE id="futTexture" />  
 
 
-         <TRANSLATION x="0" y="0" z="1.4" />
+         <TRANSLATION x="0" y="-1" z="1.4" />
         <SCALE sx="0.8" sy="1" sz="5" />
      
 
@@ -854,7 +856,7 @@
         <MATERIAL id="null" />     
         <TEXTURE id="oakText" />  
            
-        <TRANSLATION x="0" y="0" z="1.4" />
+        <TRANSLATION x="0" y="-1" z="1.4" />
         <SCALE sx="1" sy="1" sz="5" />
 
         <ROTATION axis="x" angle="-90" />
