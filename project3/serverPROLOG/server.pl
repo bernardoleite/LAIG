@@ -747,7 +747,6 @@ putPiece(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,Bool,LAST
 											stroke(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
 											continueplay
 											),
-
 								
 								if_then_else(Mode=2,
 											strokeComputer(LX,LY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,2,Counter,1,0,LASTX,LASTY),
@@ -1109,7 +1108,7 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I, X, Y, P, Jogador, Counter, Move,B
 
 	
 								if_then_else(Bool>0, verifyTheBool2(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY,Res), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else((crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY),Dif\=1), takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
 								if_then_else((Bool=31;Bool=32;Bool=33;Bool=34), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY,Res), continueplay),
 								
 								if_then_else(Elem='b', setPiece(B, X, Y, 'B', R), setPiece(B, X, Y, P, R)),
@@ -1142,7 +1141,7 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 								getPiece(B,X,Y,Elem),	
 
 								if_then_else(Bool>0, verifyTheBool2(B,C,I,Jogador,Counter,Move,Bool,X,Y,LASTX,LASTY,Res), continueplay),
-								if_then_else(crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY), takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
+								if_then_else((crossCut(C,I,X,Y,Jogador,Move,NewBool,NEWLASTX,NEWLASTY),Dif\=1), takeActions2(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,Counter,Jogador,Move,NewBool,Res), (NewBool is 0, NEWLASTX is 0, NEWLASTY is 0)),
 								if_then_else((Bool=31;Bool=32;Bool=33;Bool=34), replay(LX,LY,LX2,LY2,Mode,Dif,B,C,I,Jogador,Counter,Move,-10,LASTX,LASTY,Res), continueplay),
 
 								if_then_else(Elem='w', setPiece(B, X, Y, 'W', R), setPiece(B, X, Y, P, R)),
@@ -1168,13 +1167,11 @@ putPieceComputer(LX,LY,LX2,LY2,Mode,Dif,B,C,I,X,Y,P,Jogador,Counter,Move,Bool,LA
 											stroke(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,1,Counter,1,0,LASTX,LASTY),
 											continueplay
 											),
-
 								if_then_else(Mode=2,
 											stroke(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,1,Counter,1,0,LASTX,LASTY),
 											continueplay
 											),
 											
-
 								if_then_else(Mode=3,
 											strokeComputer(NEWLX,NEWLY,LX2,LY2,Mode,Dif,R,NewCountingBoard,NewIdentityBoard,1,Counter,1,0,LASTX,LASTY,Res),
 											continueplay

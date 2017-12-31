@@ -53,9 +53,7 @@ XMLscene.prototype.init = function(application) {
 
     CGFscene.prototype.init.call(this, application);
 
-    this.shader = new CGFshader(this.gl, "Shader/shader.vert", "Shader/shader.frag");
-    this.shader.setUniformsValues({selectedRed: 0.0, selectedGreen: 1.0, selectedBlue: 0.0});
-    //this.updateScalingFactor();
+
     
     this.initCameras();
 
@@ -134,7 +132,7 @@ XMLscene.prototype.onGraphLoaded = function()
     // Adds lights group.
     this.interface.addLightsGroup(this.graph.lights);
 
-    this.interface.addSelectedDropDown(this.graph.selectableNodes);
+
     this.interface.addSelectedDropDownCams(this.graph.selectableCams);
 
 
@@ -269,7 +267,7 @@ XMLscene.prototype.display = function() {
            this.initialTime = currTime;
        }
        dT = (currTime - this.initialTime)/1000;
-       this.updateScalingFactor(dT);
+     
 
         // Displays the scene.
         this.graph.displayScene();
@@ -288,7 +286,3 @@ XMLscene.prototype.display = function() {
     
 }
 
-XMLscene.prototype.updateScalingFactor = function(date)
-{
-    this.shader.setUniformsValues({timeFactor: date});
-};

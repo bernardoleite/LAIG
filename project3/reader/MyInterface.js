@@ -55,12 +55,7 @@ MyInterface.prototype.addSelectedDropDownCams = function(selectedCams) {
     selectedCam.add(this.scene, "selectedCam", selectedCams);
 }
 
-MyInterface.prototype.addSelectedDropDown = function(selectedNodes) {
-     var selected = this.gui.addFolder("Shaders");
 
-     selected.open();
-     selected.add(this.scene, "selectedStr", selectedNodes);
-}
 
 MyInterface.prototype.addSelectedDropDownScenes = function(selectedScenes) {
      var selectedScene = this.gui.addFolder("Scenes");

@@ -2255,8 +2255,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
  
     this.scene.pushMatrix();
 
-       if(this.scene.selectedStr == nodeName)
-        this.scene.setActiveShader(this.scene.shader);
+
 
             this.applyAnimation(node);
             this.scene.multMatrix(node.transformMatrix);
@@ -2301,8 +2300,7 @@ MySceneGraph.prototype.processGraph = function(nodeName, matInit, textInit) {
             node.leaves[z].type.display();
         }
         
-            if(this.scene.selectedStr == nodeName)
-                this.scene.setActiveShader(this.scene.defaultShader);
+
 
 
         
