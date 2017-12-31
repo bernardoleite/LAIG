@@ -15,7 +15,7 @@ function XMLscene(interface) {
 
     this.selectedStr = "Select";
     this.selectedCam = "Front";
-    this.selectedScene = "Living Room";
+ 
 
     this.sameNodesIt = 0;
     this.sameNodesPiecesIt = 0;
@@ -136,7 +136,7 @@ XMLscene.prototype.onGraphLoaded = function()
 
     this.interface.addSelectedDropDown(this.graph.selectableNodes);
     this.interface.addSelectedDropDownCams(this.graph.selectableCams);
-    this.interface.addSelectedDropDownScenes(this.graph.selectableScenes);
+
 
 }
 

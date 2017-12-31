@@ -98,7 +98,7 @@
     </TEXTURE>
 
     <TEXTURE id="oakText">
-        <file path="images/log_oak.png" />                
+        <file path="images/orange.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
@@ -118,12 +118,12 @@
     </TEXTURE>
 
     <TEXTURE id="preto">
-        <file path="images/cell.gif" />                
+        <file path="images/dirtycell1.png" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
     <TEXTURE id="branco">
-        <file path="images/cell2.jpg" />                
+        <file path="images/dirtycell2.png" />                
         <amplif_factor s="2" t="1.25" />                           
     </TEXTURE>
 
@@ -138,7 +138,7 @@
     </TEXTURE>
 
       <TEXTURE id="futTexture">
-        <file path="images/ball.jpg" />                
+        <file path="images/patatoe.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
@@ -148,7 +148,7 @@
     </TEXTURE>
 
      <TEXTURE id="decorative">
-        <file path="images/decorative.jpg" />                
+        <file path="images/decorative2.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
@@ -191,6 +191,17 @@
         <file path="images/straw.jpg" />                
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>   
+
+    <TEXTURE id="whitebord">
+        <file path="images/whitebord.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>  
+
+
+    <TEXTURE id="blackbord">
+        <file path="images/blackbord.jpg" />                
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>        
     
 </TEXTURES>
 
@@ -297,6 +308,8 @@
         	<NODEREF id="blockstraw" />
         	<NODEREF id="wall1" />
         	<NODEREF id="wall2" />
+        	<NODEREF id="wall3" />
+        	<NODEREF id="wall4" />
         	<NODEREF id="floor" />
 			<NODEREF id="whitePiece" />
             <NODEREF id="blackPiece" />
@@ -358,17 +371,46 @@
 
     <NODE id="wall2" >       
         <MATERIAL id="null" />     
-        <TEXTURE id="varanda2" /> 
+        <TEXTURE id="varanda" /> 
 
 
-     <SCALE sx="13" sy="13" sz="18" />   
-	<TRANSLATION x="-2" y="-1.52" z="3.7" /> 
+     <SCALE sx="13" sy="13" sz="18.5" />   
+	<TRANSLATION x="-2" y="-1.52" z="3.75" /> 
 	<ROTATION axis="y" angle="90" />
 
         <DESCENDANTS>
 			<LEAF  type="rectangle" args="0 4 5 0" /> 
         </DESCENDANTS>
     </NODE>    
+
+
+    <NODE id="wall3" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="varanda" /> 
+
+
+     <SCALE sx="13" sy="13" sz="18.5" />   
+	<TRANSLATION x="3" y="-1.52" z="-1.25" /> 
+	<ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>        
+
+    <NODE id="wall4" >       
+        <MATERIAL id="null" />     
+        <TEXTURE id="varanda" /> 
+
+
+     <SCALE sx="13" sy="13" sz="18.5" />   
+	<TRANSLATION x="3" y="-1.52" z="3.73" /> 
+	<ROTATION axis="y" angle="180" />
+
+        <DESCENDANTS>
+			<LEAF  type="rectangle" args="0 4 5 0" /> 
+        </DESCENDANTS>
+    </NODE>  
 
 
 
@@ -521,6 +563,7 @@
         <MATERIAL id="null" />     
         <TEXTURE id="wood" /> 
 
+
         <DESCENDANTS>
 			<NODEREF id="tampo" />
 			<NODEREF id="sup1Black" />
@@ -529,8 +572,11 @@
 			<NODEREF id="sup2White" />
 			<NODEREF id="leg" />
 			<NODEREF id="base" />
+
         </DESCENDANTS>
     </NODE>
+
+
 
      <NODE id="base" >       
         <MATERIAL id="null" />     
@@ -790,10 +836,15 @@
 
     <NODE id="whitePiece" piece="white" selectable ="false">       
         <MATERIAL id="null" />     
-        <TEXTURE id="futTexture" />       
+        <TEXTURE id="futTexture" />  
+
+
+         <TRANSLATION x="0" y="0" z="1.4" />
+        <SCALE sx="0.8" sy="1" sz="5" />
+     
 
         <DESCENDANTS>
-			<LEAF id="cylinder1" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+			<LEAF type="sphere" args="0.3 100 100" />
         </DESCENDANTS>
     </NODE>
 
@@ -801,10 +852,16 @@
 
     <NODE id="blackPiece" piece="black" selectable ="true">       
         <MATERIAL id="null" />     
-        <TEXTURE id="oakText" />     
+        <TEXTURE id="oakText" />  
+           
+        <TRANSLATION x="0" y="0" z="1.4" />
+        <SCALE sx="1" sy="1" sz="5" />
+
+        <ROTATION axis="x" angle="-90" />
+ 
 
         <DESCENDANTS>
-            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+			<LEAF type="sphere" args="0.3 100 100" />
         </DESCENDANTS>
     </NODE>
 
@@ -814,12 +871,12 @@
         <TEXTURE id="oakText" />    
 
         <TRANSLATION x="10" y="-1" z="-5" />
-        <TRANSLATION x="1" y="0" z="1" />
-        <SCALE sx="3" sy="0.5" sz="3" />
+        <TRANSLATION x="1" y="0.8" z="1" />
+        <SCALE sx="2.6" sy="2.6" sz="2.6" />
         <ROTATION axis="x" angle="-90" />
 
         <DESCENDANTS>
-            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+			<LEAF type="sphere" args="0.3 100 100" />
         </DESCENDANTS>
     </NODE>
 
@@ -829,13 +886,13 @@
         <TEXTURE id="futTexture" />    
 
         <TRANSLATION x="10" y="-1" z="23" />
-        <TRANSLATION x="1" y="0" z="1" />
-        <SCALE sx="3" sy="0.5" sz="3" />
+        <TRANSLATION x="1" y="0.8" z="1" />
+        <SCALE sx="2" sy="2.6" sz="2.6" />
         <ROTATION axis="x" angle="-90" />
         
 
         <DESCENDANTS>
-            <LEAF id="cylinder2" type="cylinder" args="1.5 0.3 0.3 20 40 1 1" />
+			<LEAF type="sphere" args="0.3 100 100" />
         </DESCENDANTS>
     </NODE>
 
