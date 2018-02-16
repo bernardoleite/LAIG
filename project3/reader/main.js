@@ -31,7 +31,7 @@ main=function()
     this.app.setInterface(myInterface);
     this.clientChoose = 0;
 
-   // myInterface.setActiveCamera(myScene.camera);
+    //myInterface.setActiveCamera(myScene.camera);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
